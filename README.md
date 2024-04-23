@@ -45,7 +45,18 @@ Enabling proxy for git
 Done
 ```
 
-## List all predefined proxies
+## List all predefined proxies (raw data)
+```bash
+>>> anywhere_door list
+Available proxies:
+---------------------------------------------
+1. oreouser:ling7412@z4.login2.japs.yaoyy.moe:10089/10089 [(ts.login2.japs.yaoyy.moe, z4.login3.japs.yaoyy.moe, ts.login3.japs.yaoyy.moe)] 
+2. z4.login2.japs.yaoyy.moe:10091/10092 [(ts.login2.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe, ts.login1.japs.yaoyy.moe)] 
+3. z4.login1.japs.yaoyy.moe:10089/10089 [(ts.login1.japs.yaoyy.moe,)] 
+---------------------------------------------
+```
+
+## List all predefined proxies (usable)
 ```bash
 >>> anywhere_door use
 Available proxies:
@@ -92,7 +103,7 @@ All test connections passed successfully. The tested websites are accessible.
 
 ## Test all proxy connections
 ```bash
->>> nywhere_door test all
+>>> anywhere_door test all
 Testing 1 ...
 proxy selected.
 oreouser:ling7412@z4.login2.japs.yaoyy.moe:10089/10089 
@@ -117,7 +128,7 @@ Testing Passed: 1 2 3 4 5 6 7 8 9 10
       Upload:    29.67 Mbps (data used: 38.3 MB)                                                   
                 590.76 ms   (jitter: 86.48ms, low: 82.85ms, high: 1133.91ms)
  Packet Loss: Not available.
-  Result URL: https://www.speedtest.net/result/c/900e058a-8197-442f-91ae-5ff3bc03bc88
+  Result URL: https://www.speedtest.net/result/c/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
    Speedtest by Ookla
 
@@ -154,6 +165,7 @@ Commands:
  off : Deactivate Anywhere Door
  config : Configure custom IP and port
  show : Show the current proxy configurations
+ list : Show the all predefined proxies.
  test : Perform a test connection to check proxy accessibility
  bench : Perform a speed test connection to check network bandwith
  use : Use a specific proxy from the configured list

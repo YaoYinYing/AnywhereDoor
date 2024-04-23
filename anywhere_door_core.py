@@ -19,7 +19,7 @@ class AnywhereDoor:
         self.in_use_proxy = self.predefined_proxies[0]
 
     @property
-    def anywhere_door_open(self)-> bool:
+    def anywhere_door_open(self) -> bool:
         return all(
             os.environ.get(p_kw) for p_kw in ["http_proxy", "https_proxy", "all_proxy"]
         )
@@ -45,7 +45,7 @@ class AnywhereDoor:
     def configure_anywhere_door(
         self, new_ip, new_port, new_socks_port, authentication_user=None, password=None
     ):
-        if not all((new_ip, new_port, new_socks_port)) :
+        if not all((new_ip, new_port, new_socks_port)):
             print(f"echo '{RED}Please provide valid IP and port values.{RESET}';")
             print(
                 "echo 'Usage: anywhere_door config ip port socks_port [authentication_user] [password]';"
@@ -64,9 +64,7 @@ class AnywhereDoor:
             print(
                 f"echo '$https_proxy={GREEN}{os.environ.get('https_proxy', '')}{RESET}';"
             )
-            print(
-                f"echo '$all_proxy={GREEN}{os.environ.get('all_proxy', '')}{RESET}';"
-            )
+            print(f"echo '$all_proxy={GREEN}{os.environ.get('all_proxy', '')}{RESET}';")
         else:
             print(
                 f"echo '{YELLOW}Anywhere Door is inactive. No configurations to show.{RESET}';"
@@ -111,18 +109,25 @@ class AnywhereDoor:
             )
         )
 
-    def use_proxy(self, index=None):
+    def use_proxy(self, show_raw=False, index=None):
         system_proxy = self.system_proxy
-        if index is None:
+        if index is None or show_raw:
             print("echo 'Available proxies:';")
             print("echo '" + "-" * 45 + "';")
-            for i, proxy in enumerate(self.predefined_proxies, start=1):
+            for i, proxy in enumerate(
+                self.predefined_proxies
+                if not show_raw
+                else self.predefined_proxy_table.proxies,
+                start=1,
+            ):
                 is_system_proxy = self.match_proxy(proxy, system_proxy)
                 print(
                     f"echo '{GREEN if is_system_proxy else ''}{i}. {str(proxy)} {RESET if is_system_proxy else ''}';"
                 )
             print("echo '" + "-" * 45 + "';")
-            print(
+            
+            if not show_raw:
+                print(
                 f"echo 'Please use `anywhere_door use {RED}<index>{RESET}` to pick one of them.';"
             )
         else:
@@ -132,7 +137,7 @@ class AnywhereDoor:
             except IndexError:
                 print(f"echo '{RED}Invalid proxy index.{RESET}';")
 
-    def show_help(self, command:str=None):
+    def show_help(self, command: str = None):
         if not command:
             print(
                 "echo 'Anywhere Door: A quick switch for network proxies in the current session.';"
@@ -143,32 +148,38 @@ class AnywhereDoor:
             print("echo -e '   off       : Deactivate Anywhere Door';")
             print("echo -e '   config    : Configure custom IP and port';")
             print("echo -e '   show      : Show the current proxy configurations';")
-            print("echo -e '   test      : Perform a test connection to check proxy accessibility';"
+            print("echo -e '   list      : Show the all predefined proxies.';")
+            print(
+                "echo -e '   test      : Perform a test connection to check proxy accessibility';"
             )
-            print("echo -e '   bench     : Perform a speed test connection to check network bandwith';"
+            print(
+                "echo -e '   bench     : Perform a speed test connection to check network bandwith';"
             )
-            print("echo -e '   use       : Use a specific proxy from the configured list';"
+            print(
+                "echo -e '   use       : Use a specific proxy from the configured list';"
             )
             print("echo -e '   help/?    : Show this help message and exit';")
             return
-        if command  == 'test':
+        if command == "test":
             print("echo 'Testing proxies. ';")
             print("echo -e 'Usage: anywhere_door test [opt]';")
             print("echo -e '   <empty>   : Test current proxy.';")
             print("echo -e '   all       : Test all predefined proxies.';")
             return
-        if command  == 'use':
+        if command == "use":
             print("echo 'Call a predefined proxy. ';")
             print("echo -e 'Usage: anywhere_door use [opt]';")
             print("echo -e '   <empty>   : Show all predefined proxies.';")
             print("echo -e '   [index]   : Set indexed proxy.';")
-            return    
-        
-        if command  == 'config':
+            return
+
+        if command == "config":
             print("echo 'Config a new proxy. ';")
-            print("echo -e 'Usage: anywhere_door config server_url http_port socks_port [username] [password]';")
-            return 
-        
+            print(
+                "echo -e 'Usage: anywhere_door config server_url http_port socks_port [username] [password]';"
+            )
+            return
+
         print(f"echo -e 'No such help message for command [{command}]. ';")
 
 
@@ -182,7 +193,7 @@ def anywhere_door(command, *args):
         door.configure_anywhere_door(*args)
     elif command == "help" or command == "?":
         try:
-            command=str(args[0])
+            command = str(args[0])
             door.show_help(command=command)
         except ValueError:
             door.show_help()
@@ -190,11 +201,13 @@ def anywhere_door(command, *args):
         door.show_configurations()
     elif command == "git":
         door.configure_git_proxy()
+    elif command == "list":
+        door.use_proxy(show_raw=True)
     elif command == "use":
         if args:
             try:
                 index = int(args[0])
-                door.use_proxy(index)
+                door.use_proxy(index=index)
             except ValueError:
                 door.use_proxy()
 
