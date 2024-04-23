@@ -43,9 +43,12 @@ function anywhere_door {
     fi
     
   elif [[ "$1" == "bench" ]]; then
-    if ! command speedtest; then echo "Please install the speedtest command line tool first."; exit 1; fi
+    if ! command speedtest; then
+      echo "Please install the speedtest command line tool first.";
+    else
+      speedtest --progress=yes --selection-details
+    fi
     
-    speedtest --progress=yes --selection-details
   else
     eval $(python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6")
   fi
