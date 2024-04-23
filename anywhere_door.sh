@@ -1,8 +1,21 @@
 
 # https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
-core_script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+SHELL_TYPE=$(basename  $SHELL)
+if [[ "$SHELL_TYPE" == "bash" ]]; then
+  core_script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+elif [[ "$SHELL_TYPE" == "zsh" ]]; then
+  core_script_dir=${0:A:h}
+fi
 export ANYWHERE_DOOR_DIR=$core_script_dir
 
+PLATFORM=$(uname -s)
+
+if [[ "$PLATFORM" == "Darwin" ]];then
+  time_executable_path='/usr/bin/time'
+else
+  time_executable_path=$(which time)
+fi
 
 # Color escape sequences
 GREEN='\033[0;32m'
@@ -50,7 +63,7 @@ function proxy_test {
   local passed=true
 
   for url in "${test_urls[@]}"; do
-    if result=$( (time -p curl -sS --proxy "$https_proxy" --max-time 10 "$url") 2>&1 ); then
+    if result=$( ($time_executable_path -p curl -sS --proxy "$https_proxy" --max-time 10 "$url") 2>&1 ); then
       timing=$(echo "$result" | awk '/^real/{print $2}')
       echo -e "Connection test to ${GREEN}$url: Success${RESET}  Time taken: $timing seconds"
     else
