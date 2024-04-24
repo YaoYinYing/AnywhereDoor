@@ -1,6 +1,7 @@
 from typing import List
 from datastructures import ProxyConfig
 
+# todo: add parser for config file: `.anywheredoorrc`?
 predefined_proxies: List[ProxyConfig] = [
     ProxyConfig(
         "z4.login2.japs.yaoyy.moe",

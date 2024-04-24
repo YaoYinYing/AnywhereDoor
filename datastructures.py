@@ -1,6 +1,8 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Literal
 
+
+ProxyType=Literal["http", "https", "all"]
 
 @dataclass
 class ProxyConfig:

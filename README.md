@@ -153,6 +153,16 @@ localhost:7890/7890
 $http_proxy=http://localhost:7890
 $https_proxy=http://localhost:7890
 $all_proxy=socks5://localhost:7890
+
+
+>>> anywhere_door show http
+$http_proxy=http://oreouser:ling7412@ts.login2.japs.yaoyy.moe:10089
+
+>> anywhere_door show https
+$https_proxy=http://oreouser:ling7412@ts.login2.japs.yaoyy.moe:10089
+
+>>> anywhere_door show all
+$all_proxy=socks5://oreouser:ling7412@ts.login2.japs.yaoyy.moe:10089
 ```
 
 ## Help messages
@@ -195,5 +205,8 @@ Config a new proxy.
 Usage: anywhere_door config server_url http_port socks_port [username] [password]
 ```
 
-
-
+```bash
+>>> anywhere_door help show 
+Show current proxy. 
+Usage: anywhere_door show [proxy_type:http, https, all]
+```

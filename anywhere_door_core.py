@@ -1,6 +1,7 @@
 import os
 import sys
-from datastructures import ProxyConfig, ProxyTable
+from typing import Literal
+from datastructures import ProxyConfig, ProxyTable, ProxyType
 from predefined_proxies import predefined_proxies
 
 
@@ -56,19 +57,24 @@ class AnywhereDoor:
         )
         self.activate_anywhere_door()
 
-    def show_configurations(self):
-        if self.anywhere_door_open:
-            print(
-                f"echo '$http_proxy={GREEN}{os.environ.get('http_proxy', '')}{RESET}';"
-            )
-            print(
-                f"echo '$https_proxy={GREEN}{os.environ.get('https_proxy', '')}{RESET}';"
-            )
-            print(f"echo '$all_proxy={GREEN}{os.environ.get('all_proxy', '')}{RESET}';")
-        else:
+    def show_configurations(self, protocol: ProxyType = None):
+        if not self.anywhere_door_open:
             print(
                 f"echo '{YELLOW}Anywhere Door is inactive. No configurations to show.{RESET}';"
             )
+            return
+        protocols = {
+            "http": os.environ.get("http_proxy", ""),
+            "https": os.environ.get("https_proxy", ""),
+            "all": os.environ.get("all_proxy", ""),
+        }
+
+        if not (protocol and protocol in protocols):
+            for pk,pv in protocols.items():
+                print(f"echo '${pk}_proxy={GREEN}{pv}{RESET}';")
+            return
+
+        print(f"echo '${protocol}_proxy={protocols[protocol]}';")
 
     def configure_git_proxy(self):
         if self.anywhere_door_open:
@@ -125,18 +131,18 @@ class AnywhereDoor:
                     f"echo '{GREEN if is_system_proxy else ''}{i}. {str(proxy)} {RESET if is_system_proxy else ''}';"
                 )
             print("echo '" + "-" * 45 + "';")
-            
+
             if not show_raw:
                 print(
-                f"echo 'Please use `anywhere_door use {RED}<index>{RESET}` to pick one of them.';"
-            )
+                    f"echo 'Please use `anywhere_door use {RED}<index>{RESET}` to pick one of them.';"
+                )
         else:
             try:
                 self.in_use_proxy = self.predefined_proxies[index - 1]
                 self.activate_anywhere_door()
             except IndexError:
                 print(f"echo '{RED}Invalid proxy index.{RESET}';")
-
+    # todo: move help messages to command line
     def show_help(self, command: str = None):
         if not command:
             print(
@@ -181,6 +187,13 @@ class AnywhereDoor:
             )
             return
 
+        if command == "show":
+            print("echo 'Show current proxy. ';")
+            print(
+                "echo -e 'Usage: anywhere_door show [proxy_type:\'http\', \'https\', \'all\']';"
+            )
+            return
+
         print(f"echo -e 'No such help message for command [{command}]. ';")
 
 
@@ -194,12 +207,16 @@ def anywhere_door(command, *args):
         door.configure_anywhere_door(*args)
     elif command == "help" or command == "?":
         try:
-            command = str(args[0])
-            door.show_help(command=command)
+            opt = str(args[0])
+            door.show_help(command=opt)
         except ValueError:
             door.show_help()
     elif command == "show":
-        door.show_configurations()
+        try:
+            protocol = str(args[0])
+            door.show_configurations(protocol=protocol)
+        except ValueError:
+            door.show_configurations()
     elif command == "git":
         door.configure_git_proxy()
     elif command == "list":
