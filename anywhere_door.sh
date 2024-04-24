@@ -14,7 +14,7 @@ PLATFORM=$(uname -s)
 if [[ "$PLATFORM" == "Darwin" ]];then
   time_executable_path='/usr/bin/time'
 else
-  time_executable_path=$(which time)
+  time_executable_path=time
 fi
 
 # Color escape sequences
