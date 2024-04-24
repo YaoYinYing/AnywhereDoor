@@ -66,7 +66,7 @@ function proxy_test {
   local passed=true
 
   for url in "${test_urls[@]}"; do
-    if result=$( ($time_executable_path -p curl -sS --proxy "$https_proxy" --max-time 10 "$url") 2>&1 ); then
+    if result=$( eval "$time_executable_path -p curl -sS --proxy $https_proxy --max-time 10 $url" 2>&1 ); then
       timing=$(echo "$result" | awk '/^real/{print $2}')
       echo -e "Connection test to ${GREEN}$url: Success${RESET}  Time taken: $timing seconds"
     else
