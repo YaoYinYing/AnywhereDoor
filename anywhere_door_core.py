@@ -158,6 +158,7 @@ class AnywhereDoor:
             print(
                 "echo -e '   use       : Use a specific proxy from the configured list';"
             )
+            print("echo -e '   upgrade   : Upgrade to the latest code';")
             print("echo -e '   help/?    : Show this help message and exit';")
             return
         if command == "test":

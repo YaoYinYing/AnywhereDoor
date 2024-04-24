@@ -48,6 +48,11 @@ function anywhere_door {
     else
       speedtest --progress=yes --selection-details
     fi
+  
+  elif [[ "$1" == "upgrade" ]]; then
+    pushd $ANYWHERE_DOOR_DIR;
+      git stash; git pull;
+    popd
     
   else
     eval $(python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6")
