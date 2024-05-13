@@ -2,7 +2,7 @@ import os
 import sys
 from typing import Literal
 from datastructures import ProxyConfig, ProxyTable, ProxyType
-from predefined_proxies import predefined_proxies
+from predefined_proxies import predefined_proxies,NoProxy
 
 
 # Color escape sequences
@@ -30,6 +30,7 @@ class AnywhereDoor:
             print(f'export https_proxy="{self.in_use_proxy.http_proxy}";')
             print(f'export http_proxy="{self.in_use_proxy.http_proxy}";')
             print(f'export all_proxy="{self.in_use_proxy.socks_proxy}";')
+            print(f'export NO_PROXY="{str(NoProxy())}";')
 
             print(f"echo '{GREEN}proxy selected.{RESET}';")
             print(f"echo '{YELLOW}{str(self.in_use_proxy)}{RESET}';")
