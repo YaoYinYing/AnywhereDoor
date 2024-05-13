@@ -17,7 +17,7 @@ predefined_proxies: List[ProxyConfig] = [
     #     ),
     # ),
     ProxyConfig(
-        "localhost"
+        "localhost",
         "10091",
         "10092",
         alternative_urls=(
