@@ -4,18 +4,18 @@ from dataclasses import dataclass
 
 # todo: add parser for config file: `.anywheredoorrc`?
 predefined_proxies: List[ProxyConfig] = [
-    # ProxyConfig(
-    #     "z4.login2.japs.yaoyy.moe",
-    #     "10089",
-    #     "10089",
-    #     "oreouser",
-    #     "ling7412",
-    #     alternative_urls=(
-    #         "ts.login2.japs.yaoyy.moe",
+    ProxyConfig(
+        "localhost",
+        "10089",
+        "10089",
+        "oreouser",
+        "ling7412",
+        alternative_urls=(
+           "192.168.194.96",
     #         "z4.login3.japs.yaoyy.moe",
     #         "ts.login3.japs.yaoyy.moe",
-    #     ),
-    # ),
+        ),
+     ),
     ProxyConfig(
         "localhost",
         "10091",
