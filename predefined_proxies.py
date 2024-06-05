@@ -14,6 +14,8 @@ predefined_proxies: List[ProxyConfig] = [
            "192.168.194.96",
            "192.168.194.143",
            "100.93.55.61",
+           "z4.login2.japs.yaoyy.moe",
+           "ts.login2.japs.yaoyy.moe",
            #"z.a100.japs.yaoyy.moe",
            #"ts.a100.japs.yaoyy.moe",
         ),
