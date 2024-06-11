@@ -43,10 +43,24 @@ function anywhere_door {
     fi
     
   elif [[ "$1" == "bench" ]]; then
-    if ! command speedtest; then
+    if ! command -v speedtest; then
       echo "Please install the speedtest command line tool first.";
     else
       speedtest --progress=yes --selection-details
+    fi
+
+  elif [[ "$1" == "wget" ]];then
+    if ! command -v wget;then
+      echo "Please install the wget first.";
+    else 
+      wget -O /dev/null 'https://speedtest.yaoyy.moe/';
+    fi
+
+  elif [[ "$1" == "curl" ]];then
+    if ! command -v curl;then
+      echo "Please install the curl first.";
+    else 
+      curl -o /dev/null 'https://speedtest.yaoyy.moe/';
     fi
   
   elif [[ "$1" == "upgrade" ]]; then
