@@ -11,9 +11,10 @@ predefined_proxies: List[ProxyConfig] = [
         "oreouser",
         "ling7412",
         alternative_urls=(
-           "192.168.194.96",
            "192.168.194.143",
            "100.93.55.61",
+           "z4.login1.japs.yaoyy.moe",
+           "ts.login1.japs.yaoyy.moe",
            "z4.login2.japs.yaoyy.moe",
            "ts.login2.japs.yaoyy.moe",
            #"z.a100.japs.yaoyy.moe",
@@ -33,12 +34,13 @@ predefined_proxies: List[ProxyConfig] = [
             "ts.login3.japs.yaoyy.moe",
         ),
     ),
-    # ProxyConfig(
-    #     "z4.login1.japs.yaoyy.moe",
-    #     "10089",
-    #     "10089",
+    ProxyConfig(
+        
+        "192.168.194.96",
+        "10089",
+        "10089",
     #     alternative_urls=("ts.login1.japs.yaoyy.moe",),
-    # ),
+    ),
 ]
 
 
