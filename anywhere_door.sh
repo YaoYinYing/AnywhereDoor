@@ -53,14 +53,14 @@ function anywhere_door {
     if ! command -v wget;then
       echo "Please install the wget first.";
     else 
-      wget -O /dev/null 'https://speedtest.yaoyy.moe/';
+      wget -O /dev/null 'https://speedtest.yaoyy-hi.workers.dev/';
     fi
 
   elif [[ "$1" == "curl" ]];then
     if ! command -v curl;then
       echo "Please install the curl first.";
     else 
-      curl -o /dev/null 'https://speedtest.yaoyy.moe/';
+      curl -o /dev/null 'https://speedtest.yaoyy-hi.workers.dev/';
     fi
   
   elif [[ "$1" == "upgrade" ]]; then
