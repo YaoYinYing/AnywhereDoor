@@ -62,6 +62,13 @@ function anywhere_door {
     else 
       curl -o /dev/null 'https://speedtest.yaoyy-hi.workers.dev/';
     fi
+
+  elif [[ "$1" == "whereami" ]];then
+    if ! command -v curl;then
+      echo "Please install the curl first.";
+    else 
+      curl 'https://ipinfo.io/';
+    fi
   
   elif [[ "$1" == "upgrade" ]]; then
     pushd $ANYWHERE_DOOR_DIR;
@@ -70,7 +77,7 @@ function anywhere_door {
     
   else
     eval $(python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6")
-  fi
+  
 }
 
 function proxy_test {

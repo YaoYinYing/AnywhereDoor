@@ -169,6 +169,9 @@ class AnywhereDoor:
                 "echo -e '   curl      : Perform a speed test connection via curl to check network bandwith';"
             )
             print(
+                "echo -e '   whereami  : Perform a location check via curl.';"
+            )
+            print(
                 "echo -e '   use       : Use a specific proxy from the configured list';"
             )
             print("echo -e '   upgrade   : Upgrade to the latest code';")
