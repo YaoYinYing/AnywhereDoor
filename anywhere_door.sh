@@ -77,7 +77,7 @@ function anywhere_door {
     
   else
     eval $(python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6")
-  
+  fi
 }
 
 function proxy_test {
