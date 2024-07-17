@@ -16,31 +16,45 @@ predefined_proxies: List[ProxyConfig] = [
            "z4.login1.japs.yaoyy.moe",
            "ts.login1.japs.yaoyy.moe",
            "z4.login2.japs.yaoyy.moe",
-           "ts.login2.japs.yaoyy.moe",
-           #"z.a100.japs.yaoyy.moe",
-           #"ts.a100.japs.yaoyy.moe",
+           "z4.a100.yaoyy.moe",
+           "ts.a100.yaoyy.moe"
         ),
      ),
-    ProxyConfig(
-        "localhost",
-        "10091",
-        "10092",
-        alternative_urls=(
-            "z4.login1.japs.yaoyy.moe",
-            "ts.login1.japs.yaoyy.moe",
-            "z4.login2.japs.yaoyy.moe",
-            "ts.login2.japs.yaoyy.moe",
-            "z4.login3.japs.yaoyy.moe",
-            "ts.login3.japs.yaoyy.moe",
-        ),
-    ),
-    ProxyConfig(
+     ProxyConfig(
         
+        "z4.login2.japs.yaoyy.moe",
+        "10089",
+        "10089",
+        alternative_urls=("ts.login2.japs.yaoyy.moe",),
+    ),
+     ProxyConfig(
+        "localhost",
+        "10093",
+        "10093",
+         alternative_urls=("z4.a100.yaoyy.moe","ts.a100.yaoyy.moe"),
+    ),
+
+    # ProxyConfig(
+    #     "localhost",
+    #     "10091",
+    #     "10092",
+    #     alternative_urls=(
+    #         "z4.login1.japs.yaoyy.moe",
+    #         "ts.login1.japs.yaoyy.moe",
+    #         "z4.login2.japs.yaoyy.moe",
+    #         "ts.login2.japs.yaoyy.moe",
+    #         "z4.login3.japs.yaoyy.moe",
+    #         "ts.login3.japs.yaoyy.moe",
+    #     ),
+    # ),
+    ProxyConfig(
         "192.168.194.96",
         "10089",
         "10089",
     #     alternative_urls=("ts.login1.japs.yaoyy.moe",),
     ),
+
+     
 ]
 
 
