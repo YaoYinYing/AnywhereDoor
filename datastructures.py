@@ -23,9 +23,9 @@ class ProxyConfig:
     @property
     def socks_proxy(self) -> str:
         if self.authentication_user and self.password:
-            return f"socks5://{self.authentication_user}:{self.password}@{self.url}:{self.socks_port}"
+            return f"socks5h://{self.authentication_user}:{self.password}@{self.url}:{self.socks_port}"
         else:
-            return f"socks5://{self.url}:{self.socks_port}"
+            return f"socks5h://{self.url}:{self.socks_port}"
 
     def __str__(self) -> str:
         return f"{f'{self.authentication_user}:{self.password}@' if self.authentication_user else ''}{self.url}:{self.http_port}/{self.socks_port} {f'[{self.alternative_urls }]' if self.alternative_urls else ''}"

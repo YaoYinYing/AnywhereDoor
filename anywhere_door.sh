@@ -30,13 +30,18 @@ function anywhere_door {
     if [[ "$2" == "all" ]]; then 
       max_index=$(anywhere_door use |grep  '[[:digit:]]. ' |wc -l)
       pass_test=()
+      echo '==========================================================================='
+      echo 'URL Testing ... '
+      echo '==========================================================================='
       for i in $(seq 1 $max_index); do 
         echo "Testing $i ..."
         anywhere_door use $i;
         proxy_test fast $i
+        echo '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
       done
-
+      echo '==========================================================================='
       echo -e "Testing Passed: ${GREEN}${pass_test[*]}${RESET}"
+      echo '==========================================================================='
 
     else
       proxy_test 
