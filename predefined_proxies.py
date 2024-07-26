@@ -20,7 +20,7 @@ predefined_proxies: List[ProxyConfig] = [
         "10089",
         "10089",
         alternative_urls=(
-           "z1.japs.a100.yaoyy.moe",
+           "z1.a100.japs.yaoyy.moe",
            "z2.a100.japs.yaoyy.moe",
            "z4.a100.japs.yaoyy.moe",
            "z1.login2.japs.yaoyy.moe",
