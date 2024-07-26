@@ -4,34 +4,37 @@ from dataclasses import dataclass
 
 # todo: add parser for config file: `.anywheredoorrc`?
 predefined_proxies: List[ProxyConfig] = [
-    ProxyConfig(
-        "localhost",
-        "10089",
-        "10089",
-        "oreouser",
-        "ling7412",
-        alternative_urls=(
-           "192.168.194.143",
-           "100.93.55.61",
-           "z4.login1.japs.yaoyy.moe",
-           "ts.login1.japs.yaoyy.moe",
-           "z4.login2.japs.yaoyy.moe",
-           "z4.a100.yaoyy.moe",
-           "ts.a100.yaoyy.moe"
-        ),
-     ),
+    # ProxyConfig(
+    #     "localhost",
+    #     "10089",
+    #     "10089",
+    #     "oreouser",
+    #     "ling7412",
+    #     alternative_urls=(
+    #        "192.168.194.143",
+    #        "100.93.55.61",
+    #     ),
+    #  ),
      ProxyConfig(
-        
-        "z4.login2.japs.yaoyy.moe",
+        'localhost',
         "10089",
         "10089",
-        alternative_urls=("ts.login2.japs.yaoyy.moe",),
+        alternative_urls=(
+           "z1.japs.a100.yaoyy.moe",
+           "z2.a100.japs.yaoyy.moe",
+           "z4.a100.japs.yaoyy.moe",
+           "z1.login2.japs.yaoyy.moe",
+           "z2.login2.japs.yaoyy.moe", 
+           "z4.login2.japs.yaoyy.moe",
+           "z1.login1.japs.yaoyy.moe",
+           "z2.login1.japs.yaoyy.moe",
+           "z4.login1.japs.yaoyy.moe",),
     ),
      ProxyConfig(
         "localhost",
         "10093",
         "10093",
-         alternative_urls=("z4.a100.yaoyy.moe","ts.a100.yaoyy.moe"),
+         alternative_urls=("z1.a100.japs.yaoyy.moe","z4.a100.japs.yaoyy.moe","z2.a100.japs.yaoyy.moe"),
     ),
 
     # ProxyConfig(
