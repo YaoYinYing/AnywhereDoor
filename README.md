@@ -86,7 +86,8 @@ Available proxies:
 22. [Hysterians_7] z1.login2.japs.yaoyy.moe:10091/10092
 23. [Hysterians_8] z2.login2.japs.yaoyy.moe:10091/10092
 24. [Hysterians_9] z4.login2.japs.yaoyy.moe:10091/10092
-25. [Private] 192.168.194.96:10089/10089 [(z.yyy.mac.yaoyy.moe,)]
+25. [Private_0] 192.168.194.96:10089/10089
+26. [Private_1] z.yyy.mac.yaoyy.moe:10089/10089
 ---------------------------------------------
 Please use `anywhere_door use <index>` to pick one of them.
 ```

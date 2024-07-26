@@ -33,7 +33,7 @@ class ProxyConfig:
 
     @property
     def expanded(self) -> List["ProxyConfig"]:
-        if not (isinstance(self.alternative_urls, (list, tuple)) and len(self.alternative_urls)>1):
+        if not (isinstance(self.alternative_urls, (list, tuple)) and len(self.alternative_urls)>0):
             return [self]
         
         _ = []
