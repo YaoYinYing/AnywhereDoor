@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import Literal
+from typing import Literal, Union
 from datastructures import ProxyConfig, ProxyTable, ProxyType
 from predefined_proxies import predefined_proxies,NoProxy
 
@@ -117,7 +117,7 @@ class AnywhereDoor:
             )
         )
 
-    def use_proxy(self, show_raw=False, index=None):
+    def use_proxy(self, show_raw=False, index: Union[str, int]=None):
         system_proxy = self.system_proxy
         if index is None or show_raw:
             print("echo 'Available proxies:';")
@@ -140,9 +140,16 @@ class AnywhereDoor:
                 )
         else:
             try:
-                self.in_use_proxy = self.predefined_proxies[index - 1]
-                self.activate_anywhere_door()
-            except IndexError:
+                if isinstance(index, int) or (isinstance(index, str) and index.isdigit()):
+                    self.in_use_proxy = self.predefined_proxies[int(index) - 1]
+                    return self.activate_anywhere_door()
+                if isinstance(index, str) and index in [x.label for x in self.predefined_proxies]:
+                    self.in_use_proxy = [x for x in self.predefined_proxies if x.label == index][0]
+                    return self.activate_anywhere_door()
+
+                raise ValueError
+                
+            except IndexError or ValueError:
                 print(f"echo '{RED}Invalid proxy index.{RESET}';")
     # todo: move help messages to command line
     def show_help(self, command: str = None):
@@ -189,6 +196,7 @@ class AnywhereDoor:
             print("echo -e 'Usage: anywhere_door use [opt]';")
             print("echo -e '   <empty>   : Show all predefined proxies.';")
             print("echo -e '   [index]   : Set indexed proxy.';")
+            print("echo -e '   [label]   : Set label proxy.';")
             return
 
         if command == "config":
@@ -235,10 +243,12 @@ def anywhere_door(command, *args):
     elif command == "use":
         if args:
             try:
-                index = int(args[0])
+                index = str(args[0])
                 door.use_proxy(index=index)
             except ValueError:
                 door.use_proxy()
+        else:
+            door.use_proxy()
 
     else:
         print(f"echo 'Unknown command: {command}';")

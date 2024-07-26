@@ -33,16 +33,19 @@ class ProxyConfig:
 
     @property
     def expanded(self) -> List["ProxyConfig"]:
+        if not (isinstance(self.alternative_urls, (list, tuple)) and len(self.alternative_urls)>1):
+            return [self]
+        
         _ = []
-        for url in [self.url] + list(self.alternative_urls):
+        all_urls=[self.url] + list(self.alternative_urls)
+        for i, url in enumerate(all_urls):
             __ = ProxyConfig(
                 url=url,
                 http_port=self.http_port,
                 socks_port=self.socks_port,
                 authentication_user=self.authentication_user,
                 password=self.password,
-                alternative_urls=tuple(),
-                label=self.label
+                label=f'{self.label}_{i}'
             )
             _.append(__)
         return _

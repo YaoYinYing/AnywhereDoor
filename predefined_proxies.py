@@ -1,4 +1,3 @@
-
 from datastructures import ProxyConfig
 from dataclasses import dataclass
 
@@ -15,30 +14,34 @@ predefined_proxies: list[ProxyConfig] = [
     #        "100.93.55.61",
     #     ),
     #  ),
-     ProxyConfig(
-        'localhost',
+    ProxyConfig(
+        "localhost",
         "10089",
         "10089",
         alternative_urls=(
-           "z1.a100.japs.yaoyy.moe",
-           "z2.a100.japs.yaoyy.moe",
-           "z4.a100.japs.yaoyy.moe",
-           "z1.login2.japs.yaoyy.moe",
-           "z2.login2.japs.yaoyy.moe", 
-           "z4.login2.japs.yaoyy.moe",
-           "z1.login1.japs.yaoyy.moe",
-           "z2.login1.japs.yaoyy.moe",
-           "z4.login1.japs.yaoyy.moe",),
-        label='Clash_Relay'
+            "z1.a100.japs.yaoyy.moe",
+            "z2.a100.japs.yaoyy.moe",
+            "z4.a100.japs.yaoyy.moe",
+            "z1.login2.japs.yaoyy.moe",
+            "z2.login2.japs.yaoyy.moe",
+            "z4.login2.japs.yaoyy.moe",
+            "z1.login1.japs.yaoyy.moe",
+            "z2.login1.japs.yaoyy.moe",
+            "z4.login1.japs.yaoyy.moe",
+        ),
+        label="Clash_Relay",
     ),
-     ProxyConfig(
+    ProxyConfig(
         "localhost",
         "10093",
         "10093",
-         alternative_urls=("z1.a100.japs.yaoyy.moe","z4.a100.japs.yaoyy.moe","z2.a100.japs.yaoyy.moe"),
-         label='ClashFallBack'
+        alternative_urls=(
+            "z1.a100.japs.yaoyy.moe",
+            "z4.a100.japs.yaoyy.moe",
+            "z2.a100.japs.yaoyy.moe",
+        ),
+        label="ClashFallBack",
     ),
-
     ProxyConfig(
         "localhost",
         "10091",
@@ -57,17 +60,15 @@ predefined_proxies: list[ProxyConfig] = [
             # "z2.login3.japs.yaoyy.moe",
             # "z4.login3.japs.yaoyy.moe",
         ),
-        label='Hysterians'
+        label="Hysterians",
     ),
     ProxyConfig(
         "192.168.194.96",
         "10089",
         "10089",
-        label='Private',
-        alternative_urls=("z.yyy.mac.yaoyy.moe",)
+        label="Private",
+        alternative_urls=("z.yyy.mac.yaoyy.moe",),
     ),
-
-     
 ]
 
 
@@ -86,7 +87,7 @@ class NoProxy:
         "100.87.0.0/16",
         "192.168.75.0/24",
         "192.168.194.0/24",
-        "192.168.67.2"
+        "192.168.67.2",
     )
 
     def __str__(self):
