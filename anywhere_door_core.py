@@ -10,6 +10,7 @@ GREEN = "\033[0;32m"
 RED = "\033[0;31m"
 YELLOW = "\033[0;33m"
 RESET = "\033[0m"
+BOLD= "\033[1m"
 
 
 class AnywhereDoor:
@@ -32,7 +33,7 @@ class AnywhereDoor:
             print(f'export all_proxy="{self.in_use_proxy.socks_proxy}";')
             print(f'export NO_PROXY="{str(NoProxy())}";')
 
-            print(f"echo '{GREEN}proxy selected.{RESET}';")
+            print(f"echo '{GREEN}proxy selected: {RESET} {YELLOW} {self.in_use_proxy.label} {RESET}';")
             print(f"echo '{YELLOW}{str(self.in_use_proxy)}{RESET}';")
 
         else:
@@ -54,7 +55,7 @@ class AnywhereDoor:
             )
             return
         self.in_use_proxy = ProxyConfig(
-            new_ip, new_port, new_socks_port, authentication_user, password
+            new_ip, new_port, new_socks_port, authentication_user, password, label='Configured'
         )
         self.activate_anywhere_door()
 
@@ -129,7 +130,7 @@ class AnywhereDoor:
             ):
                 is_system_proxy = self.match_proxy(proxy, system_proxy)
                 print(
-                    f"echo '{GREEN if is_system_proxy else ''}{i}. {str(proxy)} {RESET if is_system_proxy else ''}';"
+                    f"echo '{GREEN if is_system_proxy else ''}{i}. {BOLD}[{proxy.label}]{RESET} {str(proxy)} {RESET if is_system_proxy else ''}';"
                 )
             print("echo '" + "-" * 45 + "';")
 

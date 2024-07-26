@@ -12,6 +12,7 @@ class ProxyConfig:
     authentication_user: str = None
     password: str = None
     alternative_urls: tuple[str] = tuple()
+    label: str= 'Default'
 
     @property
     def http_proxy(self) -> str:
@@ -41,6 +42,7 @@ class ProxyConfig:
                 authentication_user=self.authentication_user,
                 password=self.password,
                 alternative_urls=tuple(),
+                label=self.label
             )
             _.append(__)
         return _

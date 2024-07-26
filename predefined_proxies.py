@@ -1,9 +1,9 @@
-from typing import List
+
 from datastructures import ProxyConfig
 from dataclasses import dataclass
 
 # todo: add parser for config file: `.anywheredoorrc`?
-predefined_proxies: List[ProxyConfig] = [
+predefined_proxies: list[ProxyConfig] = [
     # ProxyConfig(
     #     "localhost",
     #     "10089",
@@ -29,31 +29,38 @@ predefined_proxies: List[ProxyConfig] = [
            "z1.login1.japs.yaoyy.moe",
            "z2.login1.japs.yaoyy.moe",
            "z4.login1.japs.yaoyy.moe",),
+        label='Clash_Relay'
     ),
      ProxyConfig(
         "localhost",
         "10093",
         "10093",
          alternative_urls=("z1.a100.japs.yaoyy.moe","z4.a100.japs.yaoyy.moe","z2.a100.japs.yaoyy.moe"),
+         label='ClashFallBack'
     ),
 
-    # ProxyConfig(
-    #     "localhost",
-    #     "10091",
-    #     "10092",
-    #     alternative_urls=(
-    #         "z4.login1.japs.yaoyy.moe",
-    #         "ts.login1.japs.yaoyy.moe",
-    #         "z4.login2.japs.yaoyy.moe",
-    #         "ts.login2.japs.yaoyy.moe",
-    #         "z4.login3.japs.yaoyy.moe",
-    #         "ts.login3.japs.yaoyy.moe",
-    #     ),
-    # ),
+    ProxyConfig(
+        "localhost",
+        "10091",
+        "10092",
+        alternative_urls=(
+            "z1.a100.japs.yaoyy.moe",
+            "z2.a100.japs.yaoyy.moe",
+            "z4.a100.japs.yaoyy.moe",
+            "z4.login1.japs.yaoyy.moe",
+            "ts.login1.japs.yaoyy.moe",
+            "z4.login2.japs.yaoyy.moe",
+            "ts.login2.japs.yaoyy.moe",
+            "z4.login3.japs.yaoyy.moe",
+            "ts.login3.japs.yaoyy.moe",
+        ),
+        label='Hysterians'
+    ),
     ProxyConfig(
         "192.168.194.96",
         "10089",
         "10089",
+        label='Private'
     #     alternative_urls=("ts.login1.japs.yaoyy.moe",),
     ),
 
