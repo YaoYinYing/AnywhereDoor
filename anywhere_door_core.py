@@ -2,7 +2,6 @@ import os
 import sys
 from typing import Literal, Union
 
-import requests
 from datastructures import ProxyConfig, ProxyTable, ProxyType, url_tests
 from predefined_proxies import predefined_proxies,NoProxy
 
