@@ -230,6 +230,21 @@ Idle Latency:    84.01 ms   (jitter: 1.32ms, low: 83.86ms, high: 88.97ms)
   Result URL: https://www.speedtest.net/result/c/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
+## DNS leakage test
+```bash
+>>> anywhere_door dns
+Fetching leak ID...
+Leak ID: xxxxxxx
+Simulating DNS requests...
+Retrieving test results...
+Your IP:
+111.222.333.444 [Promised Land], AS1234567 KFC Inc.
+You use 1 DNS servers:
+11.22.33.44 [Misfortune], AS7654321 The Anti-Fraud Center of Failure Management Company Limited
+Conclusion:
+DNS may be leaking.
+```
+
 ## Customizing the proxy for temporary uses.
 ```bash
 >>> anywhere_door config localhost 7890 7890
@@ -258,28 +273,29 @@ $all_proxy=socks5h://localhost:7890
 Anywhere Door: A quick switch for network proxies in the current session.
 Usage: anywhere_door [command]
 Commands:
- on : Activate Anywhere Door
- off : Deactivate Anywhere Door
- config : Configure custom IP and port
- show : Show the current proxy configurations
- list/ls : Show the all predefined proxies.
- test : Perform a test connection to check proxy accessibility
- bench : Perform a speed test connection to check network bandwith
- wget : Perform a speed test connection via wget to check network bandwith
- curl : Perform a speed test connection via curl to check network bandwith
- whereami : Perform a location check via curl.
- use : Use a specific proxy from the configured list
- upgrade : Upgrade to the latest code
- help/? : Show this help message and exit
+   on        : Activate Anywhere Door
+   off       : Deactivate Anywhere Door
+   config    : Configure custom IP and port
+   show      : Show the current proxy configurations
+   list/ls   : Show all predefined proxies
+   test      : Perform a test connection to check proxy accessibility
+   bench     : Perform a speed test connection to check network bandwidth
+   wget      : Perform a speed test connection via wget to check network bandwidth
+   curl      : Perform a speed test connection via curl to check network bandwidth
+   whereami  : Perform a location check via curl
+   use       : Use a specific proxy from the configured list
+   upgrade   : Upgrade to the latest code
+   dns/leak  : DNS Leak Test
+   help/?    : Show this help message and exit
 ```
 
 ```bash 
 >>> anywhere_door ? use
 Call a predefined proxy.
 Usage: anywhere_door use [opt]
- <empty> : Show all predefined proxies.
- [index] : Set indexed proxy.
- [label] : Set label proxy.
+   <empty>   : Show all predefined proxies.
+   [index]   : Set indexed proxy.
+   [label]   : Set label proxy.
 ```
 
 
@@ -287,19 +303,19 @@ Usage: anywhere_door use [opt]
 >>> anywhere_door ? test
 Testing proxies.
 Usage: anywhere_door test [opt]
- <empty> : Test current proxy.
- all : Test all predefined proxies, simplified results.
- full : Test all predefined proxies, detailed results.
+   <empty>   : Test current proxy.
+   all       : Test all predefined proxies, simplified results.
+   full      : Test all predefined proxies, detailed results.
 ```
 
 ```bash
->>> anywhere_door help config
-Config a new proxy. 
+>>> anywhere_door ? config
+Configure a new proxy.
 Usage: anywhere_door config server_url http_port socks_port [username] [password]
 ```
 
 ```bash
->>> anywhere_door help show 
-Show current proxy. 
-Usage: anywhere_door show [proxy_type:http, https, all]
+>>> anywhere_door ? show
+Show current proxy.
+Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ```
