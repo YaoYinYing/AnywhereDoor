@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from typing import Union
+from typing import Mapping, Union
 
 from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently, GREEN, RED, YELLOW, BOLD, RESET
 from predefined_proxies import predefined_proxies,NoProxy
@@ -134,12 +134,12 @@ class AnywhereDoor:
             )
         )
 
-    def use_proxy(self, show_raw=False, index: Union[str, int]=None, url_tests: tuple[bool]=None):
+    def use_proxy(self, show_raw=False, index: Union[str, int]=None, url_tests: Mapping[ProxyConfig,bool]=None):
         system_proxy = self.system_proxy
         if url_tests and len(url_tests) == len(self.predefined_proxies):
-            urltests2color=tuple(GREEN if x else RED for x in url_tests)
+            urltests2color={p: (GREEN if t else RED) for p,t in url_tests.items()}
         else:
-            urltests2color=tuple('' for x in self.predefined_proxies)
+            urltests2color={}
         
         if index is None or show_raw:
             print("Available proxies:")
@@ -153,7 +153,7 @@ class AnywhereDoor:
                 
                 is_system_proxy = self.match_proxy(proxy, system_proxy)
                 print(
-                    f"{YELLOW if is_system_proxy else urltests2color[i-1]}{i}. {BOLD}[{proxy.label}]{RESET} {str(proxy)} {RESET if is_system_proxy else ''}"
+                    f"{YELLOW if is_system_proxy else urltests2color.get(proxy, '')}{i}. {BOLD}[{proxy.label}]{RESET} {str(proxy)} {RESET if is_system_proxy else ''}"
                 )
             print("-" * 75)
 
@@ -279,7 +279,7 @@ def anywhere_door(command, *args):
     }
             p=ProxyConfig(None,None, None)
             res=test_urls_concurrently(p.test_urls, proxies, p.test_timeout)
-            for u,_res in zip(p.test_urls,res):
+            for u,_res in res.items():
                 if _res:
                     print(f"Connection test to {GREEN}{u}: Success{RESET}")
                 else:
@@ -295,10 +295,10 @@ URL Testing ... ...
 ===========================================================================''')
             
             res=test_proxies_concurrently(door.predefined_proxies)
-            for (i, proxy), (j,_res) in zip(enumerate(
-                    door.predefined_proxies,
+            for i, (proxy,_res) in enumerate(
+                    res.items(),
                     start=1,
-                ), enumerate(res, start=1)):
+                ):
                 print(f'Testing: {i}: {GREEN}{proxy.label}{RESET}')
                 print(f'{YELLOW}{str(proxy)}{RESET}')
                 if _res:
@@ -316,10 +316,10 @@ URL Testing ... ...
         if  args[0] == "all":
             print(f'Testing ', end='', flush=True)
             res=test_proxies_concurrently(door.predefined_proxies)
-            for (i, proxy), (j,_res) in zip(enumerate(
-                    door.predefined_proxies,
+            for i, (proxy,_res) in enumerate(
+                    res.items(),
                     start=1,
-                ), enumerate(res, start=1)):
+                ):
                 print(f' {GREEN if _res else RED}{i}{RESET}', end='', flush=True)
 
             print('')

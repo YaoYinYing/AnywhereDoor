@@ -26,46 +26,50 @@ def url_tests(url: str, proxies: Mapping, timeout: int = 500) -> bool:
         with request.urlopen(url, timeout=timeout/1000) as response:
             # Check if the request was successful (HTTP status code 200)
             flag=response.status == 200
-    except (error.URLError, error.HTTPError):
+            #print(f'Flag: {flag}, Response: {response.status}: {response.text}')
+    except (error.URLError, error.HTTPError) as e:
         # Catch URL and HTTP errors
         flag = False
+        #print(f'Flag: {flag}, Error: {e}')
 
     finally:
         opener.close()
         return flag
 
 
-def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> List[bool]:
+def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> Mapping[str,bool]:
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
             executor.submit(url_tests, url, proxies, timeout): url for url in urls
         }
-        results = []
+        results = {}
         for future in concurrent.futures.as_completed(futures):
             try:
+                url=futures[future]
                 success = future.result()
-                results.append(success)
+                results.update({url: success})
             except Exception as e:
-                results.append(False)
-        return results
+                results.update({url: success})
+        return {k:results.get(k) for k in urls}
 
-def test_proxies_concurrently(proxies: tuple["ProxyConfig"]) -> List[bool]:
+def test_proxies_concurrently(proxies: tuple["ProxyConfig"]) -> Mapping["ProxyConfig", bool]:
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
             executor.submit(url_tests, proxy.test_urls[0], {'http': proxy.http_proxy, 'https': proxy.socks_proxy}, proxy.test_timeout): proxy for proxy in proxies
         }
-        results = []
+        results = {}
         for future in concurrent.futures.as_completed(futures):
             try:
+                proxy=futures[future]
                 success = future.result()
-                results.append(success)
+                results.update({proxy: success})
 
             except Exception as e:
-                results.append(False)
+                results.update({proxy: False})
 
-        return results
+        return {k:results.get(k) for k in proxies}
     
-@dataclass
+@dataclass(frozen=True)
 class ProxyConfig:
     url: str
     http_port: str
@@ -76,6 +80,7 @@ class ProxyConfig:
     label: str = "Default"
 
     test_urls: tuple[str] = (
+        #"https://speedtest.yaoyy-hi.workers.dev/10K",
         "https://www.google.com",
         "https://www.facebook.com",
         "https://www.twitter.com",
