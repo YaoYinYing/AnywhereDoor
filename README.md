@@ -60,36 +60,35 @@ Available proxies:
 ## List all predefined proxies (usable)
 ```bash
 >>> anywhere_door use
+Testing... This could take short... Done.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Available proxies:
----------------------------------------------
-1. [Clash_Relay_0] localhost:10089/10089
-2. [Clash_Relay_1] z1.a100.japs.yaoyy.moe:10089/10089
-3. [Clash_Relay_2] z2.a100.japs.yaoyy.moe:10089/10089
-4. [Clash_Relay_3] z4.a100.japs.yaoyy.moe:10089/10089
-5. [Clash_Relay_4] z1.login2.japs.yaoyy.moe:10089/10089
-6. [Clash_Relay_5] z2.login2.japs.yaoyy.moe:10089/10089
-7. [Clash_Relay_6] z4.login2.japs.yaoyy.moe:10089/10089
-8. [Clash_Relay_7] z1.login1.japs.yaoyy.moe:10089/10089
-9. [Clash_Relay_8] z2.login1.japs.yaoyy.moe:10089/10089
-10. [Clash_Relay_9] z4.login1.japs.yaoyy.moe:10089/10089
+---------------------------------------------------------------------------
+1. [Clash_0] localhost:10089/10089
+2. [Clash_1] z1.a100.japs.yaoyy.moe:10089/10089
+3. [Clash_2] z2.a100.japs.yaoyy.moe:10089/10089
+4. [Clash_3] z4.a100.japs.yaoyy.moe:10089/10089
+5. [Clash_4] z1.login2.japs.yaoyy.moe:10089/10089
+6. [Clash_5] z2.login2.japs.yaoyy.moe:10089/10089
+7. [Clash_6] z4.login2.japs.yaoyy.moe:10089/10089
+8. [Clash_7] z1.login1.japs.yaoyy.moe:10089/10089
+9. [Clash_8] z2.login1.japs.yaoyy.moe:10089/10089
+10. [Clash_9] z4.login1.japs.yaoyy.moe:10089/10089
 11. [ClashFallBack_0] localhost:10093/10093
 12. [ClashFallBack_1] z1.a100.japs.yaoyy.moe:10093/10093
-13. [ClashFallBack_2] z4.a100.japs.yaoyy.moe:10093/10093
-14. [ClashFallBack_3] z2.a100.japs.yaoyy.moe:10093/10093
-15. [Hysterians_0] localhost:10091/10092
-16. [Hysterians_1] z1.a100.japs.yaoyy.moe:10091/10092
-17. [Hysterians_2] z2.a100.japs.yaoyy.moe:10091/10092
-18. [Hysterians_3] z4.a100.japs.yaoyy.moe:10091/10092
-19. [Hysterians_4] z1.login1.japs.yaoyy.moe:10091/10092
-20. [Hysterians_5] z2.login1.japs.yaoyy.moe:10091/10092
-21. [Hysterians_6] z4.login1.japs.yaoyy.moe:10091/10092
-22. [Hysterians_7] z1.login2.japs.yaoyy.moe:10091/10092
-23. [Hysterians_8] z2.login2.japs.yaoyy.moe:10091/10092
-24. [Hysterians_9] z4.login2.japs.yaoyy.moe:10091/10092
-25. [Private_0] 192.168.194.96:10089/10089
-26. [Private_1] z.yyy.mac.yaoyy.moe:10089/10089
----------------------------------------------
-Please use `anywhere_door use <index>` to pick one of them.
+13. [ClashFallBack_2] z2.a100.japs.yaoyy.moe:10093/10093
+14. [ClashFallBack_3] z4.a100.japs.yaoyy.moe:10093/10093
+15. [ClashFallBack_4] z1.login2.japs.yaoyy.moe:10093/10093
+16. [ClashFallBack_5] z2.login2.japs.yaoyy.moe:10093/10093
+17. [ClashFallBack_6] z4.login2.japs.yaoyy.moe:10093/10093
+18. [ClashFallBack_7] z1.login1.japs.yaoyy.moe:10093/10093
+19. [ClashFallBack_8] z2.login1.japs.yaoyy.moe:10093/10093
+20. [ClashFallBack_9] z4.login1.japs.yaoyy.moe:10093/10093
+21. [Private_0] 192.168.194.96:10089/10089
+22. [Private_1] z.yyy.mac.yaoyy.moe:10089/10089
+---------------------------------------------------------------------------
+Please use `anywhere_door use <index>` to pick one of them
+GREEN: passed  YELLOW: in use  RED: failed
 ```
 ## Use a predefined proxy server by index
 ```bash
@@ -290,10 +289,10 @@ Commands:
 ```
 
 ```bash 
->>> anywhere_door ? use
+>>> anywhere_door ?  use
 Call a predefined proxy.
 Usage: anywhere_door use [opt]
-   <empty>   : Show all predefined proxies.
+   <empty>   : Show all predefined proxies, colored with url test results.
    [index]   : Set indexed proxy.
    [label]   : Set label proxy.
 ```

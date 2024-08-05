@@ -134,27 +134,35 @@ class AnywhereDoor:
             )
         )
 
-    def use_proxy(self, show_raw=False, index: Union[str, int]=None):
+    def use_proxy(self, show_raw=False, index: Union[str, int]=None, url_tests: tuple[bool]=None):
         system_proxy = self.system_proxy
+        if url_tests and len(url_tests) == len(self.predefined_proxies):
+            urltests2color=tuple(GREEN if x else RED for x in url_tests)
+        else:
+            urltests2color=tuple('' for x in self.predefined_proxies)
+        
         if index is None or show_raw:
             print("Available proxies:")
-            print("-" * 45)
+            print("-" * 75)
             for i, proxy in enumerate(
                 self.predefined_proxies
                 if not show_raw
                 else self.predefined_proxy_table.proxies,
                 start=1,
             ):
+                
                 is_system_proxy = self.match_proxy(proxy, system_proxy)
                 print(
-                    f"{GREEN if is_system_proxy else ''}{i}. {BOLD}[{proxy.label}]{RESET} {str(proxy)} {RESET if is_system_proxy else ''}"
+                    f"{YELLOW if is_system_proxy else urltests2color[i-1]}{i}. {BOLD}[{proxy.label}]{RESET} {str(proxy)} {RESET if is_system_proxy else ''}"
                 )
-            print("-" * 45)
+            print("-" * 75)
 
             if not show_raw:
                 print(
                     f"Please use `anywhere_door use {RED}<index>{RESET}` to pick one of them"
                 )
+            if url_tests:
+                print(f'{GREEN}{BOLD}GREEN: passed{RESET}  {YELLOW}{BOLD}YELLOW: in use{RESET}  {RED}{BOLD}RED: failed{RESET}')
         else:
             
             if isinstance(index, int) or (isinstance(index, str) and index.isdigit()):
@@ -200,7 +208,7 @@ class AnywhereDoor:
         if command == "use":
             print("Call a predefined proxy.")
             print("Usage: anywhere_door use [opt]")
-            print("   <empty>   : Show all predefined proxies.")
+            print("   <empty>   : Show all predefined proxies, colored with url test results.")
             print("   [index]   : Set indexed proxy.")
             print("   [label]   : Set label proxy.")
             return
@@ -248,7 +256,12 @@ def anywhere_door(command, *args):
         return DNSLeakTester().perform_test()
     if command == "use":
         if args[0] == '':
-            return door.use_proxy()
+            print(f'Testing... This could take short... ', end='', flush=True)
+            res=test_proxies_concurrently(door.predefined_proxies)
+            print('Done.')
+            print('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
+            door.use_proxy(url_tests=res)
+            return
         try:
             index = str(args[0])
             return door.use_proxy(index=index)
@@ -311,6 +324,7 @@ URL Testing ... ...
 
             print('')
             return 
+
     else:
         print(f"echo -e 'Unknown command: {RED}{command}{RESET}'")
 
