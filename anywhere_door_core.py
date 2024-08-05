@@ -1,8 +1,8 @@
 import os
 import sys
-from typing import Literal, Union
+from typing import Union
 
-from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently, url_tests
+from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently
 from predefined_proxies import predefined_proxies,NoProxy
 
 
@@ -153,70 +153,55 @@ class AnywhereDoor:
                 
             except IndexError or ValueError:
                 print(f"echo '{RED}Invalid proxy index:{index}.{RESET}';")
-    # todo: move help messages to command line
     def show_help(self, command: str = None):
         if not command:
-            print(
-                "echo 'Anywhere Door: A quick switch for network proxies in the current session.';"
-            )
-            print("echo -e 'Usage: anywhere_door [command]';")
-            print("echo -e 'Commands:';")
-            print("echo -e '   on        : Activate Anywhere Door';")
-            print("echo -e '   off       : Deactivate Anywhere Door';")
-            print("echo -e '   config    : Configure custom IP and port';")
-            print("echo -e '   show      : Show the current proxy configurations';")
-            print("echo -e '   list/ls   : Show the all predefined proxies.';")
-            print(
-                "echo -e '   test      : Perform a test connection to check proxy accessibility';"
-            )
-            print(
-                "echo -e '   bench     : Perform a speed test connection to check network bandwith';"
-            )
-            print(
-                "echo -e '   wget      : Perform a speed test connection via wget to check network bandwith';"
-            )
-            print(
-                "echo -e '   curl      : Perform a speed test connection via curl to check network bandwith';"
-            )
-            print(
-                "echo -e '   whereami  : Perform a location check via curl.';"
-            )
-            print(
-                "echo -e '   use       : Use a specific proxy from the configured list';"
-            )
-            print("echo -e '   upgrade   : Upgrade to the latest code';")
-            print("echo -e '   help/?    : Show this help message and exit';")
+            print("Anywhere Door: A quick switch for network proxies in the current session.")
+            print("Usage: anywhere_door [command]")
+            print("Commands:")
+            print("   on        : Activate Anywhere Door")
+            print("   off       : Deactivate Anywhere Door")
+            print("   config    : Configure custom IP and port")
+            print("   show      : Show the current proxy configurations")
+            print("   list/ls   : Show all predefined proxies")
+            print("   test      : Perform a test connection to check proxy accessibility")
+            print("   bench     : Perform a speed test connection to check network bandwidth")
+            print("   wget      : Perform a speed test connection via wget to check network bandwidth")
+            print("   curl      : Perform a speed test connection via curl to check network bandwidth")
+            print("   whereami  : Perform a location check via curl")
+            print("   use       : Use a specific proxy from the configured list")
+            print("   upgrade   : Upgrade to the latest code")
+            print("   dns/leak  : DNS Leak Test")
+            print("   help/?    : Show this help message and exit")
             return
+
         if command == "test":
-            print("echo 'Testing proxies. ';")
-            print("echo -e 'Usage: anywhere_door test [opt]';")
-            print("echo -e '   <empty>   : Test current proxy.';")
-            print("echo -e '   all       : Test all predefined proxies, simplified results.';")
-            print("echo -e '   full      : Test all predefined proxies, detailed results.';")
+            print("Testing proxies.")
+            print("Usage: anywhere_door test [opt]")
+            print("   <empty>   : Test current proxy.")
+            print("   all       : Test all predefined proxies, simplified results.")
+            print("   full      : Test all predefined proxies, detailed results.")
             return
+
         if command == "use":
-            print("echo 'Call a predefined proxy. ';")
-            print("echo -e 'Usage: anywhere_door use [opt]';")
-            print("echo -e '   <empty>   : Show all predefined proxies.';")
-            print("echo -e '   [index]   : Set indexed proxy.';")
-            print("echo -e '   [label]   : Set label proxy.';")
+            print("Call a predefined proxy.")
+            print("Usage: anywhere_door use [opt]")
+            print("   <empty>   : Show all predefined proxies.")
+            print("   [index]   : Set indexed proxy.")
+            print("   [label]   : Set label proxy.")
             return
 
         if command == "config":
-            print("echo 'Config a new proxy. ';")
-            print(
-                "echo -e 'Usage: anywhere_door config server_url http_port socks_port [username] [password]';"
-            )
+            print("Configure a new proxy.")
+            print("Usage: anywhere_door config server_url http_port socks_port [username] [password]")
             return
 
         if command == "show":
-            print("echo 'Show current proxy. ';")
-            print(
-                "echo -e 'Usage: anywhere_door show [proxy_type:\'http\', \'https\', \'all\']';"
-            )
+            print("Show current proxy.")
+            print("Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']")
             return
 
-        print(f"echo -e 'No such help message for command [{command}]. ';")
+        print(f"No such help message for command [{command}].")
+
 
 
 
@@ -244,6 +229,10 @@ def anywhere_door(command, *args):
         return door.configure_git_proxy()
     if command == "list" or command == "ls":
         return door.use_proxy(show_raw=True)
+    
+    if command == "dns" or command == "leak":
+        from dnsleaktest import dns_leakage_test
+        return dns_leakage_test()
     if command == "use":
         if args[0] == '':
             return door.use_proxy()

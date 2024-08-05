@@ -25,9 +25,11 @@ RESET='\033[0m'
 
 
 function anywhere_door {
-  if [[ "$1" == "test" ]]; then
+  # direct run without eval
+  if [[ "$1" == "test" || "$1" == "dns" ||  "$1" == "leak" ||  "$1" == "help" ||  "$1" == "?" ]]; then
       python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6"
-    
+  
+  # other shell commands
   elif [[ "$1" == "bench" ]]; then
     if ! command -v speedtest; then
       echo "Please install the speedtest command line tool first.";
@@ -61,6 +63,7 @@ function anywhere_door {
       git stash; git pull;
     popd
 
+  # eval for the python script, for proxy injection to shell env.
   else
     eval $(python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6")
   fi

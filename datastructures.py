@@ -1,36 +1,42 @@
 from dataclasses import dataclass
-from typing import Callable, List, Literal, Mapping
-from functools import partial
+from typing import List, Literal, Mapping
 import concurrent.futures
 
-from urllib import request, error
+
+import urllib3
 
 
 ProxyType = Literal["http", "https", "all"]
 
 
-def url_tests(url: str, proxies: Mapping, timeout: int = 500) -> bool:
-    # Prepare the proxy handler
-    proxy_handler = request.ProxyHandler(proxies)
-    opener = request.build_opener(proxy_handler)
-    request.install_opener(opener)
+def url_tests(url: str, proxies: Mapping = None, timeout: int = 500) -> bool:
+    # Create a PoolManager instance
+    http = urllib3.PoolManager()
 
-    flag:bool=False
+    # Configure the proxy settings if proxies are provided
+    if proxies:
+        proxy_url = proxies.get("http") or proxies.get("https")
+        if proxy_url:
+            http = urllib3.ProxyManager(proxy_url)
+
     try:
-        # Open the URL with the specified timeout
-        with request.urlopen(url, timeout=timeout/1000) as response:
-            # Check if the request was successful (HTTP status code 200)
-            flag=response.status == 200
-    except (error.URLError, error.HTTPError):
-        # Catch URL and HTTP errors
-        flag = False
+        # Make a GET request
+        response = http.request("GET", url, timeout=timeout / 1000)
+        # Check if the request was successful (HTTP status code 200)
+        return response.status == 200
+    except (
+        urllib3.exceptions.HTTPError,
+        urllib3.exceptions.TimeoutError,
+        urllib3.exceptions.MaxRetryError,
+        urllib3.exceptions.ProxyError,
+        urllib3.exceptions.SSLError,
+    ) as e:
+        return False
 
-    finally:
-        opener.close()
-        return flag
 
-
-def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> List[bool]:
+def test_urls_concurrently(
+    urls: List[str], proxies: Mapping, timeout: int
+) -> List[bool]:
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
             executor.submit(url_tests, url, proxies, timeout): url for url in urls
@@ -44,10 +50,17 @@ def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> L
                 results.append(False)
         return results
 
+
 def test_proxies_concurrently(proxies: tuple["ProxyConfig"]) -> List[bool]:
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
-            executor.submit(url_tests, proxy.test_urls[0], {'http': proxy.http_proxy, 'https': proxy.socks_proxy}, proxy.test_timeout): proxy for proxy in proxies
+            executor.submit(
+                url_tests,
+                proxy.test_urls[0],
+                {"http": proxy.http_proxy, "https": proxy.socks_proxy},
+                proxy.test_timeout,
+            ): proxy
+            for proxy in proxies
         }
         results = []
         for future in concurrent.futures.as_completed(futures):
@@ -59,7 +72,8 @@ def test_proxies_concurrently(proxies: tuple["ProxyConfig"]) -> List[bool]:
                 results.append(False)
 
         return results
-    
+
+
 @dataclass
 class ProxyConfig:
     url: str
@@ -76,7 +90,7 @@ class ProxyConfig:
         "https://www.twitter.com",
         "https://www.instagram.com",
     )
-    test_timeout: int = 10_000 # Microseconds
+    test_timeout: int = 10_000  # Microseconds
 
     @property
     def http_proxy(self) -> str:
