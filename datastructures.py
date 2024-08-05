@@ -1,8 +1,27 @@
 from dataclasses import dataclass
-from typing import List, Literal
+from typing import Callable, List, Literal, Mapping
+from functools import partial
+
+import requests
 
 
-ProxyType=Literal["http", "https", "all"]
+ProxyType = Literal["http", "https", "all"]
+
+
+def url_tests(url: str, proxies: Mapping, timeout: int = 500) -> bool:
+    try:
+        response = requests.get(url, proxies=proxies, timeout=timeout)
+        # Check if the request was successful (HTTP status code 200)
+        return response.status_code == 200
+    except (
+        requests.exceptions.RequestException
+        or requests.exceptions.ConnectTimeout
+        or requests.exceptions.ConnectionError
+        or requests.exceptions.ProxyError
+        or requests.exceptions.SSLError
+    ):
+        return False
+
 
 @dataclass
 class ProxyConfig:
@@ -12,7 +31,15 @@ class ProxyConfig:
     authentication_user: str = None
     password: str = None
     alternative_urls: tuple[str] = tuple()
-    label: str= 'Default'
+    label: str = "Default"
+
+    test_urls: tuple[str] = (
+        "https://www.facebook.com",
+        "https://www.google.com",
+        "https://www.twitter.com",
+        "https://www.instagram.com",
+    )
+    test_timeout: int = 1000
 
     @property
     def http_proxy(self) -> str:
@@ -33,11 +60,14 @@ class ProxyConfig:
 
     @property
     def expanded(self) -> List["ProxyConfig"]:
-        if not (isinstance(self.alternative_urls, (list, tuple)) and len(self.alternative_urls)>0):
+        if not (
+            isinstance(self.alternative_urls, (list, tuple))
+            and len(self.alternative_urls) > 0
+        ):
             return [self]
-        
+
         _ = []
-        all_urls=[self.url] + list(self.alternative_urls)
+        all_urls = [self.url] + list(self.alternative_urls)
         for i, url in enumerate(all_urls):
             __ = ProxyConfig(
                 url=url,
@@ -45,10 +75,37 @@ class ProxyConfig:
                 socks_port=self.socks_port,
                 authentication_user=self.authentication_user,
                 password=self.password,
-                label=f'{self.label}_{i}'
+                label=f"{self.label}_{i}",
             )
             _.append(__)
         return _
+
+    def is_available(self, url):
+        proxies = {
+            "http": self.http_proxy,
+            "https": self.socks_proxy,
+        }
+        return url_tests(url=url, proxies=proxies, timeout=self.test_timeout)
+
+    def __bool__(self):
+        return url_tests(
+        proxies={
+            "http": self.http_proxy,
+            "https": self.socks_proxy,
+        },
+        url=self.test_urls[0],
+        timeout=self.test_timeout,
+        
+    )
+
+    def __eq__(self, other: "ProxyConfig"):
+        return (
+            self.url == other.url
+            and self.http_port == other.http_port
+            and self.socks_port == other.socks_port
+            and self.authentication_user == other.authentication_user
+            and self.password == other.password
+        )
 
 
 @dataclass

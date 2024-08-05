@@ -1,7 +1,9 @@
 import os
 import sys
 from typing import Literal, Union
-from datastructures import ProxyConfig, ProxyTable, ProxyType
+
+import requests
+from datastructures import ProxyConfig, ProxyTable, ProxyType, url_tests
 from predefined_proxies import predefined_proxies,NoProxy
 
 
@@ -163,7 +165,7 @@ class AnywhereDoor:
             print("echo -e '   off       : Deactivate Anywhere Door';")
             print("echo -e '   config    : Configure custom IP and port';")
             print("echo -e '   show      : Show the current proxy configurations';")
-            print("echo -e '   list      : Show the all predefined proxies.';")
+            print("echo -e '   list/ls   : Show the all predefined proxies.';")
             print(
                 "echo -e '   test      : Perform a test connection to check proxy accessibility';"
             )
@@ -189,7 +191,8 @@ class AnywhereDoor:
             print("echo 'Testing proxies. ';")
             print("echo -e 'Usage: anywhere_door test [opt]';")
             print("echo -e '   <empty>   : Test current proxy.';")
-            print("echo -e '   all       : Test all predefined proxies.';")
+            print("echo -e '   all       : Test all predefined proxies, simplified results.';")
+            print("echo -e '   full      : Test all predefined proxies, detailed results.';")
             return
         if command == "use":
             print("echo 'Call a predefined proxy. ';")
@@ -216,42 +219,93 @@ class AnywhereDoor:
         print(f"echo -e 'No such help message for command [{command}]. ';")
 
 
+
 def anywhere_door(command, *args):
     door = AnywhereDoor()
     if command == "on" or command == "":
-        door.activate_anywhere_door()
-    elif command == "off":
-        door.deactivate_anywhere_door()
-    elif command == "config":
-        door.configure_anywhere_door(*args)
-    elif command == "help" or command == "?":
+        return door.activate_anywhere_door()
+    if command == "off":
+         return door.deactivate_anywhere_door()
+    if command == "config":
+         return door.configure_anywhere_door(*args)
+    if command == "help" or command == "?":
         try:
             opt = str(args[0])
-            door.show_help(command=opt)
+            return door.show_help(command=opt)
         except ValueError:
-            door.show_help()
-    elif command == "show":
+             return door.show_help()
+    if command == "show":
         try:
             protocol = str(args[0])
-            door.show_configurations(protocol=protocol)
+            return door.show_configurations(protocol=protocol)
         except ValueError:
-            door.show_configurations()
-    elif command == "git":
-        door.configure_git_proxy()
-    elif command == "list":
-        door.use_proxy(show_raw=True)
-    elif command == "use":
+            return door.show_configurations()
+    if command == "git":
+        return door.configure_git_proxy()
+    if command == "list" or command == "ls":
+        return door.use_proxy(show_raw=True)
+    if command == "use":
         if args:
             try:
                 index = str(args[0])
-                door.use_proxy(index=index)
+                return door.use_proxy(index=index)
             except ValueError:
-                door.use_proxy()
+                return door.use_proxy()
         else:
-            door.use_proxy()
+            return door.use_proxy()
 
+    elif command == "test":      
+        if args[0] == '':
+            proxies = {
+        "http": door.system_proxy[0],
+        "https": door.system_proxy[1],
+    }
+            p=ProxyConfig(None,None, None)
+            for u in p.test_urls:
+                if url_tests(url=u, proxies=proxies, timeout=p.test_timeout):
+                    print(f"Connection test to {GREEN}{u}: Success{RESET}")
+                else:
+                    print(f"Connection test to {RED}{u}: Failed{RESET}")
+
+            return
+            
+        if  args[0] == "full":
+            all_available_proxies: list[int] =[]
+            print('''
+===========================================================================
+URL Testing ... ...
+===========================================================================''')
+            for i, proxy in enumerate(
+                    door.predefined_proxies,
+                    start=1,
+                ):
+                print(f'Testing: {i}: {GREEN}{proxy.label}{RESET}')
+                print(f'{YELLOW}{str(proxy)}{RESET}')
+                if bool(proxy):
+                    print(f'Connection test of {GREEN}{proxy.test_urls[0]}: Success{RESET}')
+                    all_available_proxies.append(i)
+                else:
+                    print(f'Connection test of {RED}{proxy.test_urls[0]}: Failed{RESET}')
+                print('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
+            
+            print("===========================================================================")
+            print(f'Testing Passed: {GREEN}{" ".join(tuple(str(i) for i in all_available_proxies))}{RESET}')
+            print("===========================================================================")
+            return 
+
+        elif  args[0] == "all":
+            print(f'Testing ', end='', flush=True)
+            for i, proxy in enumerate(
+                door.predefined_proxies,
+                start=1,
+            ):
+                print(f' {GREEN if bool(proxy) else RED}{i}{RESET}', end='', flush=True)
+
+            print('')
+            return 
     else:
-        print(f"echo 'Unknown command: {command}';")
+        print(f"Unknown command: {command}")
+
 
 
 if __name__ == "__main__":

@@ -117,46 +117,51 @@ $all_proxy=socks5h://z2.login1.japs.yaoyy.moe:10092
 ## Proxy test
 ```bash
 >>> anywhere_door test
-Connection test to https://www.facebook.com: Success  Time taken: 7.13 seconds
-Connection test to https://www.google.com: Success  Time taken: 1.86 seconds
-Connection test to https://www.twitter.com: Success  Time taken: 1.67 seconds
-Connection test to https://www.instagram.com: Success  Time taken: 2.99 seconds
-
-All test connections passed successfully. The tested websites are accessible.
+Connection test to https://www.facebook.com: Success
+Connection test to https://www.google.com: Success
+Connection test to https://www.twitter.com: Success
+Connection test to https://www.instagram.com: Success
 ```
 
 ## Test all proxy connections
 ```bash
 >>> anywhere_door test all
+Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+# GREEN for PASSED, RED for FAILED
+```
+```bash
+>>> anywhere_door test full
+
 ===========================================================================
-URL Testing ...
+URL Testing ... ...
 ===========================================================================
-Testing 1 ...
-proxy selected:   Clash_Relay_0
+Testing: 1: Clash_0
 localhost:10089/10089
-Connection test to https://www.google.com: Success  Time taken:  seconds
+Connection test of https://www.facebook.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing 2 ...
-proxy selected:   Clash_Relay_1
+Testing: 2: Clash_1
 z1.a100.japs.yaoyy.moe:10089/10089
-Connection test to https://www.google.com: Success  Time taken:  seconds
+Connection test of https://www.facebook.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing 3 ...
-proxy selected:   Clash_Relay_2
+Testing: 3: Clash_2
 z2.a100.japs.yaoyy.moe:10089/10089
-Connection test to https://www.google.com: Success  Time taken:  seconds
+Connection test of https://www.facebook.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-......
+...
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing 26 ...
-proxy selected:   Private_1
+Testing: 21: Private_0
+192.168.194.96:10089/10089
+Connection test of https://www.facebook.com: Success
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Testing: 22: Private_1
 z.yyy.mac.yaoyy.moe:10089/10089
-Connection test to https://www.google.com: Failed
+Connection test of https://www.facebook.com: Failed
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ===========================================================================
-Testing Passed: 1 2 3 4 5 6 7 11 14 15 16 17 18 22 23 24
+Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
+
 
 ## Location IP check (via ipinfo.io)
 ```bash
@@ -249,7 +254,7 @@ $all_proxy=socks5h://localhost:7890
 
 ## Help messages
 ```bash 
->>> anywhere_door ?
+>>>  anywhere_door ?
 Anywhere Door: A quick switch for network proxies in the current session.
 Usage: anywhere_door [command]
 Commands:
@@ -257,7 +262,7 @@ Commands:
  off : Deactivate Anywhere Door
  config : Configure custom IP and port
  show : Show the current proxy configurations
- list : Show the all predefined proxies.
+ list/ls : Show the all predefined proxies.
  test : Perform a test connection to check proxy accessibility
  bench : Perform a speed test connection to check network bandwith
  wget : Perform a speed test connection via wget to check network bandwith
@@ -283,7 +288,8 @@ Usage: anywhere_door use [opt]
 Testing proxies.
 Usage: anywhere_door test [opt]
  <empty> : Test current proxy.
- all : Test all predefined proxies.
+ all : Test all predefined proxies, simplified results.
+ full : Test all predefined proxies, detailed results.
 ```
 
 ```bash
