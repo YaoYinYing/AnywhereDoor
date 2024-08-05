@@ -2,7 +2,7 @@ import os
 import sys
 from typing import Literal, Union
 
-from datastructures import ProxyConfig, ProxyTable, ProxyType, url_tests
+from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently, url_tests
 from predefined_proxies import predefined_proxies,NoProxy
 
 
@@ -142,7 +142,8 @@ class AnywhereDoor:
         else:
             try:
                 if isinstance(index, int) or (isinstance(index, str) and index.isdigit()):
-                    self.in_use_proxy = self.predefined_proxies[int(index) - 1]
+                    index = int(index)
+                    self.in_use_proxy = self.predefined_proxies[index - 1]
                     return self.activate_anywhere_door()
                 if isinstance(index, str) and index in [x.label for x in self.predefined_proxies]:
                     self.in_use_proxy = [x for x in self.predefined_proxies if x.label == index][0]
@@ -151,7 +152,7 @@ class AnywhereDoor:
                 raise ValueError
                 
             except IndexError or ValueError:
-                print(f"echo '{RED}Invalid proxy index.{RESET}';")
+                print(f"echo '{RED}Invalid proxy index:{index}.{RESET}';")
     # todo: move help messages to command line
     def show_help(self, command: str = None):
         if not command:
@@ -244,14 +245,15 @@ def anywhere_door(command, *args):
     if command == "list" or command == "ls":
         return door.use_proxy(show_raw=True)
     if command == "use":
-        if args:
-            try:
-                index = str(args[0])
-                return door.use_proxy(index=index)
-            except ValueError:
-                return door.use_proxy()
-        else:
+        if args[0] == '':
             return door.use_proxy()
+        try:
+            index = str(args[0])
+            return door.use_proxy(index=index)
+        except ValueError as e:
+            print(f'echo "Invalid proxy index {e}.";')
+            return door.use_proxy()
+            
 
     elif command == "test":      
         if args[0] == '':
@@ -260,8 +262,9 @@ def anywhere_door(command, *args):
         "https": door.system_proxy[1],
     }
             p=ProxyConfig(None,None, None)
-            for u in p.test_urls:
-                if url_tests(url=u, proxies=proxies, timeout=p.test_timeout):
+            res=test_urls_concurrently(p.test_urls, proxies, p.test_timeout)
+            for u,_res in zip(p.test_urls,res):
+                if _res:
                     print(f"Connection test to {GREEN}{u}: Success{RESET}")
                 else:
                     print(f"Connection test to {RED}{u}: Failed{RESET}")
@@ -274,13 +277,15 @@ def anywhere_door(command, *args):
 ===========================================================================
 URL Testing ... ...
 ===========================================================================''')
-            for i, proxy in enumerate(
+            
+            res=test_proxies_concurrently(door.predefined_proxies)
+            for (i, proxy), (j,_res) in zip(enumerate(
                     door.predefined_proxies,
                     start=1,
-                ):
+                ), enumerate(res, start=1)):
                 print(f'Testing: {i}: {GREEN}{proxy.label}{RESET}')
                 print(f'{YELLOW}{str(proxy)}{RESET}')
-                if bool(proxy):
+                if _res:
                     print(f'Connection test of {GREEN}{proxy.test_urls[0]}: Success{RESET}')
                     all_available_proxies.append(i)
                 else:
@@ -294,11 +299,12 @@ URL Testing ... ...
 
         elif  args[0] == "all":
             print(f'Testing ', end='', flush=True)
-            for i, proxy in enumerate(
-                door.predefined_proxies,
-                start=1,
-            ):
-                print(f' {GREEN if bool(proxy) else RED}{i}{RESET}', end='', flush=True)
+            res=test_proxies_concurrently(door.predefined_proxies)
+            for (i, proxy), (j,_res) in zip(enumerate(
+                    door.predefined_proxies,
+                    start=1,
+                ), enumerate(res, start=1)):
+                print(f' {GREEN if _res else RED}{i}{RESET}', end='', flush=True)
 
             print('')
             return 

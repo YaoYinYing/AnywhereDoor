@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Callable, List, Literal, Mapping
 from functools import partial
+import concurrent.futures
 
 from urllib import request, error
 
@@ -24,6 +25,36 @@ def url_tests(url: str, proxies: Mapping, timeout: int = 500) -> bool:
         return False
 
 
+def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> List[bool]:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = {
+            executor.submit(url_tests, url, proxies, timeout): url for url in urls
+        }
+        results = []
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                success = future.result()
+                results.append(success)
+            except Exception as e:
+                results.append(False)
+        return results
+
+def test_proxies_concurrently(proxies: tuple["ProxyConfig"]) -> List[bool]:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = {
+            executor.submit(url_tests, proxy.test_urls[0], {'http': proxy.http_proxy, 'https': proxy.socks_proxy}, proxy.test_timeout): proxy for proxy in proxies
+        }
+        results = []
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                success = future.result()
+                results.append(success)
+
+            except Exception as e:
+                results.append(False)
+
+        return results
+    
 @dataclass
 class ProxyConfig:
     url: str
@@ -40,7 +71,7 @@ class ProxyConfig:
         "https://www.twitter.com",
         "https://www.instagram.com",
     )
-    test_timeout: int = 2000 # Microseconds
+    test_timeout: int = 3000 # Microseconds
 
     @property
     def http_proxy(self) -> str:
@@ -88,8 +119,8 @@ class ProxyConfig:
         }
         return url_tests(url=url, proxies=proxies, timeout=self.test_timeout)
 
-    def __bool__(self):
-        return self.is_available(url=self.test_urls[0])
+    # def __bool__(self):
+    #     return self.is_available(url=self.test_urls[0])
 
     def __eq__(self, other: "ProxyConfig"):
         return (
