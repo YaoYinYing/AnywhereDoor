@@ -76,7 +76,7 @@ class ProxyConfig:
         "https://www.twitter.com",
         "https://www.instagram.com",
     )
-    test_timeout: int = 5000 # Microseconds
+    test_timeout: int = 10_000 # Microseconds
 
     @property
     def http_proxy(self) -> str:
