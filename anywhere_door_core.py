@@ -13,12 +13,16 @@ def run_command(cmd: Union[tuple[str], str], verbose: bool = False):
         cmd,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        encoding="utf-8",
+        timeout=10,
+        check=True,
+        universal_newlines=True,
+        env=os.environ.copy(),
     )
-    if verbose:
-        print(result.stdout.decode("utf-8"))
+    if verbose and (res_text:=result.stdout):
+        print(res_text)
     if result.returncode != 0 and verbose:
-        print(result.stderr.decode("utf-8"))
-        raise RuntimeError("Command failed")
+        raise RuntimeError(f"--> Command failed: {result.stderr}")
     
     return result
 
@@ -90,7 +94,7 @@ class AnywhereDoor:
 
     def configure_git_proxy(self):
         if self.anywhere_door_open:
-            print(f"echo 'Enabling proxy for git';")
+            print(f"Enabling proxy for git")
             git_command = (
                 "git","config", "--global","http.proxy", self.in_use_proxy.http_proxy
             )
@@ -102,7 +106,7 @@ class AnywhereDoor:
             run_command(git_command,verbose=True)
             print('Done.')
         else:
-            print(f"echo 'Disabling proxy for git';")
+            print(f"Disabling proxy for git")
             git_command = (
                 "git","config", "--global","--unset","http.proxy"
             )
