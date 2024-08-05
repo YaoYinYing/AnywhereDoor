@@ -2,24 +2,25 @@ from dataclasses import dataclass
 from typing import Callable, List, Literal, Mapping
 from functools import partial
 
-import requests
+from urllib import request, error
 
 
 ProxyType = Literal["http", "https", "all"]
 
 
 def url_tests(url: str, proxies: Mapping, timeout: int = 500) -> bool:
+    # Prepare the proxy handler
+    proxy_handler = request.ProxyHandler(proxies)
+    opener = request.build_opener(proxy_handler)
+    request.install_opener(opener)
+
     try:
-        response = requests.get(url, proxies=proxies, timeout=timeout)
-        # Check if the request was successful (HTTP status code 200)
-        return response.status_code == 200
-    except (
-        requests.exceptions.RequestException
-        or requests.exceptions.ConnectTimeout
-        or requests.exceptions.ConnectionError
-        or requests.exceptions.ProxyError
-        or requests.exceptions.SSLError
-    ):
+        # Open the URL with the specified timeout
+        with request.urlopen(url, timeout=timeout/1000) as response:
+            # Check if the request was successful (HTTP status code 200)
+            return response.status == 200
+    except (error.URLError, error.HTTPError):
+        # Catch URL and HTTP errors
         return False
 
 
@@ -39,7 +40,7 @@ class ProxyConfig:
         "https://www.twitter.com",
         "https://www.instagram.com",
     )
-    test_timeout: int = 1000
+    test_timeout: int = 2000 # Microseconds
 
     @property
     def http_proxy(self) -> str:
@@ -88,15 +89,7 @@ class ProxyConfig:
         return url_tests(url=url, proxies=proxies, timeout=self.test_timeout)
 
     def __bool__(self):
-        return url_tests(
-        proxies={
-            "http": self.http_proxy,
-            "https": self.socks_proxy,
-        },
-        url=self.test_urls[0],
-        timeout=self.test_timeout,
-        
-    )
+        return self.is_available(url=self.test_urls[0])
 
     def __eq__(self, other: "ProxyConfig"):
         return (
