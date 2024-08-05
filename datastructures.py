@@ -15,14 +15,19 @@ def url_tests(url: str, proxies: Mapping, timeout: int = 500) -> bool:
     opener = request.build_opener(proxy_handler)
     request.install_opener(opener)
 
+    flag:bool=False
     try:
         # Open the URL with the specified timeout
         with request.urlopen(url, timeout=timeout/1000) as response:
             # Check if the request was successful (HTTP status code 200)
-            return response.status == 200
+            flag=response.status == 200
     except (error.URLError, error.HTTPError):
         # Catch URL and HTTP errors
-        return False
+        flag = False
+
+    finally:
+        opener.close()
+        return flag
 
 
 def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> List[bool]:
@@ -66,12 +71,12 @@ class ProxyConfig:
     label: str = "Default"
 
     test_urls: tuple[str] = (
-        "https://www.facebook.com",
         "https://www.google.com",
+        "https://www.facebook.com",
         "https://www.twitter.com",
         "https://www.instagram.com",
     )
-    test_timeout: int = 3000 # Microseconds
+    test_timeout: int = 5000 # Microseconds
 
     @property
     def http_proxy(self) -> str:

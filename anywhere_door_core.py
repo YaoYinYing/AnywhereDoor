@@ -255,7 +255,7 @@ def anywhere_door(command, *args):
             return door.use_proxy()
             
 
-    elif command == "test":      
+    if command == "test":      
         if args[0] == '':
             proxies = {
         "http": door.system_proxy[0],
@@ -297,7 +297,7 @@ URL Testing ... ...
             print("===========================================================================")
             return 
 
-        elif  args[0] == "all":
+        if  args[0] == "all":
             print(f'Testing ', end='', flush=True)
             res=test_proxies_concurrently(door.predefined_proxies)
             for (i, proxy), (j,_res) in zip(enumerate(
@@ -309,7 +309,7 @@ URL Testing ... ...
             print('')
             return 
     else:
-        print(f"Unknown command: {command}")
+        print(f"echo -e 'Unknown command: {RED}{command}{RESET}'")
 
 
 
