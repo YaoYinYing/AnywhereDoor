@@ -1,6 +1,8 @@
 # AnywhereDoor
  A Linux/Python script for switching Proxies within a SSH session.
 
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
+
 # Setup
 1. Clone this repository
 2. Run `source /repo/to/AnywhereDoor/anywhere_door.sh` and record this command in shell profile (`.bashrc`, for example)

@@ -49,7 +49,7 @@ def test_urls_concurrently(urls: List[str], proxies: Mapping, timeout: int) -> M
                 success = future.result()
                 results.update({url: success})
             except Exception as e:
-                results.update({url: success})
+                results.update({url: False})
         return {k:results.get(k) for k in urls}
 
 def test_proxies_concurrently(proxies: tuple["ProxyConfig"]) -> Mapping["ProxyConfig", bool]:

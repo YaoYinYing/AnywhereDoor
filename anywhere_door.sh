@@ -11,12 +11,6 @@ export ANYWHERE_DOOR_DIR=$core_script_dir
 
 PLATFORM=$(uname -s)
 
-if [[ "$PLATFORM" == "Darwin" ]];then
-  time_executable_path='/usr/bin/time'
-else
-  time_executable_path=time
-fi
-
 # Color escape sequences
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -69,3 +63,107 @@ function anywhere_door {
   fi
 }
 
+
+
+# Completion script for anywhere_door
+
+_anywhere_door_completions()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    
+    # Define the options for anywhere_door
+    opts="on off show list ls test bench wget curl whereami use upgrade dns leak help ?"
+
+    # Define hints for each option
+    declare -A hints=(
+        [on]="Activate Anywhere Door proxy"
+        [off]="Deactivate Anywhere Door proxy"
+        [config]="Configure a new proxy"
+        [show]="Show the current proxy configurations"
+        [list]="List all predefined proxies"
+        [ls]="List all predefined proxies"
+        [test]="Perform a connection test to check proxy accessibility"
+        [bench]="Perform a speed test using the Ookla speed test tool"
+        [wget]="Perform a speed test using wget"
+        [curl]="Perform a speed test using curl"
+        [whereami]="Check your current IP location"
+        [use]="Use a specific proxy from the list"
+        [upgrade]="Upgrade to the latest code version"
+        [dns]="Perform a DNS leak test"
+        [leak]="Perform a DNS leak test"
+        [help]="Show help messages for commands"
+        [?]="Show help messages for commands"
+    )
+
+    # Define hints for help subcommands
+    declare -A help_hints=(
+        [test]="Help for testing proxy connectivity"
+        [use]="Help for using a specific proxy"
+        [config]="Help for configuring a proxy"
+        [show]="Help for showing current proxy settings"
+    )
+
+    # If we're at the base command, suggest all main options
+    if [[ ${COMP_CWORD} -eq 1 ]]; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+
+        # Show hints if the user presses tab with no input
+        if [[ -z "${cur}" ]]; then
+            echo -e "\nOptions:"
+            for opt in ${opts}; do
+                printf "  %-10s : %s\n" "${opt}" "${hints[$opt]}"
+            done
+        fi
+
+        return 0
+    fi
+
+    case "${prev}" in
+        anywhere_door)
+            COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+            return 0
+            ;;
+        use)
+            # Complete with proxy labels or indices
+            local proxies="Clash_ ClashFallBack_ Private_"
+            local indices=$(seq 0 22)
+            COMPREPLY=( $(compgen -W "${proxies} ${indices}" -- ${cur}) )
+            return 0
+            ;;
+        show)
+            # Complete with proxy types
+            local types="http https all"
+            COMPREPLY=( $(compgen -W "${types}" -- ${cur}) )
+            return 0
+            ;;
+        test)
+            # Complete with test options
+            local test_opts="all full"
+            COMPREPLY=( $(compgen -W "${test_opts}" -- ${cur}) )
+            return 0
+            ;;
+        ?|help)
+            # Complete with specific help topics
+            local help_opts="test use config show"
+            COMPREPLY=( $(compgen -W "${help_opts}" -- ${cur}) )
+
+
+            # Show hints for help topics
+            if [[ -z "${cur}" ]]; then
+                echo -e "\nHelp Topics:"
+                for topic in ${help_opts}; do
+                    printf "  %-10s : %s\n" "${topic}" "${help_hints[$topic]}"
+                done
+            fi
+            
+            return 0
+            ;;
+        *)
+            ;;
+    esac
+}
+
+complete -F _anywhere_door_completions anywhere_door

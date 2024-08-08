@@ -3,7 +3,7 @@ import subprocess
 import sys
 from typing import Mapping, Union
 
-from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently, GREEN, RED, YELLOW, BOLD, RESET
+from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently,url_tests, GREEN, RED, YELLOW, BOLD, RESET
 from predefined_proxies import predefined_proxies,NoProxy
 
 
@@ -32,7 +32,7 @@ class AnywhereDoor:
 
     def __init__(self):
         self.predefined_proxies = self.predefined_proxy_table.expanded
-        self.in_use_proxy = self.predefined_proxies[0]
+        self.in_use_proxy = None
 
     @property
     def anywhere_door_open(self) -> bool:
@@ -41,17 +41,26 @@ class AnywhereDoor:
         )
 
     def activate_anywhere_door(self):
-        if self.in_use_proxy:
-            print(f'export https_proxy="{self.in_use_proxy.http_proxy}";')
-            print(f'export http_proxy="{self.in_use_proxy.http_proxy}";')
-            print(f'export all_proxy="{self.in_use_proxy.socks_proxy}";')
-            print(f'export NO_PROXY="{str(NoProxy())}";')
+        if not self.in_use_proxy:
 
-            print(f"echo '{GREEN}proxy selected: {RESET} {YELLOW} {self.in_use_proxy.label} {RESET}';")
-            print(f"echo '{YELLOW}{str(self.in_use_proxy)}{RESET}';")
+            all_available_proxies = [proxy for i, (proxy,_res) in enumerate(test_proxies_concurrently(self.predefined_proxies).items(), start=1) if _res]
 
-        else:
-            print(f"echo '{YELLOW}No proxy selected.{RESET}';")
+            if not all_available_proxies:
+                print(f"echo '{RED}No proxy selected.{RESET}';")
+                return
+            
+            else:
+                self.in_use_proxy = all_available_proxies[0]
+        
+        
+
+        print(f'export https_proxy="{self.in_use_proxy.http_proxy}";')
+        print(f'export http_proxy="{self.in_use_proxy.http_proxy}";')
+        print(f'export all_proxy="{self.in_use_proxy.socks_proxy}";')
+        print(f'export NO_PROXY="{str(NoProxy())}";')
+
+        print(f"echo '{GREEN}proxy selected: {RESET} {YELLOW} {self.in_use_proxy.label} {RESET}';")
+        print(f"echo '{YELLOW}{str(self.in_use_proxy)}{RESET}';")
 
     def deactivate_anywhere_door(self):
         print("unset https_proxy;")
@@ -153,7 +162,7 @@ class AnywhereDoor:
                 
                 is_system_proxy = self.match_proxy(proxy, system_proxy)
                 print(
-                    f"{YELLOW if is_system_proxy else urltests2color.get(proxy, '')}{i}. {BOLD}[{proxy.label}]{RESET} {str(proxy)} {RESET if is_system_proxy else ''}"
+                    f"{i}. {f'{YELLOW}✔✔✔✔✔{RESET}' if is_system_proxy else ''}{urltests2color.get(proxy, '')}{BOLD}[{proxy.label}]{RESET} {f'{YELLOW}' if is_system_proxy else ''}{str(proxy)}{f'{RESET}' if is_system_proxy else ''}"
                 )
             print("-" * 75)
 
@@ -265,7 +274,7 @@ def anywhere_door(command, *args):
         try:
             index = str(args[0])
             return door.use_proxy(index=index)
-        except ValueError as e:
+        except (ValueError, IndexError) as e:
             print(f'echo -e "Invalid proxy index {RED}{index}{RESET}";')
             print('anywhere_door use')
             return
@@ -287,7 +296,7 @@ def anywhere_door(command, *args):
 
             return
             
-        if  args[0] == "full":
+        if args[0] == "full":
             all_available_proxies: list[int] =[]
             print('''
 ===========================================================================
@@ -313,7 +322,7 @@ URL Testing ... ...
             print("===========================================================================")
             return 
 
-        if  args[0] == "all":
+        if args[0] == "all":
             print(f'Testing ', end='', flush=True)
             res=test_proxies_concurrently(door.predefined_proxies)
             for i, (proxy,_res) in enumerate(
@@ -325,6 +334,9 @@ URL Testing ... ...
             print('')
             return 
 
+        if args[0] == "speed":
+            url_tests(url='https://speedtest.yaoyy-hi.workers.dev/', proxies={'http': door.system_proxy[0], 'https': door.system_proxy[0],}, timeout=5_000)
+            
     else:
         print(f"echo -e 'Unknown command: {RED}{command}{RESET}'")
 
