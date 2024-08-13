@@ -51,6 +51,8 @@ class AnywhereDoor:
             
             else:
                 self.in_use_proxy = all_available_proxies[0]
+        
+        
 
         print(f'export https_proxy="{self.in_use_proxy.http_proxy}";')
         print(f'export http_proxy="{self.in_use_proxy.http_proxy}";')
