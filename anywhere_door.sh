@@ -31,9 +31,29 @@ function anywhere_door {
       speedtest --progress=yes --selection-details
     fi
 
+  elif [[ "$1" == "media" ]]; then
+
+    if [ -z $(echo 'e' | grep -P 'e' 2>/dev/null) ]; then
+      if [[ "$PLATFORM" == "Darwin" && ! "$(command -v ggrep)" =='' ]];then
+        alias grep=ggrep
+      
+        echo -e "${RED}command 'grep' function is incomplete yet ggrep is found, fixing alias as grep.${RESET}"
+      else
+        echo -e "${RED}command 'grep' function is incomplete yet ggrep is not found, please install ggrep first.${RESET}"
+        exit 1
+      fi
+
+    if ! command -v curl; then
+      echo "Please install the curl first.";
+      exit 1
+    else
+      bash tools/RegionRestrictioncheck/check.sh "$2" "$3" "$4" "$5" "$6"
+    fi
+
   elif [[ "$1" == "wget" ]];then
     if ! command -v wget;then
       echo "Please install the wget first.";
+      exit 1
     else 
       wget -O /dev/null 'https://speedtest.yaoyy-hi.workers.dev/';
     fi
@@ -41,6 +61,7 @@ function anywhere_door {
   elif [[ "$1" == "curl" ]];then
     if ! command -v curl;then
       echo "Please install the curl first.";
+      exit 1
     else 
       curl -o /dev/null 'https://speedtest.yaoyy-hi.workers.dev/';
     fi
@@ -48,13 +69,14 @@ function anywhere_door {
   elif [[ "$1" == "whereami" ]];then
     if ! command -v curl;then
       echo "Please install the curl first.";
+      exit 1
     else 
       curl 'https://ipinfo.io/';
     fi
   
   elif [[ "$1" == "upgrade" ]]; then
     pushd $ANYWHERE_DOOR_DIR;
-      git stash; git pull;
+      git stash; git pull; git submodule init; git submodule update
     popd
 
   # eval for the python script, for proxy injection to shell env.

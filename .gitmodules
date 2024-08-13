@@ -1,0 +1,6 @@
+[submodule "RegionRestrictioncheck"]
+	path = RegionRestrictioncheck
+	url = https://github.com/lmc999/RegionRestrictioncheck
+[submodule "tools/RegionRestrictioncheck"]
+	path = tools/RegionRestrictioncheck
+	url = https://github.com/lmc999/RegionRestrictioncheck
