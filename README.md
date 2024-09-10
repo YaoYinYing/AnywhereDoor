@@ -320,3 +320,20 @@ Usage: anywhere_door config server_url http_port socks_port [username] [password
 Show current proxy.
 Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ```
+
+# Advanced
+**AnywhereDoor + SSH Remote Forwarding**
+
+## SSH Remote Forwarding
+
+1. Add HTTP/Socks proxy port on local machine.
+2. Connect server on SSH with remote port forwarding:
+   ```shell
+   # forward proxy of localhost:7890 to remote-server:37890
+   ssh -R 37890:localhost:7890 remote-server
+   ```
+3. Use forwarded port as proxy config.
+   ```shell
+   # On remote server, use forwarded proxy port 37890
+   anywhere_door config localhost 37890 37890
+   ```
