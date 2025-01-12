@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## Speed Test (wget)
+## اختبار السرعة (wget)
 
 ```bash
 >>> anywhere_door wget
@@ -287,7 +287,7 @@ $https_proxy=http://localhost:7890
 $all_proxy=socks5h://localhost:7890
 ```
 
-## Help messages
+## رسائل المساعدة
 
 ```bash
 >>>  anywhere_door ?
@@ -344,10 +344,10 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 **AnywhereDoor + SSH إعادة التوجيه عن بعد**
 
-## إعادة التوجيه عن بعد عبر SSH
+## SSH إعادة التوجيه عن بعد
 
 1.  أضف منفذ وكيل HTTP/Socks على الجهاز المحلي.
-2.  قم بتوصيل الخادم على SSH مع إعادة توجيه المنفذ عن بعد:
+2.  Connect server on SSH with remote port forwarding:
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
