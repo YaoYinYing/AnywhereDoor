@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## सभी पूर्वनिर्धारित प्रॉक्सी (कच्चा डेटा) की सूची बनाएं
+## सभी पूर्वनिर्धारित प्रॉक्सी की सूची बनाएं (कच्चा डेटा)
 
 ```bash
 >>> anywhere_door list
@@ -177,7 +177,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
 
-## स्थान आईपी जांच (ipinfo.io के माध्यम से)
+## Location IP check (via ipinfo.io)
 
 ```bash
 >>> anywhere_door whereami
@@ -347,7 +347,7 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ## एसएसएच रिमोट फ़ॉरवर्डिंग
 
 1.  स्थानीय मशीन पर HTTP/सॉक्स प्रॉक्सी पोर्ट जोड़ें।
-2.  रिमोट पोर्ट फ़ॉरवर्डिंग के साथ SSH पर सर्वर कनेक्ट करें:
+2.  रिमोट पोर्ट फ़ॉरवर्डिंग के साथ सर्वर को SSH पर कनेक्ट करें:
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
