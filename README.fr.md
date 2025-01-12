@@ -340,7 +340,7 @@ Show current proxy.
 Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ```
 
-# Advanced
+# Avancé
 
 **AnywhereDoor + Transfert à distance SSH**
 
