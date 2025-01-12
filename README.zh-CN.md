@@ -136,7 +136,7 @@ Connection test to https://www.twitter.com: Success
 Connection test to https://www.instagram.com: Success
 ```
 
-## Test all proxy connections
+## 测试所有代理连接
 
 ```bash
 >>> anywhere_door test all
@@ -347,7 +347,7 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ## SSH远程转发
 
 1.  在本地计算机上添加 HTTP/Socks 代理端口。
-2.  使用远程端口转发在 SSH 上连接服务器：
+2.  通过远程端口转发在 SSH 上连接服务器：
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
