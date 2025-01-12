@@ -347,7 +347,7 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ## SSH遠端轉送
 
 1.  在本機電腦上新增 HTTP/Socks 代理連接埠。
-2.  使用遠端連接埠轉送在 SSH 上連接伺服器：
+2.  透過遠端連接埠轉送在 SSH 上連接伺服器：
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
