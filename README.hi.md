@@ -1,17 +1,17 @@
-# कहीं भी
+# Anywheredoor
 
-एसएसएच सत्र के भीतर प्रॉक्सी स्विच करने के लिए एक लिनक्स/पायथन स्क्रिप्ट।
+एक SSH सत्र के भीतर प्रॉक्सी को स्विच करने के लिए एक लिनक्स/पायथन स्क्रिप्ट।
 
 ![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
 
 # स्थापित करना
 
 1.  इस रिपॉजिटरी को क्लोन करें
-2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफ़ाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
+2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
 3.  में कॉन्फ़िगरेशन को संशोधित करें`AnywhereDoor/predefined_proxies.py`
 4.  पुकारना`anywhere_door`जैसा आपको पसंद!
 
-# बुनियादी उपयोग
+# मूल उपयोग
 
 ## बंद
 
@@ -32,7 +32,7 @@ localhost:10089/10089
 Anywhere Door is now inactive!
 ```
 
-## गिट के लिए आवेदन करें
+## Git के लिए आवेदन करें
 
 ```bash
 >>> anywhere_door off
@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## सभी पूर्वनिर्धारित प्रॉक्सी की सूची बनाएं (कच्चा डेटा)
+## सभी पूर्वनिर्धारित प्रॉक्सी (कच्चे डेटा) को सूचीबद्ध करें
 
 ```bash
 >>> anywhere_door list
@@ -66,7 +66,7 @@ Available proxies:
 ---------------------------------------------
 ```
 
-## सभी पूर्वनिर्धारित प्रॉक्सी की सूची बनाएं (प्रयोग योग्य)
+## सभी पूर्वनिर्धारित प्रॉक्सी (प्रयोग करने योग्य) सूचीबद्ध करें
 
 ```bash
 >>> anywhere_door use
@@ -101,7 +101,7 @@ Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
 ```
 
-## इंडेक्स द्वारा पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
+## सूचकांक द्वारा एक पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
 
 ```bash
 >>> anywhere_door use 2
@@ -109,7 +109,7 @@ proxy selected:   Clash_Relay_1
 z1.a100.japs.yaoyy.moe:10089/10089
 ```
 
-## लेबल द्वारा पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
+## लेबल द्वारा एक पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
 
 ```bash
 >>> anywhere_door use Hysterians_5
@@ -117,7 +117,7 @@ proxy selected:   Hysterians_5
 z2.login1.japs.yaoyy.moe:10091/10092
 ```
 
-## वर्तमान कॉन्फ़िगरेशन दिखाएँ
+## वर्तमान कॉन्फ़िगरेशन दिखाएं
 
 ```bash
 >>> anywhere_door show
@@ -126,7 +126,7 @@ $https_proxy=http://z2.login1.japs.yaoyy.moe:10091
 $all_proxy=socks5h://z2.login1.japs.yaoyy.moe:10092
 ```
 
-## प्रॉक्सी परीक्षण
+## प्रॉक्सी टेस्ट
 
 ```bash
 >>> anywhere_door test
@@ -177,7 +177,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
 
-## Location IP check (via ipinfo.io)
+## स्थान आईपी चेक (ipinfo.io के माध्यम से)
 
 ```bash
 >>> anywhere_door whereami
@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## स्पीड टेस्ट (wget)
+## गति परीक्षण (WGET)
 
 ```bash
 >>> anywhere_door wget
@@ -210,7 +210,7 @@ Saving to: ‘/dev/null’
 /dev/null                      [            <=>                        ]  34.39M  2.90MB/s
 ```
 
-## स्पीड टेस्ट (कर्ल)
+## गति परीक्षण (कर्ल)
 
 ```bash
 >>> anywhere_door curl
@@ -220,7 +220,7 @@ Saving to: ‘/dev/null’
 100 58.2M    0 58.2M    0     0  2378k      0 --:--:--  0:00:25 --:--:-- 3477k
 ```
 
-## स्पीड टेस्ट (स्पीडटेस्ट कमांड लाइन टूल के माध्यम से)
+## गति परीक्षण (स्पीडटेस्ट कमांडलाइन उपकरण के माध्यम से)
 
 ```bash
 >>> anywhere_door bench
@@ -248,7 +248,7 @@ Idle Latency:    84.01 ms   (jitter: 1.32ms, low: 83.86ms, high: 88.97ms)
   Result URL: https://www.speedtest.net/result/c/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-## डीएनएस लीक परीक्षण
+## DNS लीक टेस्ट
 
 ```bash
 >>> anywhere_door dns
@@ -287,7 +287,7 @@ $https_proxy=http://localhost:7890
 $all_proxy=socks5h://localhost:7890
 ```
 
-## सहायता संदेश
+## संदेशों की सहायता करें
 
 ```bash
 >>>  anywhere_door ?
@@ -342,12 +342,12 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 # विकसित
 
-**एनीव्हेयरडोर + एसएसएच रिमोट फॉरवर्डिंग**
+**AnyWheredoor + SSH रिमोट फ़ॉरवर्डिंग**
 
-## एसएसएच रिमोट फ़ॉरवर्डिंग
+## सुदूर अग्रेषण
 
 1.  स्थानीय मशीन पर HTTP/सॉक्स प्रॉक्सी पोर्ट जोड़ें।
-2.  रिमोट पोर्ट फ़ॉरवर्डिंग के साथ सर्वर को SSH पर कनेक्ट करें:
+2.  दूरस्थ पोर्ट अग्रेषण के साथ SSH पर सर्वर कनेक्ट करें:
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
