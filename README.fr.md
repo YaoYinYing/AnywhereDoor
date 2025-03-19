@@ -1,19 +1,19 @@
-# N'importe oùPorte
+# Anywhereor
 
-Un script Linux/Python pour changer de proxy au sein d'une session SSH.
+Un script Linux / Python pour la commutation de proxys au sein d'une session SSH.
 
 ![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
 
 # Installation
 
 1.  Cloner ce référentiel
-2.  Courir`source /repo/to/AnywhereDoor/anywhere_door.sh`et enregistrez cette commande dans le profil shell (`.bashrc`, Par exemple)
+2.  Courir`source /repo/to/AnywhereDoor/anywhere_door.sh`et enregistrer cette commande dans le profil shell (`.bashrc`, Par exemple)
 3.  Modifier la configuration dans`AnywhereDoor/predefined_proxies.py`
 4.  Appel`anywhere_door`comme vous voulez!
 
 # Utilisation de base
 
-## Marche/Arrêt
+## En marche / arrêt
 
 ```bash
 >>> anywhere_door
@@ -32,7 +32,7 @@ localhost:10089/10089
 Anywhere Door is now inactive!
 ```
 
-## Postuler pour Git
+## Demander Git
 
 ```bash
 >>> anywhere_door off
@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## Lister tous les proxys prédéfinis (données brutes)
+## List all predefined proxies (raw data)
 
 ```bash
 >>> anywhere_door list
@@ -66,7 +66,7 @@ Available proxies:
 ---------------------------------------------
 ```
 
-## Lister tous les proxys prédéfinis (utilisables)
+## Énumérez tous les proxys prédéfinis (utilisables)
 
 ```bash
 >>> anywhere_door use
@@ -101,7 +101,7 @@ Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
 ```
 
-## Utiliser un serveur proxy prédéfini par index
+## Utilisez un serveur proxy prédéfini par index
 
 ```bash
 >>> anywhere_door use 2
@@ -109,7 +109,7 @@ proxy selected:   Clash_Relay_1
 z1.a100.japs.yaoyy.moe:10089/10089
 ```
 
-## Utiliser un serveur proxy prédéfini par étiquette
+## Utilisez un serveur proxy prédéfini par étiquette
 
 ```bash
 >>> anywhere_door use Hysterians_5
@@ -126,7 +126,7 @@ $https_proxy=http://z2.login1.japs.yaoyy.moe:10091
 $all_proxy=socks5h://z2.login1.japs.yaoyy.moe:10092
 ```
 
-## Test de procuration
+## Test proxy
 
 ```bash
 >>> anywhere_door test
@@ -177,7 +177,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
 
-## Vérification IP de localisation (via ipinfo.io)
+## Emplacement IP Check (via ipinfo.io)
 
 ```bash
 >>> anywhere_door whereami
@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## Test de vitesse (wget)
+## Test de vitesse (WGET)
 
 ```bash
 >>> anywhere_door wget
@@ -210,7 +210,7 @@ Saving to: ‘/dev/null’
 /dev/null                      [            <=>                        ]  34.39M  2.90MB/s
 ```
 
-## Test de vitesse (boucle)
+## Test de vitesse (curl)
 
 ```bash
 >>> anywhere_door curl
@@ -220,7 +220,7 @@ Saving to: ‘/dev/null’
 100 58.2M    0 58.2M    0     0  2378k      0 --:--:--  0:00:25 --:--:-- 3477k
 ```
 
-## Test de vitesse (via l'outil de ligne de commande speedtest)
+## Test de vitesse (via l'outil de ligne de commande SpeedTest)
 
 ```bash
 >>> anywhere_door bench
@@ -287,7 +287,7 @@ $https_proxy=http://localhost:7890
 $all_proxy=socks5h://localhost:7890
 ```
 
-## Messages d'aide
+## Aide les messages
 
 ```bash
 >>>  anywhere_door ?
@@ -342,17 +342,17 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 # Avancé
 
-**AnywhereDoor + Transfert à distance SSH**
+**Anywhereor + SSH Remote Forwarding**
 
 ## Transfert à distance SSH
 
-1.  Ajoutez un port proxy HTTP/Socks sur la machine locale.
-2.  Connectez le serveur sur SSH avec la redirection de port distant :
+1.  Add HTTP/Socks proxy port on local machine.
+2.  Connectez le serveur sur SSH avec le transfert de port distant:
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
     ```
-3.  Utilisez le port transféré comme configuration de proxy.
+3.  Utilisez le port transmis comme configuration proxy.
     ```shell
     # On remote server, use forwarded proxy port 37890
     anywhere_door config localhost 37890 37890
