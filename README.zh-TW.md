@@ -1,19 +1,19 @@
-# 隨處門
+# Anywheredoor
 
-用於在 SSH 會話中切換代理程式的 Linux/Python 腳本。
+Linux/Python腳本，用於在SSH會話中切換代理。
 
 ![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
 
 # 設定
 
-1.  克隆這個儲存庫
-2.  跑步`source /repo/to/AnywhereDoor/anywhere_door.sh`並將此命令記錄在 shell 設定檔中（`.bashrc`， 例如）
-3.  修改配置中`AnywhereDoor/predefined_proxies.py`
+1.  克隆這個存儲庫
+2.  跑步`source /repo/to/AnywhereDoor/anywhere_door.sh`並將此命令記錄在shell配置文件中（`.bashrc`， 例如）
+3.  修改配置`AnywhereDoor/predefined_proxies.py`
 4.  稱呼`anywhere_door`隨你便！
 
 # 基本用法
 
-## 開/關
+## 打開/關
 
 ```bash
 >>> anywhere_door
@@ -32,7 +32,7 @@ localhost:10089/10089
 Anywhere Door is now inactive!
 ```
 
-## 申請Git
+## 申請git
 
 ```bash
 >>> anywhere_door off
@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## 列出所有預定義代理（原始資料）
+## 列出所有預定義的代理（原始數據）
 
 ```bash
 >>> anywhere_door list
@@ -66,7 +66,7 @@ Available proxies:
 ---------------------------------------------
 ```
 
-## 列出所有預定義代理（可用）
+## 列出所有預定義的代理（可用）
 
 ```bash
 >>> anywhere_door use
@@ -101,7 +101,7 @@ Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
 ```
 
-## 依索引使用預先定義的代理伺服器
+## 使用索引使用預定義的代理服務器
 
 ```bash
 >>> anywhere_door use 2
@@ -109,7 +109,7 @@ proxy selected:   Clash_Relay_1
 z1.a100.japs.yaoyy.moe:10089/10089
 ```
 
-## 按標籤使用預先定義的代理伺服器
+## 使用標籤使用預定義的代理服務器
 
 ```bash
 >>> anywhere_door use Hysterians_5
@@ -117,7 +117,7 @@ proxy selected:   Hysterians_5
 z2.login1.japs.yaoyy.moe:10091/10092
 ```
 
-## 顯示目前配置
+## 顯示當前配置
 
 ```bash
 >>> anywhere_door show
@@ -177,7 +177,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
 
-## 位置 IP 檢查（透過 ipinfo.io）
+## 位置IP檢查（通過ipinfo.io）
 
 ```bash
 >>> anywhere_door whereami
@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## 速度測試（wget）
+## 速度測試（WGET）
 
 ```bash
 >>> anywhere_door wget
@@ -210,7 +210,7 @@ Saving to: ‘/dev/null’
 /dev/null                      [            <=>                        ]  34.39M  2.90MB/s
 ```
 
-## 速度測試（彎舉）
+## 速度測試（捲髮）
 
 ```bash
 >>> anywhere_door curl
@@ -220,7 +220,7 @@ Saving to: ‘/dev/null’
 100 58.2M    0 58.2M    0     0  2378k      0 --:--:--  0:00:25 --:--:-- 3477k
 ```
 
-## 速度測試（透過 speedtest 命令列工具）
+## 速度測試（通過speedtest命令行工具）
 
 ```bash
 >>> anywhere_door bench
@@ -264,7 +264,7 @@ Conclusion:
 DNS may be leaking.
 ```
 
-## 自訂代理以供臨時使用。
+## 為臨時用途定制代理。
 
 ```bash
 >>> anywhere_door config localhost 7890 7890
@@ -287,7 +287,7 @@ $https_proxy=http://localhost:7890
 $all_proxy=socks5h://localhost:7890
 ```
 
-## 幫助訊息
+## 幫助消息
 
 ```bash
 >>>  anywhere_door ?
@@ -342,17 +342,17 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 # 先進的
 
-**AnywhereDoor + SSH遠端轉發**
+**Anywheredoor + SSH遙控**
 
-## SSH遠端轉送
+## SSH遠程轉發
 
-1.  在本機電腦上新增 HTTP/Socks 代理連接埠。
-2.  透過遠端連接埠轉送在 SSH 上連接伺服器：
+1.  在本地計算機上添加HTTP/襪子代理端口。
+2.  通過遠程端口轉發在SSH上連接服務器：
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
     ```
-3.  使用轉送連接埠作為代理配置。
+3.  將轉發端口用作代理配置。
     ```shell
     # On remote server, use forwarded proxy port 37890
     anywhere_door config localhost 37890 37890
