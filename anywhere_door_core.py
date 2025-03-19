@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from typing import Mapping, Union
+from typing import Literal, Mapping, Union
 
 from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently,url_tests, GREEN, RED, YELLOW, BOLD, RESET
 from predefined_proxies import predefined_proxies,NoProxy
@@ -40,7 +40,7 @@ class AnywhereDoor:
             os.environ.get(p_kw) for p_kw in ["http_proxy", "https_proxy", "all_proxy"]
         )
 
-    def activate_anywhere_door(self):
+    def activate_anywhere_door(self, protocol: Literal['http', 'socks5h']='socks5h'):
         if not self.in_use_proxy:
 
             all_available_proxies = [proxy for i, (proxy,_res) in enumerate(test_proxies_concurrently(self.predefined_proxies).items(), start=1) if _res]
@@ -52,11 +52,11 @@ class AnywhereDoor:
             else:
                 self.in_use_proxy = all_available_proxies[0]
         
-        
+        use_proxy = self.in_use_proxy.http_proxy if protocol == 'http' else self.in_use_proxy.socks_proxy
 
-        print(f'export https_proxy="{self.in_use_proxy.http_proxy}";')
-        print(f'export http_proxy="{self.in_use_proxy.http_proxy}";')
-        print(f'export all_proxy="{self.in_use_proxy.socks_proxy}";')
+        print(f'export https_proxy="{use_proxy}";')
+        print(f'export http_proxy="{use_proxy}";')
+        print(f'export all_proxy="{use_proxy}";')
         print(f'export NO_PROXY="{str(NoProxy())}";')
 
         print(f"echo '{GREEN}proxy selected: {RESET} {YELLOW} {self.in_use_proxy.label} {RESET}';")

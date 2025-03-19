@@ -18,6 +18,8 @@ predefined_proxies: list[ProxyConfig] = [
         "localhost",
         "10089",
         "10089",
+        'oreo',
+        'oreo',
         alternative_urls=(
             "z1.a100.japs.yaoyy.moe",
             "z2.a100.japs.yaoyy.moe",
@@ -35,6 +37,9 @@ predefined_proxies: list[ProxyConfig] = [
         "localhost",
         "10093",
         "10093",
+        'oreo',
+        'oreo',
+
         alternative_urls=(
             "z1.a100.japs.yaoyy.moe",
             "z2.a100.japs.yaoyy.moe",
