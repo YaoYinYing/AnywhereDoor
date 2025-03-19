@@ -1,4 +1,4 @@
-# AnywhereDoor
+# على أي حال
 
 برنامج نصي Linux/Python لتبديل الوكلاء داخل جلسة SSH.
 
@@ -7,13 +7,13 @@
 # يثبت
 
 1.  استنساخ هذا المستودع
-2.  يجري`source /repo/to/AnywhereDoor/anywhere_door.sh`وقم بتسجيل هذا الأمر في ملف تعريف Shell (`.bashrc`، على سبيل المثال)
+2.  يجري`source /repo/to/AnywhereDoor/anywhere_door.sh`وتسجيل هذا الأمر في ملف shell (`.bashrc`، على سبيل المثال)
 3.  تعديل التكوين في`AnywhereDoor/predefined_proxies.py`
 4.  يتصل`anywhere_door`كما تحب!
 
 # الاستخدام الأساسي
 
-## تشغيل/إيقاف
+## ON/OFF
 
 ```bash
 >>> anywhere_door
@@ -32,7 +32,7 @@ localhost:10089/10089
 Anywhere Door is now inactive!
 ```
 
-## التقدم بطلب للحصول على جيت
+## تقدم بطلب للحصول على git
 
 ```bash
 >>> anywhere_door off
@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## قائمة بجميع الوكلاء المحددين مسبقًا (البيانات الأولية)
+## سرد جميع الوكلاء المحدد مسبقًا (البيانات الأولية)
 
 ```bash
 >>> anywhere_door list
@@ -66,7 +66,7 @@ Available proxies:
 ---------------------------------------------
 ```
 
-## سرد جميع الوكلاء المحددين مسبقًا (القابلين للاستخدام)
+## List all predefined proxies (usable)
 
 ```bash
 >>> anywhere_door use
@@ -101,7 +101,7 @@ Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
 ```
 
-## استخدم خادم وكيل محدد مسبقًا حسب الفهرس
+## استخدم خادم وكيل محدد مسبقًا عن طريق الفهرس
 
 ```bash
 >>> anywhere_door use 2
@@ -109,7 +109,7 @@ proxy selected:   Clash_Relay_1
 z1.a100.japs.yaoyy.moe:10089/10089
 ```
 
-## استخدم خادم وكيل محدد مسبقًا حسب التصنيف
+## استخدم خادم وكيل محدد مسبقًا عن طريق التسمية
 
 ```bash
 >>> anywhere_door use Hysterians_5
@@ -136,7 +136,7 @@ Connection test to https://www.twitter.com: Success
 Connection test to https://www.instagram.com: Success
 ```
 
-## اختبار كافة اتصالات الوكيل
+## اختبار جميع اتصالات الوكيل
 
 ```bash
 >>> anywhere_door test all
@@ -177,7 +177,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
 
-## التحقق من عنوان IP للموقع (عبر ipinfo.io)
+## فحص IP للموقع (عبر ipinfo.io)
 
 ```bash
 >>> anywhere_door whereami
@@ -210,7 +210,7 @@ Saving to: ‘/dev/null’
 /dev/null                      [            <=>                        ]  34.39M  2.90MB/s
 ```
 
-## اختبار السرعة (الحليقة)
+## اختبار السرعة (حليقة)
 
 ```bash
 >>> anywhere_door curl
@@ -220,7 +220,7 @@ Saving to: ‘/dev/null’
 100 58.2M    0 58.2M    0     0  2378k      0 --:--:--  0:00:25 --:--:-- 3477k
 ```
 
-## اختبار السرعة (عبر أداة سطر أوامر speedtest)
+## اختبار السرعة (عبر أداة سطر الأوامر Speedtest)
 
 ```bash
 >>> anywhere_door bench
@@ -287,7 +287,7 @@ $https_proxy=http://localhost:7890
 $all_proxy=socks5h://localhost:7890
 ```
 
-## رسائل المساعدة
+## مساعدة الرسائل
 
 ```bash
 >>>  anywhere_door ?
@@ -342,17 +342,17 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 # متقدم
 
-**AnywhereDoor + SSH إعادة التوجيه عن بعد**
+**anyheredoor + ssh إعادة التوجيه عن بعد**
 
-## SSH إعادة التوجيه عن بعد
+## SSH إعادة توجيه عن بعد
 
-1.  أضف منفذ وكيل HTTP/Socks على الجهاز المحلي.
-2.  Connect server on SSH with remote port forwarding:
+1.  إضافة منفذ الوكيل HTTP/Socks على الجهاز المحلي.
+2.  قم بتوصيل الخادم على SSH مع إعادة توجيه المنفذ عن بعد:
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
     ssh -R 37890:localhost:7890 remote-server
     ```
-3.  استخدم المنفذ المعاد توجيهه كتكوين الوكيل.
+3.  استخدام المنفذ المعاد توجيهه كتكوين وكيل.
     ```shell
     # On remote server, use forwarded proxy port 37890
     anywhere_door config localhost 37890 37890
