@@ -128,7 +128,7 @@ _anywhere_door_completions()
             ;;
         use)
             # Complete with proxy labels or indices
-            local proxies="Clash_ ClashFallBack_ Private_"
+            local proxies="Mihomo_ Private_"
             local indices=$(seq 0 22)
             COMPREPLY=( $(compgen -W "${proxies} ${indices}" -- ${cur}) )
             return 0
