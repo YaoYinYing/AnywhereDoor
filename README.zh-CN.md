@@ -9,7 +9,7 @@ Linux/Python脚本，用于在SSH会话中切换代理。
 1.  克隆这个存储库
 2.  跑步`source /repo/to/AnywhereDoor/anywhere_door.sh`并将此命令记录在shell配置文件中（`.bashrc`， 例如）
 3.  修改配置`AnywhereDoor/predefined_proxies.py`
-4.  称呼`anywhere_door` as you like!
+4.  称呼`anywhere_door`随你便！
 
 # 基本用法
 
@@ -32,7 +32,7 @@ localhost:10089/10089
 Anywhere Door is now inactive!
 ```
 
-## Apply for Git
+## 申请git
 
 ```bash
 >>> anywhere_door off
