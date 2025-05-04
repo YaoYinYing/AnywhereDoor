@@ -8,7 +8,7 @@
 
 1.  इस रिपॉजिटरी को क्लोन करें
 2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
-3.  में कॉन्फ़िगरेशन को संशोधित करें`AnywhereDoor/predefined_proxies.py`
+3.  Modify the configuration in `AnywhereDoor/predefined_proxies.py`
 4.  पुकारना`anywhere_door`जैसा आपको पसंद!
 
 # मूल उपयोग
