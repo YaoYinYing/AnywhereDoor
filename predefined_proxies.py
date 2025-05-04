@@ -14,6 +14,7 @@ predefined_proxies: list[ProxyConfig] = [
     #        "100.93.55.61",
     #     ),
     #  ),
+    
     ProxyConfig(
         "localhost",
         "10089",
@@ -32,6 +33,24 @@ predefined_proxies: list[ProxyConfig] = [
             "z4.login1.japs.yaoyy.moe",
         ),
         label="Clash",
+    ),
+    ProxyConfig(
+        "z1.login1.japs.yaoyy.moe",
+        "10088",
+        "10088",
+        'oreo',
+        'oreo',
+        alternative_urls=(
+            "z2.login1.japs.yaoyy.moe",
+            "z4.login1.japs.yaoyy.moe",
+            "z1.login2.japs.yaoyy.moe",
+            "z2.login2.japs.yaoyy.moe",
+            "z4.login2.japs.yaoyy.moe",
+            "z1.login3.japs.yaoyy.moe",
+            "z2.login3.japs.yaoyy.moe",
+            "z4.login3.japs.yaoyy.moe",
+        ),
+        label="Mihomo",
     ),
     ProxyConfig(
         "localhost",
