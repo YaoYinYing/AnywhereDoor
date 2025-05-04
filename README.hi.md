@@ -7,8 +7,8 @@
 # स्थापित करना
 
 1.  इस रिपॉजिटरी को क्लोन करें
-2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
-3.  Modify the configuration in `AnywhereDoor/predefined_proxies.py`
+2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh` and record this command in shell profile (`.bashrc`, उदाहरण के लिए)
+3.  में कॉन्फ़िगरेशन को संशोधित करें`AnywhereDoor/predefined_proxies.py`
 4.  पुकारना`anywhere_door`जैसा आपको पसंद!
 
 # मूल उपयोग
@@ -109,7 +109,7 @@ proxy selected:   Clash_Relay_1
 z1.a100.japs.yaoyy.moe:10089/10089
 ```
 
-## लेबल द्वारा एक पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
+## Use a predefined proxy server by label
 
 ```bash
 >>> anywhere_door use Hysterians_5
@@ -344,7 +344,7 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 **AnyWheredoor + SSH रिमोट फ़ॉरवर्डिंग**
 
-## सुदूर अग्रेषण
+## SSH Remote Forwarding
 
 1.  स्थानीय मशीन पर HTTP/सॉक्स प्रॉक्सी पोर्ट जोड़ें।
 2.  दूरस्थ पोर्ट अग्रेषण के साथ SSH पर सर्वर कनेक्ट करें:
