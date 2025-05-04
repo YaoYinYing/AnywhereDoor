@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## List all predefined proxies (raw data)
+## Énumérez tous les proxys prédéfinis (données brutes)
 
 ```bash
 >>> anywhere_door list
@@ -346,7 +346,7 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 ## Transfert à distance SSH
 
-1.  Add HTTP/Socks proxy port on local machine.
+1.  Ajoutez le port proxy HTTP / SOCKS sur la machine locale.
 2.  Connectez le serveur sur SSH avec le transfert de port distant:
     ```shell
     # forward proxy of localhost:7890 to remote-server:37890
