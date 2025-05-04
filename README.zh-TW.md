@@ -210,7 +210,7 @@ Saving to: ‘/dev/null’
 /dev/null                      [            <=>                        ]  34.39M  2.90MB/s
 ```
 
-## 速度測試（捲髮）
+## Speed Test (curl)
 
 ```bash
 >>> anywhere_door curl
