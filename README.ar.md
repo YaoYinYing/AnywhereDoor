@@ -1,4 +1,4 @@
-# AnywhereDoor
+# على أي حال
 
 برنامج نصي Linux/Python لتبديل الوكلاء داخل جلسة SSH.
 
@@ -7,7 +7,7 @@
 # يثبت
 
 1.  استنساخ هذا المستودع
-2.  Run `source /repo/to/AnywhereDoor/anywhere_door.sh`وتسجيل هذا الأمر في ملف shell (`.bashrc`، على سبيل المثال)
+2.  يجري`source /repo/to/AnywhereDoor/anywhere_door.sh`وتسجيل هذا الأمر في ملف shell (`.bashrc`، على سبيل المثال)
 3.  تعديل التكوين في`AnywhereDoor/predefined_proxies.py`
 4.  يتصل`anywhere_door`كما تحب!
 
@@ -53,7 +53,7 @@ Enabling proxy for git
 Done
 ```
 
-## List all predefined proxies (raw data)
+## سرد جميع الوكلاء المحدد مسبقًا (البيانات الأولية)
 
 ```bash
 >>> anywhere_door list
@@ -136,7 +136,7 @@ Connection test to https://www.twitter.com: Success
 Connection test to https://www.instagram.com: Success
 ```
 
-## اختبار جميع اتصالات الوكيل
+## Test all proxy connections
 
 ```bash
 >>> anywhere_door test all
@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## Speed Test (wget)
+## اختبار السرعة (wget)
 
 ```bash
 >>> anywhere_door wget
