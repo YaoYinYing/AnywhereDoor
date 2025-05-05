@@ -2,11 +2,44 @@ import os
 import subprocess
 import sys
 from typing import Literal, Mapping, Union
+import yaml 
+from datastructures import ProxyConfig, NoProxy,ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently,url_tests, GREEN, RED, YELLOW, BOLD, RESET
 
-from datastructures import ProxyConfig, ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently,url_tests, GREEN, RED, YELLOW, BOLD, RESET
-from predefined_proxies import predefined_proxies,NoProxy
+ 
+this_dir=os.path.dirname(__file__)
+  
+def find_config_file():  
+    """Look for .anywheredoorrc in standard locations."""  
+    locations = [  
+        os.path.abspath("."),
+        os.path.expanduser("~"),  
+        this_dir,
+    ]  
+    for loc in locations:  
+        if os.path.exists(_loc:=os.path.join(loc, ".anywheredoorrc")):  
+            return _loc
+    return None  
+  
+def load_from_config(config_file):  
+    """Load proxy configurations from a YAML config file."""  
+    with open(config_file, 'r') as f:  
+        config = yaml.safe_load(f)  
+      
+    proxies = []  
+    for proxy_config in config.get('proxies', []):  
+        proxies.append(ProxyConfig(  
+            proxy_config['url'],  
+            proxy_config['http_port'],  
+            proxy_config['socks_port'],  
+            proxy_config.get('authentication_user'),  
+            proxy_config.get('password'),  
+            alternative_urls=tuple(proxy_config.get('alternative_urls', [])),  
+            label=proxy_config.get('label', 'Unnamed')  
+        ))  
 
-
+    noproxy=NoProxy(config.get('no_proxy', []))
+      
+    return proxies,noproxy
 def run_command(cmd: Union[tuple[str], str], verbose: bool = False):
     if verbose: print(cmd)
     result = subprocess.run(
@@ -28,12 +61,24 @@ def run_command(cmd: Union[tuple[str], str], verbose: bool = False):
 
 
 class AnywhereDoor:
-    predefined_proxy_table: ProxyTable = ProxyTable(proxies=predefined_proxies)
-
+   
     def __init__(self):
-        self.predefined_proxies = self.predefined_proxy_table.expanded
+        config_file = self._find_config_file()  
+        if config_file and os.path.exists(config_file): 
+            _parsed_proxies, self.no_proxy=self._load_from_config(config_file)
+            self.predefined_proxy_table= ProxyTable(proxies=_parsed_proxies)
+        else:  
+            raise FileNotFoundError(f"--> Config file not found: {config_file}")
+        self.predefined_proxies = self.predefined_proxy_table.expanded  
         self.in_use_proxy = None
 
+    @staticmethod
+    def _find_config_file():  
+        return find_config_file()
+    
+    @staticmethod
+    def _load_from_config(config_file):  
+        return load_from_config(config_file)
     @property
     def anywhere_door_open(self) -> bool:
         return all(
@@ -57,7 +102,7 @@ class AnywhereDoor:
         print(f'export https_proxy="{use_proxy}";')
         print(f'export http_proxy="{use_proxy}";')
         print(f'export all_proxy="{use_proxy}";')
-        print(f'export NO_PROXY="{str(NoProxy())}";')
+        print(f'export NO_PROXY="{str(self.no_proxy)}";')
 
         print(f"echo '{GREEN}proxy selected: {RESET} {YELLOW} {self.in_use_proxy.label} {RESET}';")
         print(f"echo '{YELLOW}{str(self.in_use_proxy)}{RESET}';")
