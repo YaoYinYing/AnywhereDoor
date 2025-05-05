@@ -66,7 +66,7 @@ Available proxies:
 ---------------------------------------------
 ```
 
-## List all predefined proxies (usable)
+## قائمة جميع الوكلاء المحدد مسبقا (قابلة للاستخدام)
 
 ```bash
 >>> anywhere_door use
@@ -136,7 +136,7 @@ Connection test to https://www.twitter.com: Success
 Connection test to https://www.instagram.com: Success
 ```
 
-## Test all proxy connections
+## اختبار جميع اتصالات الوكيل
 
 ```bash
 >>> anywhere_door test all
