@@ -2,14 +2,14 @@
 
 एक SSH सत्र के भीतर प्रॉक्सी को स्विच करने के लिए एक लिनक्स/पायथन स्क्रिप्ट।
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # स्थापित करना
 
 1.  इस रिपॉजिटरी को क्लोन करें
 2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
 3.  में कॉन्फ़िगरेशन को संशोधित करें`AnywhereDoor/predefined_proxies.py`
-4.  Call `anywhere_door`जैसा आपको पसंद!
+4.  पुकारना`anywhere_door`जैसा आपको पसंद!
 
 # मूल उपयोग
 
@@ -264,7 +264,7 @@ Conclusion:
 DNS may be leaking.
 ```
 
-## Customizing the proxy for temporary uses.
+## अस्थायी उपयोग के लिए प्रॉक्सी को अनुकूलित करना।
 
 ```bash
 >>> anywhere_door config localhost 7890 7890
