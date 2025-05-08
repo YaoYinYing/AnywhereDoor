@@ -2,6 +2,7 @@
  A Linux/Python script for switching Proxies within a SSH session.
 
 ![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # Setup
 1. Clone this repository
