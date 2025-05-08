@@ -2,11 +2,11 @@
 
 Linux/Python脚本，用于在SSH会话中切换代理。
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # 设置
 
-1.  Clone this repository
+1.  克隆这个存储库
 2.  跑步`source /repo/to/AnywhereDoor/anywhere_door.sh`并将此命令记录在shell配置文件中（`.bashrc`， 例如）
 3.  修改配置`AnywhereDoor/predefined_proxies.py`
 4.  称呼`anywhere_door`随你便！
@@ -109,7 +109,7 @@ proxy selected:   Clash_Relay_1
 z1.a100.japs.yaoyy.moe:10089/10089
 ```
 
-## Use a predefined proxy server by label
+## 使用标签使用预定义的代理服务器
 
 ```bash
 >>> anywhere_door use Hysterians_5
@@ -287,7 +287,7 @@ $https_proxy=http://localhost:7890
 $all_proxy=socks5h://localhost:7890
 ```
 
-## Help messages
+## 帮助消息
 
 ```bash
 >>>  anywhere_door ?
