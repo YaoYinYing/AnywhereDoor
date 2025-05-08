@@ -2,7 +2,7 @@
 
 Un script Linux / Python pour la commutation de proxys au sein d'une session SSH.
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # Installation
 
@@ -264,7 +264,7 @@ Conclusion:
 DNS may be leaking.
 ```
 
-## Personnalisation du proxy pour des utilisations temporaires.
+## Customizing the proxy for temporary uses.
 
 ```bash
 >>> anywhere_door config localhost 7890 7890
