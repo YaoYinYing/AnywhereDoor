@@ -117,7 +117,7 @@ proxy selected:   Hysterians_5
 z2.login1.japs.yaoyy.moe:10091/10092
 ```
 
-## 顯示當前配置
+## Show current configuration
 
 ```bash
 >>> anywhere_door show
