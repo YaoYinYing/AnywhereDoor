@@ -178,6 +178,26 @@ class AnywhereDoor:
         all_proxy = os.environ.get("all_proxy", "")
 
         return (http_proxy, https_proxy, all_proxy)
+    
+    @property
+    def docker_http_proxy(self):
+        tmp_json={
+        "proxies": {
+        "default": {
+            "httpProxy": os.environ.get('http_proxy', ''),
+            "httpsProxy": os.environ.get('https_proxy', ''),
+            "noProxy": str(self.no_proxy)
+        }
+        }
+}
+        tmp=f"""[Service]
+Environment="HTTP_PROXY={os.environ.get('http_proxy', '')}"
+Environment="HTTPS_PROXY={os.environ.get('https_proxy', '')}"
+Environment="ALL_PROXY={os.environ.get('all_proxy', '')}"
+Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
+"""
+        
+        return "-" * 79 + "\nJSON\n" + "-" * 79 + "\n" + str(tmp_json).replace('\'', "\"") + "\n\n" +"-" * 79 + "\nSYSTEMCTL\n" + "-" * 79 + "\n" + tmp
 
     @staticmethod
     def match_proxy(proxy: ProxyConfig, proxy_tuple):
@@ -304,10 +324,14 @@ def anywhere_door(command, *args):
         return door.configure_git_proxy()
     if command == "list" or command == "ls":
         return door.use_proxy(show_raw=True)
+    if command == "docker_daemon":
+        print(door.docker_http_proxy)
+        return
     
     if command == "dns" or command == "leak":
         from dnsleaktest import DNSLeakTester
         return DNSLeakTester().perform_test()
+    
     if command == "use":
         if args[0] == '':
             print(f'Testing... This could take short... ', end='', flush=True)

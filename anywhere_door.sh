@@ -20,7 +20,7 @@ RESET='\033[0m'
 
 function anywhere_door {
   # direct run without eval
-  if [[ "$1" == "test" || "$1" == "dns" ||  "$1" == "leak" ||  "$1" == "help" ||  "$1" == "?" ||  "$1" == "show" ||  "$1" == "list" ||  "$1" == "ls" ||  "$1" == "git"|| ( "$1" == "use" && "$2" == "" ) ]]; then
+  if [[ "$1" == "test" || "$1" == "dns" ||  "$1" == "leak" ||  "$1" == "help" ||  "$1" == "?" ||  "$1" == "show" ||  "$1" == "list" ||  "$1" == "ls" ||  "$1" == "git" || "$1" == "docker_daemon" || ( "$1" == "use" && "$2" == "" ) ]]; then
       python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6"
   
   # other shell commands
@@ -95,6 +95,7 @@ _anywhere_door_completions()
         [dns]="Perform a DNS leak test"
         [leak]="Perform a DNS leak test"
         [help]="Show help messages for commands"
+        [docker_daemon]="Generate HTTP proxy setup for docker daemon"
         [?]="Show help messages for commands"
     )
 
