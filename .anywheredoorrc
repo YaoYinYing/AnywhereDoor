@@ -1,12 +1,13 @@
 # .anywheredoorrc  
 proxies:  
   - label: "Mihomo"  
-    url: "z1.login1.japs.yaoyy.moe"  
+    url: "10.186.1.54"
     http_port: "10088"  
     socks_port: "10088"  
     authentication_user: "oreo"  
     password: "oreo"  
     alternative_urls:  
+      - "z1.login1.japs.yaoyy.moe"
       - "z2.login1.japs.yaoyy.moe"  
       - "z4.login1.japs.yaoyy.moe"
       - "z1.login2.japs.yaoyy.moe"
@@ -19,11 +20,13 @@ proxies:
       # Additional URLs...  
     
   - label: "Private"  
-    url: "192.168.194.96"  
+    url: "192.168.194.98"  
     http_port: "10089"  
     socks_port: "10089"  
+    authentication_user: "oreo"  
+    password: "oreo" 
     alternative_urls:  
-      - "z.yyy.mac.yaoyy.moe"  
+      - "100.98.177.53"  
   
 no_proxy:  
   - "localhost"  

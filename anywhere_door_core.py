@@ -85,7 +85,7 @@ class AnywhereDoor:
             os.environ.get(p_kw) for p_kw in ["http_proxy", "https_proxy", "all_proxy"]
         )
 
-    def activate_anywhere_door(self, protocol: Literal['http', 'socks5h']='http'):
+    def activate_anywhere_door(self, protocol: Literal['http', 'socks5h']='socks5h'):
         if not self.in_use_proxy:
 
             all_available_proxies = [proxy for i, (proxy,_res) in enumerate(test_proxies_concurrently(self.predefined_proxies).items(), start=1) if _res]
