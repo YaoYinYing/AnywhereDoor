@@ -264,7 +264,7 @@ Conclusion:
 DNS may be leaking.
 ```
 
-## Customizing the proxy for temporary uses.
+## Personnalisation du proxy pour des utilisations temporaires.
 
 ```bash
 >>> anywhere_door config localhost 7890 7890
