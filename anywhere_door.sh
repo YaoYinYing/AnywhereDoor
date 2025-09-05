@@ -24,6 +24,37 @@ function anywhere_door {
       python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6"
   
   # other shell commands
+
+  elif [[ "$1" == "gost" ]]; then
+    if ! command -v gost; then
+      echo "Gost not found."
+    else
+      if [[ ! -z "$GOST_PID" ]]; then 
+        kill $GOST_PID; 
+        echo "Stop background GOST at ${GOST_PID}"; 
+        unset GOST_PID; 
+        unset GOST_PORT; 
+        # recover to anywhere door settings
+        anywhere_door $ANYWHEREDOOR_CURRENT_GATE; 
+      fi
+
+      if [[ "$2" != "off" ]]; then
+        if [[ $(anywhere_door show) =~ 'inactive' ]];then
+          echo Anywheredoor must be active befor run gost.
+        else
+          if [[ ! -z "$2" && "$2" =~ ^[0-9]+$ ]]; then GOST_PORT=$2; else GOST_PORT="63322" ; fi
+
+          gost -L=:${GOST_PORT} -F=$(anywhere_door show all | cut -b 12-) 2>&1 1>/dev/null &
+          export GOST_PID=$!
+          export http_proxy=http://127.0.0.1:${GOST_PORT}
+          export https_proxy=http://127.0.0.1:${GOST_PORT}
+          export all_proxy=http://127.0.0.1:${GOST_PORT}
+          echo GOST running at $GOST_PID 
+        fi
+      else
+        anywhere_door $ANYWHEREDOOR_CURRENT_GATE
+      fi
+    fi 
   elif [[ "$1" == "bench" ]]; then
     if ! command -v speedtest; then
       echo "Please install the speedtest command line tool first.";
@@ -59,7 +90,12 @@ function anywhere_door {
 
   # eval for the python script, for proxy injection to shell env.
   else
+    if [[ "$1" == "use" || "$1" == "config" ]];then export ANYWHEREDOOR_CURRENT_GATE="$1 $2 $3 $4 $5 $6"; fi
     eval $(python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6")
+    if [[ "$1" == "off" ]];then 
+      unset ANYWHEREDOOR_CURRENT_GATE; 
+      if [[ ! -z "$GOST_PID" ]]; then anywhere_door gost off; fi
+    fi
   fi
 }
 
@@ -75,7 +111,7 @@ _anywhere_door_completions()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
     # Define the options for anywhere_door
-    opts="on off show list ls test bench wget curl whereami use upgrade dns leak help ?"
+    opts="on off show list ls test bench wget curl whereami use upgrade dns leak help docker_daemon gost ?"
 
     # Define hints for each option
     declare -A hints=(
@@ -96,6 +132,7 @@ _anywhere_door_completions()
         [leak]="Perform a DNS leak test"
         [help]="Show help messages for commands"
         [docker_daemon]="Generate HTTP proxy setup for docker daemon"
+        [gost]='Wrap Socks to HTTP by GOST'
         [?]="Show help messages for commands"
     )
 
@@ -105,6 +142,8 @@ _anywhere_door_completions()
         [use]="Help for using a specific proxy"
         [config]="Help for configuring a proxy"
         [show]="Help for showing current proxy settings"
+        [gost]='Wrap Socks to HTTP by GOST'
+
     )
 
     # If we're at the base command, suggest all main options
@@ -148,7 +187,7 @@ _anywhere_door_completions()
             ;;
         ?|help)
             # Complete with specific help topics
-            local help_opts="test use config show"
+            local help_opts="test use config show gost docker_daemon"
             COMPREPLY=( $(compgen -W "${help_opts}" -- ${cur}) )
 
 

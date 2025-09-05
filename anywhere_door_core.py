@@ -268,6 +268,8 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   use       : Use a specific proxy from the configured list")
             print("   upgrade   : Upgrade to the latest code")
             print("   dns/leak  : DNS Leak Test")
+            print("   docker_daemon: Generate HTTP proxy setup for docker daemon")
+            print("   gost      : Wrap Socks to HTTP by GOST")
             print("   help/?    : Show this help message and exit")
             return
 
@@ -277,6 +279,13 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   <empty>   : Test current proxy.")
             print("   all       : Test all predefined proxies, simplified results.")
             print("   full      : Test all predefined proxies, detailed results.")
+            return
+        if command == "gost":
+            print("Wrap Socks to HTTP by GOST")
+            print("Usage: anywhere_door gost [opt]")
+            print("   on        : Run gost on default port 63322.")
+            print("   <port>    : Run gost on customized <port>.")
+            print("   off       : Stop gost")
             return
 
         if command == "use":
