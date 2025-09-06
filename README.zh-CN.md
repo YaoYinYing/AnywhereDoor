@@ -220,7 +220,7 @@ Saving to: ‘/dev/null’
 100 58.2M    0 58.2M    0     0  2378k      0 --:--:--  0:00:25 --:--:-- 3477k
 ```
 
-## 速度测试（通过speedtest命令行工具）
+## Speed Test (via speedtest commandline tool)
 
 ```bash
 >>> anywhere_door bench
