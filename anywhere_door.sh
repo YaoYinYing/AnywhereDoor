@@ -17,6 +17,8 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 RESET='\033[0m'
 
+# initialize w/ killing user's remaining gost processes
+ps aux |grep gost | awk '{print $2; system("kill " $2)}' >/dev/null 2>&1
 
 function anywhere_door {
   # direct run without eval
@@ -27,10 +29,10 @@ function anywhere_door {
 
   elif [[ "$1" == "gost" ]]; then
     if ! command -v gost; then
-      echo "Gost not found."
+      echo "Gost not found. Please see: https://gost.run/en/"
     else
       if [[ ! -z "$GOST_PID" ]]; then 
-        kill $GOST_PID; 
+        kill $GOST_PID >/dev/null 2>&1; 
         echo "Stop background GOST at ${GOST_PID}"; 
         unset GOST_PID; 
         unset GOST_PORT; 
@@ -44,7 +46,7 @@ function anywhere_door {
         else
           if [[ ! -z "$2" && "$2" =~ ^[0-9]+$ ]]; then GOST_PORT=$2; else GOST_PORT="63322" ; fi
 
-          gost -L=:${GOST_PORT} -F=$(anywhere_door show all | cut -b 12-) 2>&1 1>/dev/null &
+          gost -L=:${GOST_PORT} -F=$(anywhere_door show all | cut -b 12-) >/dev/null 2>&1 &
           export GOST_PID=$!
           export http_proxy=http://127.0.0.1:${GOST_PORT}
           export https_proxy=http://127.0.0.1:${GOST_PORT}
