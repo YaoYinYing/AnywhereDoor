@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## Speed Test (wget)
+## गति परीक्षण (WGET)
 
 ```bash
 >>> anywhere_door wget
