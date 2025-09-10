@@ -101,7 +101,7 @@ Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
 ```
 
-## Utilisez un serveur proxy prédéfini par index
+## Use a predefined proxy server by index
 
 ```bash
 >>> anywhere_door use 2
