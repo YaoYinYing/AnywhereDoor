@@ -7,9 +7,9 @@
 # स्थापित करना
 
 1.  इस रिपॉजिटरी को क्लोन करें
-2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
+2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh` and record this command in shell profile (`.bashrc`, उदाहरण के लिए)
 3.  में कॉन्फ़िगरेशन को संशोधित करें`AnywhereDoor/predefined_proxies.py`
-4.  पुकारना`anywhere_door`जैसा आपको पसंद!
+4.  Call `anywhere_door`जैसा आपको पसंद!
 
 # मूल उपयोग
 
@@ -195,7 +195,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## Speed Test (wget)
+## गति परीक्षण (WGET)
 
 ```bash
 >>> anywhere_door wget
