@@ -2,6 +2,17 @@
 proxies:  
   - label: "Mihomo"  
     url: "10.186.1.54"
+    http_port: "10099"  
+    socks_port: "10099"  
+    authentication_user: "oreo"  
+    password: "oreo"  
+    alternative_urls:  
+      - "z1.login2.japs.yaoyy.moe"
+      - "z2.login2.japs.yaoyy.moe"  
+      - "z4.login2.japs.yaoyy.moe"
+
+  - label: "Singbox"  
+    url: "10.186.1.54"
     http_port: "10088"  
     socks_port: "10088"  
     authentication_user: "oreo"  
