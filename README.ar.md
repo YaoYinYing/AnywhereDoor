@@ -177,7 +177,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 ===========================================================================
 ```
 
-## فحص IP للموقع (عبر ipinfo.io)
+## Location IP check (via ipinfo.io)
 
 ```bash
 >>> anywhere_door whereami
@@ -210,7 +210,7 @@ Saving to: ‘/dev/null’
 /dev/null                      [            <=>                        ]  34.39M  2.90MB/s
 ```
 
-## اختبار السرعة (حليقة)
+## Speed Test (curl)
 
 ```bash
 >>> anywhere_door curl
@@ -342,7 +342,7 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 
 # متقدم
 
-**anyheredoor + ssh إعادة التوجيه عن بعد**
+**AnywhereDoor + SSH Remote Forwarding**
 
 ## SSH إعادة توجيه عن بعد
 
