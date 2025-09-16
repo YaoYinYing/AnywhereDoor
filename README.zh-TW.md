@@ -2,14 +2,37 @@
 
 Linux/Python腳本，用於在SSH會話中切換代理。
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13_%7C_3.14-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # 設定
 
+## 通過安裝腳本：
+
+```bash
+sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/refs/heads/main/install.sh)"
+```
+
+## 手動安裝
+
+### 確保預定
+
+```text
+pysocks
+PyYAML
+```
+
+### 步驟
+
 1.  克隆這個存儲庫
 2.  跑步`source /repo/to/AnywhereDoor/anywhere_door.sh`並將此命令記錄在shell配置文件中（`.bashrc`， 例如）
-3.  修改配置`AnywhereDoor/predefined_proxies.py`
+3.  覆蓋配置文件。
 4.  稱呼`anywhere_door`隨你便！
+
+## 配置優先級
+
+1.  當前的DIR設置位於`./.anywheredoorrc`，後備為：
+2.  用戶設置在`~/.anywheredoorrc`，後備為：
+3.  默認設置在`/repo/to/AnywhereDoor/.anywheredoorrc`
 
 # 基本用法
 
@@ -17,14 +40,14 @@ Linux/Python腳本，用於在SSH會話中切換代理。
 
 ```bash
 >>> anywhere_door
-proxy selected:   Clash_Relay_0
-localhost:10089/10089
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ```bash
 >>> anywhere_door on
-proxy selected:   Clash_Relay_0
-localhost:10089/10089
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ```bash
@@ -45,8 +68,8 @@ Done
 
 ```bash
 >>> anywhere_door
-proxy selected.
-oreouser:ling7412@z4.login2.japs.yaoyy.moe:10089/10089 
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 
 >>> anywhere_door git
 Enabling proxy for git
@@ -58,12 +81,11 @@ Done
 ```bash
 >>> anywhere_door list
 Available proxies:
----------------------------------------------
-1. [Clash_Relay] localhost:10089/10089 [(z1.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z1.login2.japs.yaoyy.moe, z2.login2.japs.yaoyy.moe, z4.login2.japs.yaoyy.moe, z1.login1.japs.yaoyy.moe, z2.login1.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe)]
-2. [ClashFallBack] localhost:10093/10093 [(z1.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe)]
-3. [Hysterians] localhost:10091/10092 [(z1.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z1.login1.japs.yaoyy.moe, z2.login1.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe, z1.login2.japs.yaoyy.moe, z2.login2.japs.yaoyy.moe, z4.login2.japs.yaoyy.moe)]
-4. [Private] 192.168.194.96:10089/10089 [(z.yyy.mac.yaoyy.moe,)]
----------------------------------------------
+---------------------------------------------------------------------------
+1. [Mihomo] oreo:oreo@10.186.1.54:10099/10099 [('z1.login2.japs.yaoyy.moe', 'z2.login2.japs.yaoyy.moe', 'z4.login2.japs.yaoyy.moe')]
+2. [Singbox] oreo:oreo@10.186.1.54:10088/10088 [('z1.login1.japs.yaoyy.moe', 'z2.login1.japs.yaoyy.moe', 'z4.login1.japs.yaoyy.moe', 'z1.login2.japs.yaoyy.moe', 'z2.login2.japs.yaoyy.moe', 'z4.login2.japs.yaoyy.moe', 'z1.login3.japs.yaoyy.moe', 'z2.login3.japs.yaoyy.moe', 'z4.login3.japs.yaoyy.moe')]
+3. [Private] oreo:oreo@192.168.194.98:10089/10089 [('100.98.177.53',)]
+---------------------------------------------------------------------------
 ```
 
 ## 列出所有預定義的代理（可用）
@@ -74,28 +96,22 @@ Testing... This could take short... Done.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Available proxies:
 ---------------------------------------------------------------------------
-1. [Clash_0] localhost:10089/10089
-2. [Clash_1] z1.a100.japs.yaoyy.moe:10089/10089
-3. [Clash_2] z2.a100.japs.yaoyy.moe:10089/10089
-4. [Clash_3] z4.a100.japs.yaoyy.moe:10089/10089
-5. [Clash_4] z1.login2.japs.yaoyy.moe:10089/10089
-6. [Clash_5] z2.login2.japs.yaoyy.moe:10089/10089
-7. [Clash_6] z4.login2.japs.yaoyy.moe:10089/10089
-8. [Clash_7] z1.login1.japs.yaoyy.moe:10089/10089
-9. [Clash_8] z2.login1.japs.yaoyy.moe:10089/10089
-10. [Clash_9] z4.login1.japs.yaoyy.moe:10089/10089
-11. [ClashFallBack_0] localhost:10093/10093
-12. [ClashFallBack_1] z1.a100.japs.yaoyy.moe:10093/10093
-13. [ClashFallBack_2] z2.a100.japs.yaoyy.moe:10093/10093
-14. [ClashFallBack_3] z4.a100.japs.yaoyy.moe:10093/10093
-15. [ClashFallBack_4] z1.login2.japs.yaoyy.moe:10093/10093
-16. [ClashFallBack_5] z2.login2.japs.yaoyy.moe:10093/10093
-17. [ClashFallBack_6] z4.login2.japs.yaoyy.moe:10093/10093
-18. [ClashFallBack_7] z1.login1.japs.yaoyy.moe:10093/10093
-19. [ClashFallBack_8] z2.login1.japs.yaoyy.moe:10093/10093
-20. [ClashFallBack_9] z4.login1.japs.yaoyy.moe:10093/10093
-21. [Private_0] 192.168.194.96:10089/10089
-22. [Private_1] z.yyy.mac.yaoyy.moe:10089/10089
+1. [Mihomo_0] oreo:oreo@10.186.1.54:10099/10099
+2. [Mihomo_1] oreo:oreo@z1.login2.japs.yaoyy.moe:10099/10099
+3. [Mihomo_2] oreo:oreo@z2.login2.japs.yaoyy.moe:10099/10099
+4. [Mihomo_3] oreo:oreo@z4.login2.japs.yaoyy.moe:10099/10099
+5. [Singbox_0] oreo:oreo@10.186.1.54:10088/10088
+6. [Singbox_1] oreo:oreo@z1.login1.japs.yaoyy.moe:10088/10088
+7. [Singbox_2] oreo:oreo@z2.login1.japs.yaoyy.moe:10088/10088
+8. [Singbox_3] oreo:oreo@z4.login1.japs.yaoyy.moe:10088/10088
+9. [Singbox_4] oreo:oreo@z1.login2.japs.yaoyy.moe:10088/10088
+10. [Singbox_5] oreo:oreo@z2.login2.japs.yaoyy.moe:10088/10088
+11. [Singbox_6] oreo:oreo@z4.login2.japs.yaoyy.moe:10088/10088
+12. [Singbox_7] oreo:oreo@z1.login3.japs.yaoyy.moe:10088/10088
+13. [Singbox_8] oreo:oreo@z2.login3.japs.yaoyy.moe:10088/10088
+14. [Singbox_9] oreo:oreo@z4.login3.japs.yaoyy.moe:10088/10088
+15. [Private_0] oreo:oreo@192.168.194.98:10089/10089
+16. [Private_1] oreo:oreo@100.98.177.53:10089/10089
 ---------------------------------------------------------------------------
 Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
@@ -104,34 +120,34 @@ GREEN: passed  YELLOW: in use  RED: failed
 ## 使用索引使用預定義的代理服務器
 
 ```bash
->>> anywhere_door use 2
-proxy selected:   Clash_Relay_1
-z1.a100.japs.yaoyy.moe:10089/10089
+>>> anywhere_door use 1
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ## 使用標籤使用預定義的代理服務器
 
 ```bash
->>> anywhere_door use Hysterians_5
-proxy selected:   Hysterians_5
-z2.login1.japs.yaoyy.moe:10091/10092
+>>> anywhere_door use Mihomo_1
+proxy selected:   Mihomo_1
+oreo:oreo@z1.login2.japs.yaoyy.moe:10099/10099
 ```
 
-## Show current configuration
+## 顯示當前配置
 
 ```bash
 >>> anywhere_door show
-$http_proxy=http://z2.login1.japs.yaoyy.moe:10091
-$https_proxy=http://z2.login1.japs.yaoyy.moe:10091
-$all_proxy=socks5h://z2.login1.japs.yaoyy.moe:10092
+$http_proxy=socks5h://oreo:oreo@z1.login2.japs.yaoyy.moe:10099
+$https_proxy=socks5h://oreo:oreo@z1.login2.japs.yaoyy.moe:10099
+$all_proxy=socks5h://oreo:oreo@z1.login2.japs.yaoyy.moe:10099
 ```
 
-## 代理測試
+## Proxy test
 
 ```bash
 >>> anywhere_door test
-Connection test to https://www.facebook.com: Success
 Connection test to https://www.google.com: Success
+Connection test to https://www.facebook.com: Success
 Connection test to https://www.twitter.com: Success
 Connection test to https://www.instagram.com: Success
 ```
@@ -140,7 +156,7 @@ Connection test to https://www.instagram.com: Success
 
 ```bash
 >>> anywhere_door test all
-Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 # GREEN for PASSED, RED for FAILED
 ```
 
@@ -150,30 +166,21 @@ Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
 ===========================================================================
 URL Testing ... ...
 ===========================================================================
-Testing: 1: Clash_0
-localhost:10089/10089
-Connection test of https://www.facebook.com: Success
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 2: Clash_1
-z1.a100.japs.yaoyy.moe:10089/10089
-Connection test of https://www.facebook.com: Success
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 3: Clash_2
-z2.a100.japs.yaoyy.moe:10089/10089
-Connection test of https://www.facebook.com: Success
+Testing: 1: Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+Connection test of https://www.google.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ...
+Testing: 15: Private_0
+oreo:oreo@192.168.194.98:10089/10089
+Connection test of https://www.google.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 21: Private_0
-192.168.194.96:10089/10089
-Connection test of https://www.facebook.com: Success
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 22: Private_1
-z.yyy.mac.yaoyy.moe:10089/10089
-Connection test of https://www.facebook.com: Failed
+Testing: 16: Private_1
+oreo:oreo@100.98.177.53:10089/10089
+Connection test of https://www.google.com: Failed
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ===========================================================================
-Testing Passed: 1 2 3 4 11 12 13 14 21
+Testing Passed: 1 3 5 7 10 15
 ===========================================================================
 ```
 
@@ -264,6 +271,98 @@ Conclusion:
 DNS may be leaking.
 ```
 
+## 通過GOST將Socks5包裹至HTTP
+
+**需要安裝GOST**
+
+```bash
+# enable a door
+>>> anywhere_door use 1
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+
+# wrap to gost on default port 63322
+>>> anywhere_door gost on
+/usr/local/bin/gost
+[1] 3132547
+GOST running at 3132547
+
+# check the new door
+>>>  anywhere_door show
+$http_proxy=http://127.0.0.1:63322
+$https_proxy=http://127.0.0.1:63322
+$all_proxy=http://127.0.0.1:63322
+
+# or use customized port id
+>>> anywhere_door gost 61234
+/usr/local/bin/gost
+[1] 3147411
+GOST running at 3147411
+
+# check the new door on customized port
+>>> anywhere_door show
+$http_proxy=http://127.0.0.1:61234
+$https_proxy=http://127.0.0.1:61234
+$all_proxy=http://127.0.0.1:61234
+
+# off the gost
+>>> anywhere_door gost off
+/usr/local/bin/gost
+Stop background GOST at 3132547
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+[1]+  Done                    gost -L=:${GOST_PORT} -F=$(anywhere_door show all | cut -b 12-) > /dev/null 2>&1
+
+# check the original door
+>>> anywhere_door show
+$http_proxy=socks5h://oreo:oreo@10.186.1.54:10099
+$https_proxy=socks5h://oreo:oreo@10.186.1.54:10099
+$all_proxy=socks5h://oreo:oreo@10.186.1.54:10099
+```
+
+幽靈過程將保持在背景上。這確保退出會議不會破壞代理。
+
+可以通過：
+
+```bash
+>>> anywhere_door gost clean
+/usr/local/bin/gost
+Remaining gost process will be cleaned
+Done.
+```
+
+## 顯示導出命令
+
+```bash
+>>> anywhere_door export
+export HTTP_PROXY=socks5h://oreo:oreo@10.186.1.54:10099
+export HTTPS_PROXY=socks5h://oreo:oreo@10.186.1.54:10099
+export ALL_PROXY=socks5h://oreo:oreo@10.186.1.54:10099
+export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,localhost,127.0.0.1,10.96.0.0/12,192.168.59.0/24,192.168.49.0/24,192.168.39.0/24,192.168.67.0/24,172.17.0.0/24,192.168.0.0/16,100.87.0.0/16,192.168.75.0/24,192.168.194.0/24,192.168.67.2
+```
+
+## Docker守護程序配置
+
+```bash
+>>> anywhere_door docker_daemon
+-------------------------------------------------------------------------------
+JSON
+-------------------------------------------------------------------------------
+{"proxies": {"default": {"httpProxy": "socks5h://oreo:oreo@10.186.1.54:10099", "httpsProxy": "socks5h://oreo:oreo@10.186.1.54:10099", "noProxy": "localhost;127.0.0.1;192.168.0.0/16;localhost;127.0.0.1;10.96.0.0/12;192.168.59.0/24;192.168.49.0/24;192.168.39.0/24;192.168.67.0/24;172.17.0.0/24;192.168.0.0/16;100.87.0.0/16;192.168.75.0/24;192.168.194.0/24;192.168.67.2"}}}
+
+-------------------------------------------------------------------------------
+SYSTEMCTL
+-------------------------------------------------------------------------------
+[Service]
+Environment="HTTP_PROXY=socks5h://oreo:oreo@10.186.1.54:10099"
+Environment="HTTPS_PROXY=socks5h://oreo:oreo@10.186.1.54:10099"
+Environment="ALL_PROXY=socks5h://oreo:oreo@10.186.1.54:10099"
+Environment="NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,localhost,127.0.0.1,10.96.0.0/12,192.168.59.0/24,192.168.49.0/24,192.168.39.0/24,192.168.67.0/24,172.17.0.0/24,192.168.0.0/16,100.87.0.0/16,192.168.75.0/24,192.168.194.0/24,192.168.67.2"
+
+```
+
 ## 為臨時用途定制代理。
 
 ```bash
@@ -290,7 +389,7 @@ $all_proxy=socks5h://localhost:7890
 ## 幫助消息
 
 ```bash
->>>  anywhere_door ?
+>>> anywhere_door ?
 Anywhere Door: A quick switch for network proxies in the current session.
 Usage: anywhere_door [command]
 Commands:
@@ -298,6 +397,7 @@ Commands:
    off       : Deactivate Anywhere Door
    config    : Configure custom IP and port
    show      : Show the current proxy configurations
+   export    : Show the quick export lines for shell
    list/ls   : Show all predefined proxies
    test      : Perform a test connection to check proxy accessibility
    bench     : Perform a speed test connection to check network bandwidth
@@ -307,6 +407,8 @@ Commands:
    use       : Use a specific proxy from the configured list
    upgrade   : Upgrade to the latest code
    dns/leak  : DNS Leak Test
+   docker_daemon: Generate HTTP proxy setup for docker daemon
+   gost      : Wrap Socks to HTTP by GOST
    help/?    : Show this help message and exit
 ```
 
