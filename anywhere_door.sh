@@ -17,8 +17,7 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 RESET='\033[0m'
 
-# initialize w/ killing user's remaining gost processes
-ps aux |grep gost | awk '{print $2; system("kill " $2)}' >/dev/null 2>&1
+
 
 function anywhere_door {
   # direct run without eval
@@ -30,6 +29,10 @@ function anywhere_door {
   elif [[ "$1" == "gost" ]]; then
     if ! command -v gost; then
       echo "Gost not found. Please see: https://gost.run/en/"
+    elif [[ "$2" == "clean" ]]; then
+      echo "Remaining gost process will be cleaned"
+      ps aux |grep gost | awk '{print $2; system("kill " $2)}' >/dev/null 2>&1
+      echo Done.
     else
       if [[ ! -z "$GOST_PID" ]]; then 
         kill $GOST_PID >/dev/null 2>&1; 
@@ -40,7 +43,13 @@ function anywhere_door {
         anywhere_door $ANYWHEREDOOR_CURRENT_GATE; 
       fi
 
-      if [[ "$2" != "off" ]]; then
+      
+
+      if [[ "$2" == "off" ]]; then
+        anywhere_door gost clean
+        anywhere_door $ANYWHEREDOOR_CURRENT_GATE
+      else
+        # on / port-id
         if [[ $(anywhere_door show) =~ 'inactive' ]];then
           echo Anywheredoor must be active befor run gost.
         else
@@ -53,8 +62,6 @@ function anywhere_door {
           export all_proxy=http://127.0.0.1:${GOST_PORT}
           echo GOST running at $GOST_PID 
         fi
-      else
-        anywhere_door $ANYWHEREDOOR_CURRENT_GATE
       fi
     fi 
   elif [[ "$1" == "bench" ]]; then
@@ -180,6 +187,12 @@ _anywhere_door_completions()
             # Complete with proxy types
             local types="http https all"
             COMPREPLY=( $(compgen -W "${types}" -- ${cur}) )
+            return 0
+            ;;
+        gost)
+            # Complete with test options
+            local test_opts="on off clean"
+            COMPREPLY=( $(compgen -W "${test_opts}" -- ${cur}) )
             return 0
             ;;
         test)
