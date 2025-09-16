@@ -22,7 +22,7 @@ ps aux |grep gost | awk '{print $2; system("kill " $2)}' >/dev/null 2>&1
 
 function anywhere_door {
   # direct run without eval
-  if [[ "$1" == "test" || "$1" == "dns" ||  "$1" == "leak" ||  "$1" == "help" ||  "$1" == "?" ||  "$1" == "show" ||  "$1" == "list" ||  "$1" == "ls" ||  "$1" == "git" || "$1" == "docker_daemon" || ( "$1" == "use" && "$2" == "" ) ]]; then
+  if [[ "$1" == "test" || "$1" == "dns" ||  "$1" == "leak" ||  "$1" == "help" ||  "$1" == "?" ||  "$1" == "show" ||  "$1" == "list" ||  "$1" == "ls" ||  "$1" == "git" || "$1" == "docker_daemon" || "$1" == "export" || ( "$1" == "use" && "$2" == "" ) ]]; then
       python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6"
   
   # other shell commands
@@ -87,7 +87,7 @@ function anywhere_door {
   
   elif [[ "$1" == "upgrade" ]]; then
     pushd $ANYWHERE_DOOR_DIR;
-      git stash; git pull;
+      git stash; git pull; git reset --hard origin/main;
     popd
 
   # eval for the python script, for proxy injection to shell env.
@@ -113,7 +113,7 @@ _anywhere_door_completions()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
     # Define the options for anywhere_door
-    opts="on off show list ls test bench wget curl whereami use upgrade dns leak help docker_daemon gost ?"
+    opts="on off show exports list ls test bench wget curl whereami use upgrade dns leak help docker_daemon gost ?"
 
     # Define hints for each option
     declare -A hints=(
@@ -121,6 +121,7 @@ _anywhere_door_completions()
         [off]="Deactivate Anywhere Door proxy"
         [config]="Configure a new proxy"
         [show]="Show the current proxy configurations"
+        [export]="Show the quick export lines for shell"
         [list]="List all predefined proxies"
         [ls]="List all predefined proxies"
         [test]="Perform a connection test to check proxy accessibility"

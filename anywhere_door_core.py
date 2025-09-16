@@ -259,6 +259,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   off       : Deactivate Anywhere Door")
             print("   config    : Configure custom IP and port")
             print("   show      : Show the current proxy configurations")
+            print("   export    : Show the quick export lines for shell")
             print("   list/ls   : Show all predefined proxies")
             print("   test      : Perform a test connection to check proxy accessibility")
             print("   bench     : Perform a speed test connection to check network bandwidth")
@@ -335,6 +336,13 @@ def anywhere_door(command, *args):
         return door.use_proxy(show_raw=True)
     if command == "docker_daemon":
         print(door.docker_http_proxy)
+        return
+    
+    if command == 'export':
+        print(f"export HTTP_PROXY={os.environ.get('http_proxy', '')}")
+        print(f"export HTTPS_PROXY={os.environ.get('https_proxy', '')}")
+        print(f"export ALL_PROXY={os.environ.get('all_proxy', '')}")
+        print(f"export NO_PROXY={str(door.no_proxy).replace(';', ',')}")
         return
     
     if command == "dns" or command == "leak":
