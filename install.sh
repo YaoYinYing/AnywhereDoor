@@ -9,13 +9,13 @@ ensure_deps(){
 
 # fetch install dir
 if [[ ! -z "$1" ]];then install_dir=$1; else read -p "Please enter your path to AnywhereDoor: " install_dir; fi
-install_dir=$(readlink -f $install_dir)
 echo Anywhere Door will be installed at ${install_dir}
-
 
 # ensure dir
 ensure_dir(){
-if [[ ! -d ${install_dir} ]];then { echo Creating ${install_dir}; mkdir -p ${install_dir}; }; else echo Using exiting dir: ${install_dir};fi
+if [[ ! -d ${install_dir} ]];then { echo Creating ${install_dir}; mkdir -p ${install_dir}; }; else echo Using exiting dir: ${install_dir};fi;
+install_dir=$(realpath ${install_dir})
+echo Installation path fixed: ${install_dir}
 }
 
 
