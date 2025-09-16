@@ -5,10 +5,22 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # Setup
+
+## prerequistions
+```text
+pysocks
+PyYAML
+```
+## 
 1. Clone this repository
 2. Run `source /repo/to/AnywhereDoor/anywhere_door.sh` and record this command in shell profile (`.bashrc`, for example)
-3. Modify the configuration in `AnywhereDoor/predefined_proxies.py`
+3. Override the configuration files.
 4. Call `anywhere_door` as you like!
+
+## Configuration priorities
+1. Current dir settings at `./.anywheredoorrc`, which fallbacks to:
+2. User settings at `~/.anywheredoorrc`, which fallbacks to:
+3. Default settings at `/repo/to/AnywhereDoor/.anywheredoorrc`
 
 # Basic Usage
 ## On/Off
