@@ -1,7 +1,7 @@
 # AnywhereDoor
  A Linux/Python script for switching Proxies within a SSH session.
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13_%7C_3.14-3776AB?logo=python&logoColor=yellow)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # Setup
@@ -12,7 +12,7 @@ sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/r
 ```
 
 ## Manual Installation
-### ensure prerequistions
+### Ensure prerequistions
 ```text
 pysocks
 PyYAML
@@ -33,13 +33,13 @@ PyYAML
 ## On/Off
 ```bash
 >>> anywhere_door
-proxy selected:   Clash_Relay_0
-localhost:10089/10089
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 ```bash
 >>> anywhere_door on
-proxy selected:   Clash_Relay_0
-localhost:10089/10089
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ```bash
@@ -59,8 +59,8 @@ Done
 
 ```bash
 >>> anywhere_door
-proxy selected.
-oreouser:ling7412@z4.login2.japs.yaoyy.moe:10089/10089 
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 
 >>> anywhere_door git
 Enabling proxy for git
@@ -71,12 +71,11 @@ Done
 ```bash
 >>> anywhere_door list
 Available proxies:
----------------------------------------------
-1. [Clash_Relay] localhost:10089/10089 [(z1.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z1.login2.japs.yaoyy.moe, z2.login2.japs.yaoyy.moe, z4.login2.japs.yaoyy.moe, z1.login1.japs.yaoyy.moe, z2.login1.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe)]
-2. [ClashFallBack] localhost:10093/10093 [(z1.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe)]
-3. [Hysterians] localhost:10091/10092 [(z1.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z1.login1.japs.yaoyy.moe, z2.login1.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe, z1.login2.japs.yaoyy.moe, z2.login2.japs.yaoyy.moe, z4.login2.japs.yaoyy.moe)]
-4. [Private] 192.168.194.96:10089/10089 [(z.yyy.mac.yaoyy.moe,)]
----------------------------------------------
+---------------------------------------------------------------------------
+1. [Mihomo] oreo:oreo@10.186.1.54:10099/10099 [('z1.login2.japs.yaoyy.moe', 'z2.login2.japs.yaoyy.moe', 'z4.login2.japs.yaoyy.moe')]
+2. [Singbox] oreo:oreo@10.186.1.54:10088/10088 [('z1.login1.japs.yaoyy.moe', 'z2.login1.japs.yaoyy.moe', 'z4.login1.japs.yaoyy.moe', 'z1.login2.japs.yaoyy.moe', 'z2.login2.japs.yaoyy.moe', 'z4.login2.japs.yaoyy.moe', 'z1.login3.japs.yaoyy.moe', 'z2.login3.japs.yaoyy.moe', 'z4.login3.japs.yaoyy.moe')]
+3. [Private] oreo:oreo@192.168.194.98:10089/10089 [('100.98.177.53',)]
+---------------------------------------------------------------------------
 ```
 
 ## List all predefined proxies (usable)
