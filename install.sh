@@ -5,7 +5,7 @@ RETRY_COUNT=10
 ensure_deps(){
     echo "Ensuring Python Depts ..."
     pip_res=$(pip install PyYAML pysocks5); install_code=$?
-    if [ $(echo $pip_res |grep 'break-system-packages' | wc -l) == 1 ];then 
+    if [ $install_code==130 ];then 
         echo 'Reinstall with opt `--break-system-packages`' ; 
         pip install PyYAML pysocks5 --break-system-packages
     else
