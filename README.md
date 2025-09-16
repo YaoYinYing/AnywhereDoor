@@ -6,12 +6,19 @@
 
 # Setup
 
-## prerequistions
+## Via Installation script:
+```bash
+sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/refs/heads/main/install.sh)"
+```
+
+## Manual Installation
+### ensure prerequistions
 ```text
 pysocks
 PyYAML
 ```
-## 
+
+### Steps 
 1. Clone this repository
 2. Run `source /repo/to/AnywhereDoor/anywhere_door.sh` and record this command in shell profile (`.bashrc`, for example)
 3. Override the configuration files.
