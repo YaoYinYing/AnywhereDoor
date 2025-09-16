@@ -287,6 +287,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   on        : Run gost on default port 63322.")
             print("   <port>    : Run gost on customized <port>.")
             print("   off       : Stop gost")
+            print("   clean     : Stop background gost processes")
             return
 
         if command == "use":

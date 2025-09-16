@@ -299,6 +299,16 @@ $https_proxy=socks5h://oreo:oreo@10.186.1.54:10099
 $all_proxy=socks5h://oreo:oreo@10.186.1.54:10099
 ```
 
+The gost process will remain running on backgound. This makes sure that exiting the session will not break the proxy.
+
+A manual cleanup can be made by:
+```bash
+>>> anywhere_door gost clean
+/usr/local/bin/gost
+Remaining gost process will be cleaned
+Done.
+```
+
 ## show export commands
 ```bash
 >>> anywhere_door export
