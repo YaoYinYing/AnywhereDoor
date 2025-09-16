@@ -2,14 +2,37 @@
 
 एक SSH सत्र के भीतर प्रॉक्सी को स्विच करने के लिए एक लिनक्स/पायथन स्क्रिप्ट।
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
+![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13_%7C_3.14-3776AB?logo=python&logoColor=yellow)[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
 
 # स्थापित करना
 
+## स्थापना स्क्रिप्ट के माध्यम से:
+
+```bash
+sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/refs/heads/main/install.sh)"
+```
+
+## नियमावली स्थापना
+
+### शर्तें सुनिश्चित करें
+
+```text
+pysocks
+PyYAML
+```
+
+### कदम
+
 1.  इस रिपॉजिटरी को क्लोन करें
 2.  दौड़ना`source /repo/to/AnywhereDoor/anywhere_door.sh`और इस कमांड को शेल प्रोफाइल में रिकॉर्ड करें (`.bashrc`, उदाहरण के लिए)
-3.  में कॉन्फ़िगरेशन को संशोधित करें`AnywhereDoor/predefined_proxies.py`
+3.  कॉन्फ़िगरेशन फ़ाइलों को ओवरराइड करें।
 4.  पुकारना`anywhere_door`जैसा आपको पसंद!
+
+## विन्यास प्राथमिकताएँ
+
+1.  पर वर्तमान DIR सेटिंग्स`./.anywheredoorrc`, जो गिरता है:
+2.  उपयोगकर्ता सेटिंग्स पर`~/.anywheredoorrc`, जो गिरता है:
+3.  डिफ़ॉल्ट सेटिंग्स`/repo/to/AnywhereDoor/.anywheredoorrc`
 
 # मूल उपयोग
 
@@ -17,14 +40,14 @@
 
 ```bash
 >>> anywhere_door
-proxy selected:   Clash_Relay_0
-localhost:10089/10089
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ```bash
 >>> anywhere_door on
-proxy selected:   Clash_Relay_0
-localhost:10089/10089
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ```bash
@@ -45,8 +68,8 @@ Done
 
 ```bash
 >>> anywhere_door
-proxy selected.
-oreouser:ling7412@z4.login2.japs.yaoyy.moe:10089/10089 
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 
 >>> anywhere_door git
 Enabling proxy for git
@@ -58,12 +81,11 @@ Done
 ```bash
 >>> anywhere_door list
 Available proxies:
----------------------------------------------
-1. [Clash_Relay] localhost:10089/10089 [(z1.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z1.login2.japs.yaoyy.moe, z2.login2.japs.yaoyy.moe, z4.login2.japs.yaoyy.moe, z1.login1.japs.yaoyy.moe, z2.login1.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe)]
-2. [ClashFallBack] localhost:10093/10093 [(z1.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe)]
-3. [Hysterians] localhost:10091/10092 [(z1.a100.japs.yaoyy.moe, z2.a100.japs.yaoyy.moe, z4.a100.japs.yaoyy.moe, z1.login1.japs.yaoyy.moe, z2.login1.japs.yaoyy.moe, z4.login1.japs.yaoyy.moe, z1.login2.japs.yaoyy.moe, z2.login2.japs.yaoyy.moe, z4.login2.japs.yaoyy.moe)]
-4. [Private] 192.168.194.96:10089/10089 [(z.yyy.mac.yaoyy.moe,)]
----------------------------------------------
+---------------------------------------------------------------------------
+1. [Mihomo] oreo:oreo@10.186.1.54:10099/10099 [('z1.login2.japs.yaoyy.moe', 'z2.login2.japs.yaoyy.moe', 'z4.login2.japs.yaoyy.moe')]
+2. [Singbox] oreo:oreo@10.186.1.54:10088/10088 [('z1.login1.japs.yaoyy.moe', 'z2.login1.japs.yaoyy.moe', 'z4.login1.japs.yaoyy.moe', 'z1.login2.japs.yaoyy.moe', 'z2.login2.japs.yaoyy.moe', 'z4.login2.japs.yaoyy.moe', 'z1.login3.japs.yaoyy.moe', 'z2.login3.japs.yaoyy.moe', 'z4.login3.japs.yaoyy.moe')]
+3. [Private] oreo:oreo@192.168.194.98:10089/10089 [('100.98.177.53',)]
+---------------------------------------------------------------------------
 ```
 
 ## सभी पूर्वनिर्धारित प्रॉक्सी (प्रयोग करने योग्य) सूचीबद्ध करें
@@ -74,28 +96,22 @@ Testing... This could take short... Done.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 Available proxies:
 ---------------------------------------------------------------------------
-1. [Clash_0] localhost:10089/10089
-2. [Clash_1] z1.a100.japs.yaoyy.moe:10089/10089
-3. [Clash_2] z2.a100.japs.yaoyy.moe:10089/10089
-4. [Clash_3] z4.a100.japs.yaoyy.moe:10089/10089
-5. [Clash_4] z1.login2.japs.yaoyy.moe:10089/10089
-6. [Clash_5] z2.login2.japs.yaoyy.moe:10089/10089
-7. [Clash_6] z4.login2.japs.yaoyy.moe:10089/10089
-8. [Clash_7] z1.login1.japs.yaoyy.moe:10089/10089
-9. [Clash_8] z2.login1.japs.yaoyy.moe:10089/10089
-10. [Clash_9] z4.login1.japs.yaoyy.moe:10089/10089
-11. [ClashFallBack_0] localhost:10093/10093
-12. [ClashFallBack_1] z1.a100.japs.yaoyy.moe:10093/10093
-13. [ClashFallBack_2] z2.a100.japs.yaoyy.moe:10093/10093
-14. [ClashFallBack_3] z4.a100.japs.yaoyy.moe:10093/10093
-15. [ClashFallBack_4] z1.login2.japs.yaoyy.moe:10093/10093
-16. [ClashFallBack_5] z2.login2.japs.yaoyy.moe:10093/10093
-17. [ClashFallBack_6] z4.login2.japs.yaoyy.moe:10093/10093
-18. [ClashFallBack_7] z1.login1.japs.yaoyy.moe:10093/10093
-19. [ClashFallBack_8] z2.login1.japs.yaoyy.moe:10093/10093
-20. [ClashFallBack_9] z4.login1.japs.yaoyy.moe:10093/10093
-21. [Private_0] 192.168.194.96:10089/10089
-22. [Private_1] z.yyy.mac.yaoyy.moe:10089/10089
+1. [Mihomo_0] oreo:oreo@10.186.1.54:10099/10099
+2. [Mihomo_1] oreo:oreo@z1.login2.japs.yaoyy.moe:10099/10099
+3. [Mihomo_2] oreo:oreo@z2.login2.japs.yaoyy.moe:10099/10099
+4. [Mihomo_3] oreo:oreo@z4.login2.japs.yaoyy.moe:10099/10099
+5. [Singbox_0] oreo:oreo@10.186.1.54:10088/10088
+6. [Singbox_1] oreo:oreo@z1.login1.japs.yaoyy.moe:10088/10088
+7. [Singbox_2] oreo:oreo@z2.login1.japs.yaoyy.moe:10088/10088
+8. [Singbox_3] oreo:oreo@z4.login1.japs.yaoyy.moe:10088/10088
+9. [Singbox_4] oreo:oreo@z1.login2.japs.yaoyy.moe:10088/10088
+10. [Singbox_5] oreo:oreo@z2.login2.japs.yaoyy.moe:10088/10088
+11. [Singbox_6] oreo:oreo@z4.login2.japs.yaoyy.moe:10088/10088
+12. [Singbox_7] oreo:oreo@z1.login3.japs.yaoyy.moe:10088/10088
+13. [Singbox_8] oreo:oreo@z2.login3.japs.yaoyy.moe:10088/10088
+14. [Singbox_9] oreo:oreo@z4.login3.japs.yaoyy.moe:10088/10088
+15. [Private_0] oreo:oreo@192.168.194.98:10089/10089
+16. [Private_1] oreo:oreo@100.98.177.53:10089/10089
 ---------------------------------------------------------------------------
 Please use `anywhere_door use <index>` to pick one of them
 GREEN: passed  YELLOW: in use  RED: failed
@@ -104,34 +120,34 @@ GREEN: passed  YELLOW: in use  RED: failed
 ## सूचकांक द्वारा एक पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
 
 ```bash
->>> anywhere_door use 2
-proxy selected:   Clash_Relay_1
-z1.a100.japs.yaoyy.moe:10089/10089
+>>> anywhere_door use 1
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
 ```
 
 ## लेबल द्वारा एक पूर्वनिर्धारित प्रॉक्सी सर्वर का उपयोग करें
 
 ```bash
->>> anywhere_door use Hysterians_5
-proxy selected:   Hysterians_5
-z2.login1.japs.yaoyy.moe:10091/10092
+>>> anywhere_door use Mihomo_1
+proxy selected:   Mihomo_1
+oreo:oreo@z1.login2.japs.yaoyy.moe:10099/10099
 ```
 
 ## वर्तमान कॉन्फ़िगरेशन दिखाएं
 
 ```bash
 >>> anywhere_door show
-$http_proxy=http://z2.login1.japs.yaoyy.moe:10091
-$https_proxy=http://z2.login1.japs.yaoyy.moe:10091
-$all_proxy=socks5h://z2.login1.japs.yaoyy.moe:10092
+$http_proxy=socks5h://oreo:oreo@z1.login2.japs.yaoyy.moe:10099
+$https_proxy=socks5h://oreo:oreo@z1.login2.japs.yaoyy.moe:10099
+$all_proxy=socks5h://oreo:oreo@z1.login2.japs.yaoyy.moe:10099
 ```
 
 ## प्रॉक्सी टेस्ट
 
 ```bash
 >>> anywhere_door test
-Connection test to https://www.facebook.com: Success
 Connection test to https://www.google.com: Success
+Connection test to https://www.facebook.com: Success
 Connection test to https://www.twitter.com: Success
 Connection test to https://www.instagram.com: Success
 ```
@@ -140,7 +156,7 @@ Connection test to https://www.instagram.com: Success
 
 ```bash
 >>> anywhere_door test all
-Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 # GREEN for PASSED, RED for FAILED
 ```
 
@@ -150,30 +166,21 @@ Testing  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
 ===========================================================================
 URL Testing ... ...
 ===========================================================================
-Testing: 1: Clash_0
-localhost:10089/10089
-Connection test of https://www.facebook.com: Success
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 2: Clash_1
-z1.a100.japs.yaoyy.moe:10089/10089
-Connection test of https://www.facebook.com: Success
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 3: Clash_2
-z2.a100.japs.yaoyy.moe:10089/10089
-Connection test of https://www.facebook.com: Success
+Testing: 1: Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+Connection test of https://www.google.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ...
+Testing: 15: Private_0
+oreo:oreo@192.168.194.98:10089/10089
+Connection test of https://www.google.com: Success
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 21: Private_0
-192.168.194.96:10089/10089
-Connection test of https://www.facebook.com: Success
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Testing: 22: Private_1
-z.yyy.mac.yaoyy.moe:10089/10089
-Connection test of https://www.facebook.com: Failed
+Testing: 16: Private_1
+oreo:oreo@100.98.177.53:10089/10089
+Connection test of https://www.google.com: Failed
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ===========================================================================
-Testing Passed: 1 2 3 4 11 12 13 14 21
+Testing Passed: 1 3 5 7 10 15
 ===========================================================================
 ```
 
@@ -195,7 +202,7 @@ Testing Passed: 1 2 3 4 11 12 13 14 21
 
 ```
 
-## Speed Test (wget)
+## गति परीक्षण (WGET)
 
 ```bash
 >>> anywhere_door wget
@@ -264,6 +271,98 @@ Conclusion:
 DNS may be leaking.
 ```
 
+## GOST के माध्यम से HTTP पर Socks5 लपेटें
+
+**स्थापित करने की आवश्यकता है**
+
+```bash
+# enable a door
+>>> anywhere_door use 1
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+
+# wrap to gost on default port 63322
+>>> anywhere_door gost on
+/usr/local/bin/gost
+[1] 3132547
+GOST running at 3132547
+
+# check the new door
+>>>  anywhere_door show
+$http_proxy=http://127.0.0.1:63322
+$https_proxy=http://127.0.0.1:63322
+$all_proxy=http://127.0.0.1:63322
+
+# or use customized port id
+>>> anywhere_door gost 61234
+/usr/local/bin/gost
+[1] 3147411
+GOST running at 3147411
+
+# check the new door on customized port
+>>> anywhere_door show
+$http_proxy=http://127.0.0.1:61234
+$https_proxy=http://127.0.0.1:61234
+$all_proxy=http://127.0.0.1:61234
+
+# off the gost
+>>> anywhere_door gost off
+/usr/local/bin/gost
+Stop background GOST at 3132547
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+proxy selected:   Mihomo_0
+oreo:oreo@10.186.1.54:10099/10099
+[1]+  Done                    gost -L=:${GOST_PORT} -F=$(anywhere_door show all | cut -b 12-) > /dev/null 2>&1
+
+# check the original door
+>>> anywhere_door show
+$http_proxy=socks5h://oreo:oreo@10.186.1.54:10099
+$https_proxy=socks5h://oreo:oreo@10.186.1.54:10099
+$all_proxy=socks5h://oreo:oreo@10.186.1.54:10099
+```
+
+भूत प्रक्रिया पृष्ठभूमि पर चलती रहेगी। यह सुनिश्चित करता है कि सत्र से बाहर निकलने से प्रॉक्सी नहीं टूट जाएगी।
+
+एक मैनुअल सफाई द्वारा बनाया जा सकता है:
+
+```bash
+>>> anywhere_door gost clean
+/usr/local/bin/gost
+Remaining gost process will be cleaned
+Done.
+```
+
+## निर्यात कमांड दिखाएं
+
+```bash
+>>> anywhere_door export
+export HTTP_PROXY=socks5h://oreo:oreo@10.186.1.54:10099
+export HTTPS_PROXY=socks5h://oreo:oreo@10.186.1.54:10099
+export ALL_PROXY=socks5h://oreo:oreo@10.186.1.54:10099
+export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,localhost,127.0.0.1,10.96.0.0/12,192.168.59.0/24,192.168.49.0/24,192.168.39.0/24,192.168.67.0/24,172.17.0.0/24,192.168.0.0/16,100.87.0.0/16,192.168.75.0/24,192.168.194.0/24,192.168.67.2
+```
+
+## डॉकर डेमन कॉन्फ़िगर करता है
+
+```bash
+>>> anywhere_door docker_daemon
+-------------------------------------------------------------------------------
+JSON
+-------------------------------------------------------------------------------
+{"proxies": {"default": {"httpProxy": "socks5h://oreo:oreo@10.186.1.54:10099", "httpsProxy": "socks5h://oreo:oreo@10.186.1.54:10099", "noProxy": "localhost;127.0.0.1;192.168.0.0/16;localhost;127.0.0.1;10.96.0.0/12;192.168.59.0/24;192.168.49.0/24;192.168.39.0/24;192.168.67.0/24;172.17.0.0/24;192.168.0.0/16;100.87.0.0/16;192.168.75.0/24;192.168.194.0/24;192.168.67.2"}}}
+
+-------------------------------------------------------------------------------
+SYSTEMCTL
+-------------------------------------------------------------------------------
+[Service]
+Environment="HTTP_PROXY=socks5h://oreo:oreo@10.186.1.54:10099"
+Environment="HTTPS_PROXY=socks5h://oreo:oreo@10.186.1.54:10099"
+Environment="ALL_PROXY=socks5h://oreo:oreo@10.186.1.54:10099"
+Environment="NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,localhost,127.0.0.1,10.96.0.0/12,192.168.59.0/24,192.168.49.0/24,192.168.39.0/24,192.168.67.0/24,172.17.0.0/24,192.168.0.0/16,100.87.0.0/16,192.168.75.0/24,192.168.194.0/24,192.168.67.2"
+
+```
+
 ## अस्थायी उपयोग के लिए प्रॉक्सी को अनुकूलित करना।
 
 ```bash
@@ -290,7 +389,7 @@ $all_proxy=socks5h://localhost:7890
 ## संदेशों की सहायता करें
 
 ```bash
->>>  anywhere_door ?
+>>> anywhere_door ?
 Anywhere Door: A quick switch for network proxies in the current session.
 Usage: anywhere_door [command]
 Commands:
@@ -298,6 +397,7 @@ Commands:
    off       : Deactivate Anywhere Door
    config    : Configure custom IP and port
    show      : Show the current proxy configurations
+   export    : Show the quick export lines for shell
    list/ls   : Show all predefined proxies
    test      : Perform a test connection to check proxy accessibility
    bench     : Perform a speed test connection to check network bandwidth
@@ -307,6 +407,8 @@ Commands:
    use       : Use a specific proxy from the configured list
    upgrade   : Upgrade to the latest code
    dns/leak  : DNS Leak Test
+   docker_daemon: Generate HTTP proxy setup for docker daemon
+   gost      : Wrap Socks to HTTP by GOST
    help/?    : Show this help message and exit
 ```
 
