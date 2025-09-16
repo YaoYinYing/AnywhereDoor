@@ -4,7 +4,15 @@ RETRY_COUNT=10
 
 ensure_deps(){
     echo "Ensuring Python Depts ..."
-    pip install PyYAML pysocks5 && echo "Passed"
+    pip_res=$(pip install PyYAML pysocks5); install_code=$?
+    if [ $(echo $pip_res |grep 'break-system-packages' | wc -l) == 1 ];then 
+        echo 'Reinstall with opt `--break-system-packages`' ; 
+        pip install PyYAML pysocks5 --break-system-packages
+    else
+        echo -e "Unknown Error occurred!\n${pip_res}"
+        exit 1
+    fi
+
 }
 
 # fetch install dir
@@ -77,6 +85,8 @@ run_procedure(){
                 rm -rf "${install_dir}/AnywhereDoor"
             fi
         fi
+        # finial exit if still fails on auto trials
+        exit 1
     done
     ask_apply;
     ask_append_shell_profile;
