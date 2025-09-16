@@ -4,12 +4,12 @@ RETRY_COUNT=10
 
 ensure_deps(){
     echo "Ensuring Python Depts ..."
-    pip_res=$(pip install PyYAML pysocks5); install_code=$?
+    pip install PyYAML pysocks5; install_code=$?
     if [ $install_code==130 ];then 
         echo 'Reinstall with opt `--break-system-packages`' ; 
         pip install PyYAML pysocks5 --break-system-packages
     else
-        echo -e "Unknown Error occurred!\n${pip_res}"
+        echo -e "Unknown Error occurred!"
         exit 1
     fi
 
