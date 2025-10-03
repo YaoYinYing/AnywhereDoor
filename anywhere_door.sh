@@ -166,6 +166,8 @@ _anywhere_door_completions()
         [use]="Help for using a specific proxy"
         [config]="Help for configuring a proxy"
         [show]="Help for showing current proxy settings"
+        [list]="List all predefined proxies"
+        [ls]="List all predefined proxies"
         [gost]='Wrap Socks to HTTP by GOST'
         [docker_daemon]='Generate Docker daemon proxy based on current door.'
 
@@ -193,14 +195,19 @@ _anywhere_door_completions()
             ;;
         use)
             # Complete with proxy labels or indices
-            local proxies="Mihomo_ Private_"
-            local indices=$(seq 0 22)
+            local proxies="$(anywhere_door list all |grep '^[[:digit:]]' |awk '{print substr($2,6, length($2)-10)}')"
+            local indices=$(seq 0 $(echo ${proxies} | wc --words))
             COMPREPLY=( $(compgen -W "${proxies} ${indices}" -- ${cur}) )
             return 0
             ;;
         show)
             # Complete with proxy types
             local types="http https all"
+            COMPREPLY=( $(compgen -W "${types}" -- ${cur}) )
+            return 0
+            ;;
+        list|ls)
+            local types="all"
             COMPREPLY=( $(compgen -W "${types}" -- ${cur}) )
             return 0
             ;;

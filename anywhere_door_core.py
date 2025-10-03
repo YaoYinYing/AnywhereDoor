@@ -208,6 +208,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             )
         )
 
+
     def use_proxy(self, show_raw=False, index: Union[str, int]=None, url_tests: Mapping[ProxyConfig,bool]=None):
         system_proxy = self.system_proxy
         if url_tests and len(url_tests) == len(self.predefined_proxies):
@@ -279,14 +280,14 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
 
         if command == "test":
             print("Testing proxies.")
-            print("Usage: anywhere_door test [opt]")
+            print(f"Usage: anywhere_door {command} [opt]")
             print("   <empty>   : Test current proxy.")
             print("   all       : Test all predefined proxies, simplified results.")
             print("   full      : Test all predefined proxies, detailed results.")
             return
         if command == "gost":
             print("Wrap Socks to HTTP by GOST")
-            print("Usage: anywhere_door gost [opt]")
+            print(f"Usage: anywhere_door {command} [opt]")
             print("   on        : Run gost on default port 63322.")
             print("   <port>    : Run gost on customized <port>.")
             print("   off       : Stop gost")
@@ -295,7 +296,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
 
         if command == "use":
             print("Call a predefined proxy.")
-            print("Usage: anywhere_door use [opt]")
+            print(f"Usage: anywhere_door {command} [opt]")
             print("   <empty>   : Show all predefined proxies, colored with url test results.")
             print("   [index]   : Set indexed proxy.")
             print("   [label]   : Set label proxy.")
@@ -309,6 +310,13 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
         if command == "show":
             print("Show current proxy.")
             print("Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']")
+            return
+
+        if command == "list" or command == 'ls':
+            print(f"Usage: anywhere_door {command} [opt]")
+            print("   <empty>   : List all predefined proxies .")
+            print("   all       : List all predefined proxies expanded ")
+            print("   [label]   : Set label proxy.")
             return
 
         print(f"No such help message for command [{command}].")
@@ -337,7 +345,14 @@ def anywhere_door(command, *args):
     if command == "git":
         return door.configure_git_proxy()
     if command == "list" or command == "ls":
+        try:
+            opt = str(args[0])
+            if opt=='all':
+                return door.use_proxy(show_raw=False)
+        except ValueError:
+            pass
         return door.use_proxy(show_raw=True)
+       
     if command == "docker_daemon":
         print(door.docker_http_proxy)
         return
