@@ -102,8 +102,11 @@ function anywhere_door {
   
   elif [[ "$1" == "upgrade" ]]; then
     pushd $ANYWHERE_DOOR_DIR;
-      git stash; git pull; git reset --hard origin/main;
+      git stash;git fetch --all; git reset --hard origin/main; git pull;
     popd
+  
+  elif [[ "$1" == "refresh" ]]; then
+    source $ANYWHERE_DOOR_DIR/anywhere_door.sh;
 
   # eval for the python script, for proxy injection to shell env.
   else
@@ -128,7 +131,7 @@ _anywhere_door_completions()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
     # Define the options for anywhere_door
-    opts="on off show export list ls test bench wget curl whereami ipq netq use upgrade dns leak help docker_daemon gost ?"
+    opts="on off show export list ls test bench wget curl whereami ipq netq use upgrade refresh dns leak help docker_daemon gost ?"
 
     # Define hints for each option
     declare -A hints=(
@@ -148,6 +151,7 @@ _anywhere_door_completions()
         [netq]="Check your net quality"
         [use]="Use a specific proxy from the list"
         [upgrade]="Upgrade to the latest code version"
+        [refresh]="Refresh the Anywhere door after upgrades"
         [dns]="Perform a DNS leak test"
         [leak]="Perform a DNS leak test"
         [help]="Show help messages for commands"

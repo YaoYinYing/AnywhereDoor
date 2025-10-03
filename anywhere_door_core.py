@@ -270,6 +270,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   ipq       : Check the IP Quality of current proxy(HTTP only)")
             print("   use       : Use a specific proxy from the configured list")
             print("   upgrade   : Upgrade to the latest code")
+            print("   refresh   : Refresh the Anywhere door after upgrades")
             print("   dns/leak  : DNS Leak Test")
             print("   docker_daemon: Generate HTTP proxy setup for docker daemon")
             print("   gost      : Wrap Socks to HTTP by GOST")
