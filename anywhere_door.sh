@@ -92,6 +92,14 @@ function anywhere_door {
       curl 'https://ipinfo.io/';
     fi
   
+  elif [[ "$1" == "ipq" ]];then
+    echo "Running in progress..."
+    bash ${ANYWHERE_DOOR_DIR}/tools/IPQuality/ip.sh -x $(anywhere_door show http |awk -F= '{print $2}')
+
+  elif [[ "$1" == "netq" ]];then
+     echo "Running in progress..."
+    bash ${ANYWHERE_DOOR_DIR}/tools/NetQuality/net.sh
+  
   elif [[ "$1" == "upgrade" ]]; then
     pushd $ANYWHERE_DOOR_DIR;
       git stash; git pull; git reset --hard origin/main;
@@ -120,7 +128,7 @@ _anywhere_door_completions()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
     # Define the options for anywhere_door
-    opts="on off show exports list ls test bench wget curl whereami use upgrade dns leak help docker_daemon gost ?"
+    opts="on off show export list ls test bench wget curl whereami ipq netq use upgrade dns leak help docker_daemon gost ?"
 
     # Define hints for each option
     declare -A hints=(
@@ -136,6 +144,8 @@ _anywhere_door_completions()
         [wget]="Perform a speed test using wget"
         [curl]="Perform a speed test using curl"
         [whereami]="Check your current IP location"
+        [ipq]="Check the IP Quality of current proxy(HTTP only)"
+        [netq]="Check your net quality"
         [use]="Use a specific proxy from the list"
         [upgrade]="Upgrade to the latest code version"
         [dns]="Perform a DNS leak test"
@@ -153,6 +163,7 @@ _anywhere_door_completions()
         [config]="Help for configuring a proxy"
         [show]="Help for showing current proxy settings"
         [gost]='Wrap Socks to HTTP by GOST'
+        [docker_daemon]='Generate Docker daemon proxy based on current door.'
 
     )
 

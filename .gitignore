@@ -152,3 +152,9 @@ cython_debug/
 #.idea/
 
 tests/**
+tools/**/*.ans
+tools/**/res/sponsor/**
+tools/**/.git/**
+tools/**/.github/**
+tools/**/res/*.png
+tools/**/res/*.svg

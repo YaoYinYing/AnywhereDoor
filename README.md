@@ -360,6 +360,8 @@ $all_proxy=socks5h://localhost:7890
 ```
 
 ## Help messages
+
+### Primary Help Level
 ```bash 
 >>> anywhere_door ?
 Anywhere Door: A quick switch for network proxies in the current session.
@@ -376,12 +378,27 @@ Commands:
    wget      : Perform a speed test connection via wget to check network bandwidth
    curl      : Perform a speed test connection via curl to check network bandwidth
    whereami  : Perform a location check via curl
+   netq      : Check your net connection quality
+   ipq       : Check the IP Quality of current proxy(HTTP only)
    use       : Use a specific proxy from the configured list
    upgrade   : Upgrade to the latest code
    dns/leak  : DNS Leak Test
    docker_daemon: Generate HTTP proxy setup for docker daemon
    gost      : Wrap Socks to HTTP by GOST
-   help/?    : Show this help message and exit
+```
+
+### Secondary Help Level
+```bash
+>>> anywhere_door ? <tab>
+Help Topics:
+  test       : Help for testing proxy connectivity
+  use        : Help for using a specific proxy
+  config     : Help for configuring a proxy
+  show       : Help for showing current proxy settings
+  gost       : Wrap Socks to HTTP by GOST
+  docker_daemon : Generate Docker daemon proxy based on current door.
+
+config         docker_daemon  gost           show           test           use      
 ```
 
 ```bash 
@@ -414,6 +431,20 @@ Usage: anywhere_door config server_url http_port socks_port [username] [password
 Show current proxy.
 Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ```
+
+# Advanced Tools
+## IP Quality Check for current proxy
+via https://github.com/xykt/IPQuality
+```bash
+anywhere_door ipq
+```
+
+## Network Connection Quality
+via https://github.com/xykt/NetQuality
+```bash
+anywhere_door netq 
+```
+
 
 # Advanced
 **AnywhereDoor + SSH Remote Forwarding**

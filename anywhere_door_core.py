@@ -266,6 +266,8 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   wget      : Perform a speed test connection via wget to check network bandwidth")
             print("   curl      : Perform a speed test connection via curl to check network bandwidth")
             print("   whereami  : Perform a location check via curl")
+            print("   netq      : Check your net connection quality")
+            print("   ipq       : Check the IP Quality of current proxy(HTTP only)")
             print("   use       : Use a specific proxy from the configured list")
             print("   upgrade   : Upgrade to the latest code")
             print("   dns/leak  : DNS Leak Test")
