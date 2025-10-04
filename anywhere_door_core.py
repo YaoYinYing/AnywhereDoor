@@ -276,6 +276,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   docker_daemon: Generate HTTP proxy setup for docker daemon")
             print("   gost      : Wrap Socks to HTTP by GOST")
             print("   help/?    : Show this help message and exit")
+            print("   version   : Show the version info and exit")
             return
 
         if command == "test":

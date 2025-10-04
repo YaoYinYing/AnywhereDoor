@@ -1,5 +1,8 @@
+# ANYWHERE DOOR
 
-# https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
+
+# Selfcheck for the installation dir
+# See: https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
 
 SHELL_TYPE=$(basename  $SHELL)
 if [[ "$SHELL_TYPE" == "bash" ]]; then
@@ -9,7 +12,9 @@ elif [[ "$SHELL_TYPE" == "zsh" ]]; then
 fi
 export ANYWHERE_DOOR_DIR=$core_script_dir
 
-PLATFORM=$(uname -s)
+# version info
+export ANYWHERE_DOOR_DIR_VERSION=1.0.0
+export ANYWHERE_DOOR_DIR_COMMIT_ID_SESSION=$(git log -1 |grep commit)
 
 # Color escape sequences
 GREEN='\033[0;32m'
@@ -18,13 +23,19 @@ YELLOW='\033[0;33m'
 RESET='\033[0m'
 
 
-
+# main function
 function anywhere_door {
   # direct run without eval
   if [[ "$1" == "test" || "$1" == "dns" ||  "$1" == "leak" ||  "$1" == "help" ||  "$1" == "?" ||  "$1" == "show" ||  "$1" == "list" ||  "$1" == "ls" ||  "$1" == "git" || "$1" == "docker_daemon" || "$1" == "export" || ( "$1" == "use" && "$2" == "" ) ]]; then
       python3 ${ANYWHERE_DOOR_DIR}/anywhere_door_core.py "$1" "$2" "$3" "$4" "$5" "$6"
   
   # other shell commands
+  elif [[ "$1" == "version" ]]; then
+    echo "Anywhere Door (${ANYWHERE_DOOR_DIR_COMMIT_ID_SESSION})) ${ANYWHERE_DOOR_DIR_VERSION}"
+    echo "Copyright (C) 2025 YINYING YAO."
+    echo "The right of final interpretation is reserved."
+    echo ""
+    echo "Installed At: \$ANYWHERE_DOOR_DIR=${ANYWHERE_DOOR_DIR}"
 
   elif [[ "$1" == "gost" ]]; then
     if ! command -v gost; then
@@ -94,11 +105,11 @@ function anywhere_door {
   
   elif [[ "$1" == "ipq" ]];then
     echo "Running in progress..."
-    bash ${ANYWHERE_DOOR_DIR}/tools/IPQuality/ip.sh -x $(anywhere_door show http |awk -F= '{print $2}')
+    $SHELL ${ANYWHERE_DOOR_DIR}/tools/IPQuality/ip.sh -x $(anywhere_door show http |awk -F= '{print $2}')
 
   elif [[ "$1" == "netq" ]];then
      echo "Running in progress..."
-    bash ${ANYWHERE_DOOR_DIR}/tools/NetQuality/net.sh
+    $SHELL ${ANYWHERE_DOOR_DIR}/tools/NetQuality/net.sh
   
   elif [[ "$1" == "upgrade" ]]; then
     pushd $ANYWHERE_DOOR_DIR;
@@ -122,7 +133,6 @@ function anywhere_door {
 
 
 # Completion script for anywhere_door
-
 _anywhere_door_completions()
 {
     local cur prev opts
@@ -131,9 +141,9 @@ _anywhere_door_completions()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
     # Define the options for anywhere_door
-    opts="on off show export list ls test bench wget curl whereami ipq netq use upgrade refresh dns leak help docker_daemon gost ?"
+    opts="on off show export list ls test bench wget curl whereami ipq netq use upgrade refresh dns leak help docker_daemon gost ? version"
 
-    # Define hints for each option
+    # Primary help completions
     declare -A hints=(
         [on]="Activate Anywhere Door proxy"
         [off]="Deactivate Anywhere Door proxy"
@@ -154,13 +164,14 @@ _anywhere_door_completions()
         [refresh]="Refresh the Anywhere door after upgrades"
         [dns]="Perform a DNS leak test"
         [leak]="Perform a DNS leak test"
-        [help]="Show help messages for commands"
         [docker_daemon]="Generate HTTP proxy setup for docker daemon"
         [gost]='Wrap Socks to HTTP by GOST'
-        [?]="Show help messages for commands"
+        [help]="Show help messages for commands"
+        [?]="Show help messages for commands and exit"
+        [version]="Show the version info and exit"
     )
 
-    # Define hints for help subcommands
+    # Secondary help completions
     declare -A help_hints=(
         [test]="Help for testing proxy connectivity"
         [use]="Help for using a specific proxy"
@@ -173,6 +184,7 @@ _anywhere_door_completions()
 
     )
 
+    # Primary level of completions
     # If we're at the base command, suggest all main options
     if [[ ${COMP_CWORD} -eq 1 ]]; then
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
@@ -189,10 +201,13 @@ _anywhere_door_completions()
     fi
 
     case "${prev}" in
+        # Complete primary level
         anywhere_door)
             COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
             return 0
             ;;
+
+        # Complete the secondary levels
         use)
             # Complete with proxy labels or indices
             local proxies="$(anywhere_door list all |grep '^[[:digit:]]' |awk '{print substr($2,6, length($2)-10)}')"
