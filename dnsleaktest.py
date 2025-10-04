@@ -15,7 +15,7 @@ from subprocess import call as system_call
 
 from urllib.request import urlopen
 
-from datastructures import GREEN, RED, YELLOW, BOLD, RESET
+from color_escape import GREEN, RED, YELLOW, BOLD, RESET
 
 def ping(host):
     fn = open(os.devnull, 'w')
