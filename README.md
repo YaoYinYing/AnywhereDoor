@@ -388,6 +388,9 @@ Commands:
 ```
 
 ### Secondary Help Level
+
+If the secondary help level exists, it can be called from tab completion:
+
 ```bash
 >>> anywhere_door ? <tab>
 Help Topics:
@@ -436,13 +439,75 @@ Usage: anywhere_door show [proxy_type: 'http', 'https', 'all']
 ## IP Quality Check for current proxy
 via https://github.com/xykt/IPQuality
 ```bash
-anywhere_door ipq
+>>> anywhere_door ipq
 ```
 
 ## Network Connection Quality
 via https://github.com/xykt/NetQuality
 ```bash
-anywhere_door netq 
+>>> anywhere_door netq 
+```
+
+## Completion
+
+### Primary Completion
+```bash
+>>> anywhere_door <tab>
+Options:
+  on         : Activate Anywhere Door
+  off        : Deactivate Anywhere Door
+  show       : Show the current proxy configurations
+  export     : Show the quick export lines for shell
+  list       : Show all predefined proxies
+  ls         : Show all predefined proxies
+  test       : Perform a test connection to check proxy accessibility
+  bench      : Perform a speed test connection to check network bandwidth
+  wget       : Perform a speed test connection via wget to check network bandwidth
+  curl       : Perform a speed test connection via curl to check network bandwidth
+  whereami   : Perform a location check via curl
+  ipq        : Check the IP Quality of current proxy(HTTP only)
+  netq       : Check your net connection quality
+  use        : Use a specific proxy from the configured list
+  upgrade    : Upgrade to the latest code
+  refresh    : Refresh the Anywhere door after upgrades
+  dns        : DNS Leak Test
+  leak       : DNS Leak Test
+  help       : Show this help message and exit
+  docker_daemon : Generate HTTP proxy setup for docker daemon
+  gost       : Wrap Socks to HTTP by GOST
+  ?          : Show this help message and exit
+  version    : Show the version info and exit
+
+?              dns            gost           leak           netq           refresh        upgrade        wget           
+bench          docker_daemon  help           list           off            show           use            whereami       
+curl           export         ipq            ls             on             test           version   
+```
+
+### Secondary Completion
+
+Node selection:
+
+```bash
+>>> anywhere_door use <tab>
+0          12         16         5          9          Mihomo_3   Singbox_1  Singbox_5  Singbox_9
+1          13         2          6          Mihomo_0   Private_0  Singbox_2  Singbox_6
+10         14         3          7          Mihomo_1   Private_1  Singbox_3  Singbox_7
+11         15         4          8          Mihomo_2   Singbox_0  Singbox_4  Singbox_8
+```
+
+Help message selection:
+
+```bash
+>>> anywhere_door help <tab>
+Help Topics:
+  test       : Help for testing proxy connectivity
+  use        : Help for using a specific proxy
+  config     : Help for configuring a proxy
+  show       : Help for showing current proxy settings
+  gost       : Wrap Socks to HTTP by GOST
+  docker_daemon : Generate Docker daemon proxy based on current door.
+
+config         docker_daemon  gost           show           test           use
 ```
 
 

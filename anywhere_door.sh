@@ -147,35 +147,13 @@ _anywhere_door_completions()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
     # Define the options for anywhere_door
-    opts="on off show export list ls test bench wget curl whereami ipq netq use upgrade refresh dns leak help docker_daemon gost ? version"
+    _opts=$(anywhere_door help |grep '^ ' |awk -F: '{split($1,args, "/"); for(arg in args){_arg=args[arg];gsub(/[ \t]+/,"",_arg);printf "%s ",_arg;}}')
+    opts=$_opts
 
     # Primary help completions
-    declare -A hints=(
-        [on]="Activate Anywhere Door proxy"
-        [off]="Deactivate Anywhere Door proxy"
-        [config]="Configure a new proxy"
-        [show]="Show the current proxy configurations"
-        [export]="Show the quick export lines for shell"
-        [list]="List all predefined proxies"
-        [ls]="List all predefined proxies"
-        [test]="Perform a connection test to check proxy accessibility"
-        [bench]="Perform a speed test using the Ookla speed test tool"
-        [wget]="Perform a speed test using wget"
-        [curl]="Perform a speed test using curl"
-        [whereami]="Check your current IP location"
-        [ipq]="Check the IP Quality of current proxy(HTTP only)"
-        [netq]="Check your net quality"
-        [use]="Use a specific proxy from the list"
-        [upgrade]="Upgrade to the latest code version"
-        [refresh]="Refresh the Anywhere door after upgrades"
-        [dns]="Perform a DNS leak test"
-        [leak]="Perform a DNS leak test"
-        [docker_daemon]="Generate HTTP proxy setup for docker daemon"
-        [gost]='Wrap Socks to HTTP by GOST'
-        [help]="Show help messages for commands"
-        [?]="Show help messages for commands and exit"
-        [version]="Show the version info and exit"
-    )
+    _hints=$(anywhere_door help |grep '^ ' |awk -F: '{split($1,args, "/"); for(arg in args){_arg=args[arg];gsub(/[ \t]+/,"",_arg);_exp=$2;gsub(/^[ \t]+/,"", _exp);printf "[%s]=\"%s\"\n",_arg, _exp}}')
+    eval "declare -A hints=(${_hints})"
+
 
     # Secondary help completions
     declare -A help_hints=(
@@ -190,7 +168,7 @@ _anywhere_door_completions()
 
     )
 
-    # Primary level of completions
+    # Primary level of completions 
     # If we're at the base command, suggest all main options
     if [[ ${COMP_CWORD} -eq 1 ]]; then
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
