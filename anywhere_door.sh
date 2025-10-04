@@ -1,5 +1,7 @@
 # ANYWHERE DOOR
 
+# version info
+export ANYWHERE_DOOR_DIR_VERSION=1.1.0
 
 # Selfcheck for the installation dir
 # See: https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
@@ -12,15 +14,17 @@ elif [[ "$SHELL_TYPE" == "zsh" ]]; then
 fi
 export ANYWHERE_DOOR_DIR=$core_script_dir
 
-# version info
-export ANYWHERE_DOOR_DIR_VERSION=1.0.0
-export ANYWHERE_DOOR_DIR_COMMIT_ID_SESSION=$(git log -1 |grep commit)
+function _fetch_anywhere_door_version {
+  CUR_PWD=$PWD
+  cd $ANYWHERE_DOOR_DIR
+  git log -1 |grep commit
+  cd $CUR_PWD
+}
 
-# Color escape sequences
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-RESET='\033[0m'
+export ANYWHERE_DOOR_DIR_COMMIT_ID_SESSION=$(_fetch_anywhere_door_version)
+# read color escapes
+eval $(cat ${ANYWHERE_DOOR_DIR}/color_escape.py |tr -d ' ')
+
 
 
 # main function
@@ -31,11 +35,13 @@ function anywhere_door {
   
   # other shell commands
   elif [[ "$1" == "version" ]]; then
-    echo "Anywhere Door (${ANYWHERE_DOOR_DIR_COMMIT_ID_SESSION})) ${ANYWHERE_DOOR_DIR_VERSION}"
+    echo ""
+    echo -e "${RED_BG}${YELLOW}${BOLD}Anywhere Door${RESET} (${ITALIC}${MAGENTA_BG}${ANYWHERE_DOOR_DIR_COMMIT_ID_SESSION}${RESET}) v.${CYAN_BG}${LIGHT_GREEN}${BLINK}${ANYWHERE_DOOR_DIR_VERSION}${RESET}"
     echo "Copyright (C) 2025 YINYING YAO."
     echo "The right of final interpretation is reserved."
     echo ""
-    echo "Installed At: \$ANYWHERE_DOOR_DIR=${ANYWHERE_DOOR_DIR}"
+    echo -e "Installed At: \$ANYWHERE_DOOR_DIR=${BLUE}${RED_BG}${UNDERLINE}${ANYWHERE_DOOR_DIR}${RESET}"
+    echo ""
 
   elif [[ "$1" == "gost" ]]; then
     if ! command -v gost; then

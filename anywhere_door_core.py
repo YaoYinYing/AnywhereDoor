@@ -3,8 +3,8 @@ import subprocess
 import sys
 from typing import Literal, Mapping, Union
 import yaml 
-from datastructures import ProxyConfig, NoProxy,ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently,url_tests, GREEN, RED, YELLOW, BOLD, RESET
-
+from datastructures import ProxyConfig, NoProxy,ProxyTable, ProxyType, test_proxies_concurrently, test_urls_concurrently,url_tests
+from color_escape import  GREEN, RED, YELLOW, BOLD, RESET
  
 this_dir=os.path.dirname(__file__)
   
