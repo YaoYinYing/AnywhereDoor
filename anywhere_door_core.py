@@ -293,6 +293,7 @@ Environment="NO_PROXY={str(self.no_proxy).replace(';', ',')}"
             print("   <port>    : Run gost on customized <port>.")
             print("   off       : Stop gost")
             print("   clean     : Stop background gost processes")
+            print("   update    : Update background gost processes based on current anywhere door config")
             return
 
         if command == "use":

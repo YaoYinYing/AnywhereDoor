@@ -46,31 +46,40 @@ function anywhere_door {
   elif [[ "$1" == "gost" ]]; then
     if ! command -v gost; then
       echo "Gost not found. Please see: https://gost.run/en/"
-    elif [[ "$2" == "clean" ]]; then
+      return
+    fi
+    
+    function gost_precheck() { 
+      if [[ $(anywhere_door show) =~ 'inactive' ]];then
+        echo Anywheredoor must be active befor run gost.
+        return
+      fi
+    }
+
+    function gost_restore() { 
+      if [[ ! -z "$ANYWHEREDOOR_CURRENT_GATE" ]];then 
+          anywhere_door $ANYWHEREDOOR_CURRENT_GATE;
+      fi
+
+    }
+
+
+    if [[ "$2" == "clean" ]]; then
+      gost_precheck
       echo "Remaining gost process will be cleaned"
       ps aux |grep gost | awk '{print $2; system("kill " $2)}' >/dev/null 2>&1
       echo Done.
-    else
-      if [[ ! -z "$GOST_PID" ]]; then 
-        kill $GOST_PID >/dev/null 2>&1; 
-        echo "Stop background GOST at ${GOST_PID}"; 
-        unset GOST_PID; 
-        unset GOST_PORT; 
-        # recover to anywhere door settings
-        anywhere_door $ANYWHEREDOOR_CURRENT_GATE; 
-      fi
-
-      
-
-      if [[ "$2" == "off" ]]; then
+    elif [[ "$2" == "off" ]]; then
+        gost_precheck
         anywhere_door gost clean
-        anywhere_door $ANYWHEREDOOR_CURRENT_GATE
-      else
-        # on / port-id
-        if [[ $(anywhere_door show) =~ 'inactive' ]];then
-          echo Anywheredoor must be active befor run gost.
-        else
-          if [[ ! -z "$2" && "$2" =~ ^[0-9]+$ ]]; then GOST_PORT=$2; else GOST_PORT="63322" ; fi
+        gost_restore
+        
+    elif [[ "$2" == "on" || "$2" == '' ]]; then
+      
+      gost_precheck
+
+      if [[ ! -z "$3" && "$3" =~ ^[0-9]+$ ]]; then GOST_PORT=$3; else GOST_PORT="63322" ; fi
+          echo Using gost port: $GOST_PORT
 
           gost -L=:${GOST_PORT} -F=$(anywhere_door show all | cut -b 12-) >/dev/null 2>&1 &
           export GOST_PID=$!
@@ -78,9 +87,29 @@ function anywhere_door {
           export https_proxy=http://127.0.0.1:${GOST_PORT}
           export all_proxy=http://127.0.0.1:${GOST_PORT}
           echo GOST running at $GOST_PID 
-        fi
+
+    elif [[  "$2"  == "stop" ]]; then
+      gost_precheck
+      if [[ ! -z "$GOST_PID" ]]; then 
+        kill $GOST_PID >/dev/null 2>&1; 
+        echo "Stop background GOST at ${GOST_PID}"; 
+        unset GOST_PID; 
+        unset GOST_PORT; 
+        # recover to anywhere door settings
+        gost_restore
+      else
+        echo "GOST is not running"
       fi
-    fi 
+    elif [[ "$2" == "update" ]]; then
+      gost_precheck
+      anywhere_door gost clean
+      gost_restore
+      anywhere_door gost on 
+       
+
+    else
+      echo Unkonwn command for anywhere_door gost: $2 $3 
+    fi
   elif [[ "$1" == "bench" ]]; then
     if ! command -v speedtest; then
       echo "Please install the speedtest command line tool first.";
@@ -212,7 +241,7 @@ _anywhere_door_completions()
             ;;
         gost)
             # Complete with test options
-            local test_opts="on off clean"
+            local test_opts="on off clean update"
             COMPREPLY=( $(compgen -W "${test_opts}" -- ${cur}) )
             return 0
             ;;
