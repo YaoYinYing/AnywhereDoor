@@ -7,6 +7,10 @@ proxies:
     authentication_user: "oreo"  
     password: "oreo"  
     alternative_urls:  
+      - "10.186.1.234"
+      - "100.87.200.149"
+      - "100.105.142.38"
+      - "100.85.33.40"
       - "z2.login1.japs.yaoyy.moe"  
       - "z4.login1.japs.yaoyy.moe"
       - "z2.login2.japs.yaoyy.moe"  
@@ -23,21 +27,21 @@ proxies:
     alternative_urls:  
       - "a100-internal.yaoyy.moe"
 
-  - label: "LoginSingbox"  
-    url: "201.japs.yaoyy.moe"
-    http_port: "10088"  
-    socks_port: "10088"  
-    authentication_user: "oreo"  
-    password: "oreo"  
-    alternative_urls:  
-      - "z2.login1.japs.yaoyy.moe"  
-      - "z4.login1.japs.yaoyy.moe"
-      - "localhost"
-      - "a100-internal.yaoyy.moe"
-      - "z2.login2.japs.yaoyy.moe"  
-      - "z4.login2.japs.yaoyy.moe"
-      - "z2.login3.japs.yaoyy.moe"  
-      - "z4.login3.japs.yaoyy.moe"
+  # - label: "LoginSingbox"  
+  #   url: "201.japs.yaoyy.moe"
+  #   http_port: "10088"  
+  #   socks_port: "10088"  
+  #   authentication_user: "oreo"  
+  #   password: "oreo"  
+  #   alternative_urls:  
+  #     - "z2.login1.japs.yaoyy.moe"  
+  #     - "z4.login1.japs.yaoyy.moe"
+  #     - "localhost"
+  #     - "a100-internal.yaoyy.moe"
+  #     - "z2.login2.japs.yaoyy.moe"  
+  #     - "z4.login2.japs.yaoyy.moe"
+  #     - "z2.login3.japs.yaoyy.moe"  
+  #     - "z4.login3.japs.yaoyy.moe"
 
       # Additional URLs...  
 
