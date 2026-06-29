@@ -1,6 +1,7 @@
 #include "test.h"
 #include "utils.h"
 #include <curl/curl.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

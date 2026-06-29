@@ -205,57 +205,59 @@ jobs:
           name: anywhere_door-linux-loong64
           path: src/anywheredoor/anywhere_door-linux-loong64
 
-  # --- macOS arm64 (Apple Silicon) ---
-  macos-arm64:
+  # --- macOS (arm64 native + x86_64 cross-compile) ---
+  macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          brew install libyaml curl ncurses cmake
+      - name: Install dependencies (arm64)
+        run: brew install libyaml curl ncurses cmake
 
-      - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      # --- arm64 native ---
+      - name: Configure (arm64)
+        run: cmake -B build_arm64 -DCMAKE_BUILD_TYPE=Release
         working-directory: src/anywheredoor
 
-      - name: Build
-        run: cmake --build build
+      - name: Build (arm64)
+        run: cmake --build build_arm64
         working-directory: src/anywheredoor
 
-      - name: Rename binary
-        run: mv build/anywhere_door anywhere_door-darwin-arm64
+      - name: Rename (arm64)
+        run: mv build_arm64/anywhere_door anywhere_door-darwin-arm64
         working-directory: src/anywheredoor
 
-      - name: Upload artifact
+      - name: Upload artifact (arm64)
         uses: actions/upload-artifact@v4
         with:
           name: anywhere_door-darwin-arm64
           path: src/anywheredoor/anywhere_door-darwin-arm64
 
-  # --- macOS x86_64 (Intel) ---
-  macos-x86_64:
-    runs-on: macos-13
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install dependencies
+      # --- x86_64 cross-compile ---
+      - name: Build libyaml for x86_64
         run: |
-          brew install libyaml curl ncurses cmake
+          curl -sL https://github.com/yaml/libyaml/archive/refs/tags/0.2.5.tar.gz | tar xz
+          cd libyaml-0.2.5
+          ./configure CC="clang -arch x86_64" --prefix=/tmp/libyaml-x86 --disable-shared
+          make -j$(sysctl -n hw.logicalcpu) && make install
 
-      - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Configure (x86_64)
+        run: |
+          cmake -B build_x86_64 -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES=x86_64 \
+            -DYAML_LIBRARY=/tmp/libyaml-x86/lib/libyaml.a \
+            -DYAML_INCLUDE_DIR=/tmp/libyaml-x86/include
         working-directory: src/anywheredoor
 
-      - name: Build
-        run: cmake --build build
+      - name: Build (x86_64)
+        run: cmake --build build_x86_64
         working-directory: src/anywheredoor
 
-      - name: Rename binary
-        run: mv build/anywhere_door anywhere_door-darwin-x86_64
+      - name: Rename (x86_64)
+        run: mv build_x86_64/anywhere_door anywhere_door-darwin-x86_64
         working-directory: src/anywheredoor
 
-      - name: Upload artifact
+      - name: Upload artifact (x86_64)
         uses: actions/upload-artifact@v4
         with:
           name: anywhere_door-darwin-x86_64
@@ -263,7 +265,7 @@ jobs:
 
   # --- Create GitHub Release on tag ---
   release:
-    needs: [linux-x86_64, linux-aarch64, linux-armv7, linux-i386, linux-riscv64, linux-loong64, macos-arm64, macos-x86_64]
+    needs: [linux-x86_64, linux-aarch64, linux-armv7, linux-i386, linux-riscv64, linux-loong64, macos]
     if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
     runs-on: ubuntu-latest
     permissions:
