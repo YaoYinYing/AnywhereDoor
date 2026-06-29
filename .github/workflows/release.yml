@@ -166,6 +166,39 @@ jobs:
           name: anywhere_door-linux-riscv64
           path: src/anywheredoor/anywhere_door-linux-riscv64
 
+  # --- Linux loong64 (LoongArch 64-bit, cross-compiled via QEMU/Docker) ---
+  linux-loong64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build in loong64 container
+        run: |
+          docker run --rm \
+            --platform linux/loongarch64 \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace/src/anywheredoor \
+            loongarch64/ubuntu:24.04 \
+            bash -c '
+              apt-get update &&
+              apt-get install -y cmake gcc libyaml-dev libcurl4-openssl-dev libncurses-dev make &&
+              cmake -B build -DCMAKE_BUILD_TYPE=Release &&
+              cmake --build build
+            '
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-linux-loong64
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-linux-loong64
+          path: src/anywheredoor/anywhere_door-linux-loong64
+
   # --- macOS arm64 (Apple Silicon) ---
   macos-arm64:
     runs-on: macos-latest
@@ -224,7 +257,7 @@ jobs:
 
   # --- Create GitHub Release on tag ---
   release:
-    needs: [linux-x86_64, linux-aarch64, linux-armv7, linux-i386, linux-riscv64, macos-arm64, macos-x86_64]
+    needs: [linux-x86_64, linux-aarch64, linux-armv7, linux-i386, linux-riscv64, linux-loong64, macos-arm64, macos-x86_64]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
@@ -259,6 +292,7 @@ jobs:
             - `anywhere_door-linux-armv7` — Linux ARM 32-bit (Raspberry Pi 2/3, etc.)
             - `anywhere_door-linux-i386` — Linux 32-bit x86
             - `anywhere_door-linux-riscv64` — Linux RISC-V 64-bit
+            - `anywhere_door-linux-loong64` — Linux LoongArch 64-bit
             - `anywhere_door-darwin-arm64` — macOS Apple Silicon
             - `anywhere_door-darwin-x86_64` — macOS Intel
           files: |
@@ -267,6 +301,7 @@ jobs:
             artifacts/anywhere_door-linux-armv7/anywhere_door-linux-armv7
             artifacts/anywhere_door-linux-i386/anywhere_door-linux-i386
             artifacts/anywhere_door-linux-riscv64/anywhere_door-linux-riscv64
+            artifacts/anywhere_door-linux-loong64/anywhere_door-linux-loong64
             artifacts/anywhere_door-darwin-arm64/anywhere_door-darwin-arm64
             artifacts/anywhere_door-darwin-x86_64/anywhere_door-darwin-x86_64
           draft: false

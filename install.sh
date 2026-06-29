@@ -50,6 +50,7 @@ detect_platform() {
         aarch64)        arch="aarch64" ;;
         armv7l|armv7|armv8l) arch="armv7" ;;
         riscv64|riscv)  arch="riscv64" ;;
+        loongarch64|loong64) arch="loong64" ;;
         *)
             echo -e "${RED}Unsupported architecture: $arch${RESET}"
             exit 1
