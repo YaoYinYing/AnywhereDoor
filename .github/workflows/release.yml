@@ -1,0 +1,273 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # --- Linux x86_64 ---
+  linux-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libyaml-dev libcurl4-openssl-dev libncurses-dev cmake
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        working-directory: src/anywheredoor
+
+      - name: Build
+        run: cmake --build build
+        working-directory: src/anywheredoor
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-linux-x86_64
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-linux-x86_64
+          path: src/anywheredoor/anywhere_door-linux-x86_64
+
+  # --- Linux aarch64 (ARM64, native) ---
+  linux-aarch64:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libyaml-dev libcurl4-openssl-dev libncurses-dev cmake
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        working-directory: src/anywheredoor
+
+      - name: Build
+        run: cmake --build build
+        working-directory: src/anywheredoor
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-linux-aarch64
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-linux-aarch64
+          path: src/anywheredoor/anywhere_door-linux-aarch64
+
+  # --- Linux armv7 (ARM 32-bit, cross-compiled via QEMU/Docker) ---
+  linux-armv7:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build in armv7 container
+        run: |
+          docker run --rm \
+            --platform linux/arm/v7 \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace/src/anywheredoor \
+            arm32v7/ubuntu:24.04 \
+            bash -c '
+              apt-get update &&
+              apt-get install -y cmake gcc libyaml-dev libcurl4-openssl-dev libncurses-dev make &&
+              cmake -B build -DCMAKE_BUILD_TYPE=Release &&
+              cmake --build build
+            '
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-linux-armv7
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-linux-armv7
+          path: src/anywheredoor/anywhere_door-linux-armv7
+
+  # --- Linux i386 (32-bit x86, cross-compiled via QEMU/Docker) ---
+  linux-i386:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build in i386 container
+        run: |
+          docker run --rm \
+            --platform linux/386 \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace/src/anywheredoor \
+            i386/ubuntu:24.04 \
+            bash -c '
+              apt-get update &&
+              apt-get install -y cmake gcc libyaml-dev libcurl4-openssl-dev libncurses-dev make &&
+              cmake -B build -DCMAKE_BUILD_TYPE=Release &&
+              cmake --build build
+            '
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-linux-i386
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-linux-i386
+          path: src/anywheredoor/anywhere_door-linux-i386
+
+  # --- Linux riscv64 (RISC-V 64-bit, cross-compiled via QEMU/Docker) ---
+  linux-riscv64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build in riscv64 container
+        run: |
+          docker run --rm \
+            --platform linux/riscv64 \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace/src/anywheredoor \
+            riscv64/ubuntu:24.04 \
+            bash -c '
+              apt-get update &&
+              apt-get install -y cmake gcc libyaml-dev libcurl4-openssl-dev libncurses-dev make &&
+              cmake -B build -DCMAKE_BUILD_TYPE=Release &&
+              cmake --build build
+            '
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-linux-riscv64
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-linux-riscv64
+          path: src/anywheredoor/anywhere_door-linux-riscv64
+
+  # --- macOS arm64 (Apple Silicon) ---
+  macos-arm64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install libyaml curl ncurses cmake
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        working-directory: src/anywheredoor
+
+      - name: Build
+        run: cmake --build build
+        working-directory: src/anywheredoor
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-darwin-arm64
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-darwin-arm64
+          path: src/anywheredoor/anywhere_door-darwin-arm64
+
+  # --- macOS x86_64 (Intel) ---
+  macos-x86_64:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install libyaml curl ncurses cmake
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        working-directory: src/anywheredoor
+
+      - name: Build
+        run: cmake --build build
+        working-directory: src/anywheredoor
+
+      - name: Rename binary
+        run: mv build/anywhere_door anywhere_door-darwin-x86_64
+        working-directory: src/anywheredoor
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anywhere_door-darwin-x86_64
+          path: src/anywheredoor/anywhere_door-darwin-x86_64
+
+  # --- Create GitHub Release on tag ---
+  release:
+    needs: [linux-x86_64, linux-aarch64, linux-armv7, linux-i386, linux-riscv64, macos-arm64, macos-x86_64]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: find artifacts -type f -exec ls -la {} \;
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "AnywhereDoor ${{ github.ref_name }}"
+          body: |
+            ## AnywhereDoor ${{ github.ref_name }}
+
+            Prebuilt binaries for Linux (x86_64, aarch64, armv7) and macOS (Intel, Apple Silicon).
+
+            ### Installation
+            ```bash
+            sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/refs/heads/main/install.sh)"
+            ```
+
+            ### Manual download
+            Download the binary for your platform, make it executable, and place it in your PATH:
+            - `anywhere_door-linux-x86_64` — Linux amd64
+            - `anywhere_door-linux-aarch64` — Linux ARM64 (Raspberry Pi 4/5, etc.)
+            - `anywhere_door-linux-armv7` — Linux ARM 32-bit (Raspberry Pi 2/3, etc.)
+            - `anywhere_door-linux-i386` — Linux 32-bit x86
+            - `anywhere_door-linux-riscv64` — Linux RISC-V 64-bit
+            - `anywhere_door-darwin-arm64` — macOS Apple Silicon
+            - `anywhere_door-darwin-x86_64` — macOS Intel
+          files: |
+            artifacts/anywhere_door-linux-x86_64/anywhere_door-linux-x86_64
+            artifacts/anywhere_door-linux-aarch64/anywhere_door-linux-aarch64
+            artifacts/anywhere_door-linux-armv7/anywhere_door-linux-armv7
+            artifacts/anywhere_door-linux-i386/anywhere_door-linux-i386
+            artifacts/anywhere_door-linux-riscv64/anywhere_door-linux-riscv64
+            artifacts/anywhere_door-darwin-arm64/anywhere_door-darwin-arm64
+            artifacts/anywhere_door-darwin-x86_64/anywhere_door-darwin-x86_64
+          draft: false
+          prerelease: false

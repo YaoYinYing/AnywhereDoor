@@ -1,33 +1,57 @@
 # AnywhereDoor
- A Linux/Python script for switching Proxies within a SSH session.
 
-![python-version](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13_%7C_3.14-3776AB?logo=python&logoColor=yellow)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/YaoYinYing/AnywhereDoor)
+A shell-integrated proxy management tool written in C. Quickly switch SOCKS5/HTTP proxies within a terminal session.
+
+[![C](https://img.shields.io/badge/C-11-555555?logo=c)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey)]()
 
 # Setup
 
-## Via Installation script:
+## Quick Install (prebuilt binary)
+
 ```bash
-sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/refs/heads/main/install.sh)"
+curl -o install.sh https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/main/install.sh
+chmod +x install.sh
+./install.sh
 ```
 
-## Manual Installation
-### Ensure prerequistions
-```text
-pysocks
-PyYAML
+This auto-detects your OS/architecture, downloads a prebuilt binary (or builds from source as fallback), and installs to `~/.local/bin`.
+
+## Manual Build from Source
+
+### Prerequisites
+- CMake 3.16+
+- C11 compiler (GCC or Clang)
+- libyaml, libcurl, ncurses (development headers)
+
+### macOS
+```bash
+brew install libyaml curl ncurses cmake
 ```
 
-### Steps 
-1. Clone this repository
-2. Run `source /repo/to/AnywhereDoor/anywhere_door.sh` and record this command in shell profile (`.bashrc`, for example)
-3. Override the configuration files.
-4. Call `anywhere_door` as you like!
+### Debian/Ubuntu
+```bash
+sudo apt install libyaml-dev libcurl4-openssl-dev libncurses-dev cmake gcc
+```
+
+### Build
+```bash
+git clone https://github.com/YaoYinYing/AnywhereDoor.git
+cd AnywhereDoor/src/anywheredoor
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+
+### Shell Setup
+Add to `~/.bashrc` or `~/.zshrc`:
+```bash
+source /path/to/AnywhereDoor/anywhere_door.sh
+```
 
 ## Configuration priorities
 1. Current dir settings at `./.anywheredoorrc`, which fallbacks to:
 2. User settings at `~/.anywheredoorrc`, which fallbacks to:
-3. Default settings at `/repo/to/AnywhereDoor/.anywheredoorrc`
+3. Default settings at the AnywhereDoor install directory `.anywheredoorrc`
 
 # Basic Usage
 ## On/Off
