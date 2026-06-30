@@ -107,7 +107,7 @@ jobs:
           name: anywhere_door-linux-armv7
           path: src/anywheredoor/anywhere_door-linux-armv7
 
-  # --- Linux i386 (32-bit x86, via QEMU/Docker; Ubuntu 24.04 dropped i386) ---
+  # --- Linux i386 (32-bit x86, via QEMU/Docker; Ubuntu dropped 32-bit) ---
   linux-i386:
     runs-on: ubuntu-latest
     steps:
@@ -122,7 +122,7 @@ jobs:
             --platform linux/386 \
             -v ${{ github.workspace }}:/workspace \
             -w /workspace/src/anywheredoor \
-            ubuntu:22.04 \
+            debian:bookworm \
             bash -c '
               apt-get update &&
               apt-get install -y cmake gcc libyaml-dev libcurl4-openssl-dev libncurses-dev make &&
