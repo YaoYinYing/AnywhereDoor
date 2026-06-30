@@ -9,7 +9,9 @@
 #include <string.h>
 #include <stdio.h>
 
-#define VERSION "2.0.0"
+#ifndef VERSION
+#define VERSION "2.0.0-alpha"
+#endif
 
 /* --- Color pair IDs --- */
 #define CP_GREEN   1

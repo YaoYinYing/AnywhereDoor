@@ -1,7 +1,7 @@
 # ANYWHERE DOOR
 
 # version info
-export ANYWHERE_DOOR_DIR_VERSION=2.0.0
+export ANYWHERE_DOOR_DIR_VERSION=2.0.0-alpha
 
 # Selfcheck for the installation dir
 SHELL_TYPE=$(basename $SHELL)

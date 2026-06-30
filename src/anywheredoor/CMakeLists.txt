@@ -57,6 +57,11 @@ target_link_libraries(anywhere_door PRIVATE
     ${CURSES_LIBRARIES}
 )
 
+# --- Version injection ---
+if(VERSION)
+    target_compile_definitions(anywhere_door PRIVATE VERSION="${VERSION}")
+endif()
+
 # --- Platform-specific ---
 
 if(APPLE)

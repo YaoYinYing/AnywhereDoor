@@ -8,7 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define VERSION "2.0.0"
+#ifndef VERSION
+#define VERSION "2.0.0-alpha"
+#endif
 
 /* Global state — loaded once at startup */
 static ProxyTable g_table;
