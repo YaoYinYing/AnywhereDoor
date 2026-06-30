@@ -8,8 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* VERSION is injected by CMake from anywhere_door.sh;
+   fallback below only used for non-CMake builds. */
 #ifndef VERSION
-#define VERSION "2.0.0-alpha"
+#define VERSION "unknown"
 #endif
 
 /* Global state — loaded once at startup */

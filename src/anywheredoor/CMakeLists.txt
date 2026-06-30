@@ -69,12 +69,13 @@ if(NOT VERSION)
             set(VERSION "${SHELL_VERSION}")
         endif()
     endif()
+    if(NOT VERSION)
+        message(FATAL_ERROR "VERSION not set and could not be read from anywhere_door.sh")
+    endif()
 endif()
 
-if(VERSION)
-    message(STATUS "Version: ${VERSION}")
-    target_compile_definitions(anywhere_door PRIVATE VERSION="${VERSION}")
-endif()
+message(STATUS "Version: ${VERSION}")
+target_compile_definitions(anywhere_door PRIVATE VERSION="${VERSION}")
 
 # --- Platform-specific ---
 
