@@ -55,8 +55,8 @@ MAGENTA_BG="\033[0;45m"
 function _find_anywhere_door_bin {
   # Search locations in priority order
   local locations=(
-    "${ANYWHERE_DOOR_DIR}/src/anywheredoor/build/anywhere_door"
     "${ANYWHERE_DOOR_DIR}/build/anywhere_door"
+    "${ANYWHERE_DOOR_DIR}/src/anywheredoor/build/anywhere_door"
     "/usr/local/bin/anywhere_door"
   )
 
@@ -190,9 +190,41 @@ function anywhere_door {
       ;;
 
     upgrade)
+      # Detect platform
+      case "$(uname -s | tr '[:upper:]' '[:lower:]')" in
+        linux)   _os="linux" ;;
+        darwin)  _os="darwin" ;;
+        *)       echo "Unsupported OS"; return 1 ;;
+      esac
+      case "$(uname -m)" in
+        x86_64|amd64)  _arch="x86_64" ;;
+        aarch64)       _arch="aarch64" ;;
+        arm64)         [[ "$_os" == "darwin" ]] && _arch="arm64" || _arch="aarch64" ;;
+        armv7l|armv7|armv8l) _arch="armv7" ;;
+        i386|i686)     _arch="i386" ;;
+        riscv64|riscv) _arch="riscv64" ;;
+        *)             echo "Unsupported arch"; return 1 ;;
+      esac
+      _platform="${_os}-${_arch}"
+      _bin="anywhere_door-${_platform}"
+      _url="https://github.com/YaoYinYing/AnywhereDoor/releases/latest/download/${_bin}"
+      _dest="${ANYWHERE_DOOR_DIR}/build/anywhere_door"
+
+      echo "Upgrading AnywhereDoor for ${_platform}..."
+      if curl -fsSL -o "${_dest}" "${_url}"; then
+        chmod +x "${_dest}"
+        echo "Downloaded: $(${_dest} version 2>/dev/null || echo $_bin)"
+      else
+        echo "Prebuilt binary not available for ${_platform}."
+        echo "Build from source: cd ${ANYWHERE_DOOR_DIR}/src/anywheredoor && cmake -B build && cmake --build build"
+        return 1
+      fi
+
+      # Also update the shell script
       pushd $ANYWHERE_DOOR_DIR >/dev/null
         git stash; git fetch --all; git reset --hard origin/main; git pull
       popd >/dev/null
+      source $ANYWHERE_DOOR_DIR/anywhere_door.sh
       ;;
 
     refresh)
