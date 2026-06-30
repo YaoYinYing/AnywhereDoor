@@ -95,7 +95,7 @@ jobs:
               cmake -B build -DCMAKE_BUILD_TYPE=Release &&
               cmake --build build
             '
-          sudo chown -R $(id -u):$(id -g) build
+          sudo chown -R $(id -u):$(id -g) src/anywheredoor/build
 
       - name: Rename binary
         run: mv build/anywhere_door anywhere_door-linux-armv7
@@ -107,7 +107,7 @@ jobs:
           name: anywhere_door-linux-armv7
           path: src/anywheredoor/anywhere_door-linux-armv7
 
-  # --- Linux i386 (32-bit x86, cross-compiled via QEMU/Docker) ---
+  # --- Linux i386 (32-bit x86, via QEMU/Docker; Ubuntu 24.04 dropped i386) ---
   linux-i386:
     runs-on: ubuntu-latest
     steps:
@@ -122,14 +122,14 @@ jobs:
             --platform linux/386 \
             -v ${{ github.workspace }}:/workspace \
             -w /workspace/src/anywheredoor \
-            ubuntu:24.04 \
+            ubuntu:22.04 \
             bash -c '
               apt-get update &&
               apt-get install -y cmake gcc libyaml-dev libcurl4-openssl-dev libncurses-dev make &&
               cmake -B build -DCMAKE_BUILD_TYPE=Release &&
               cmake --build build
             '
-          sudo chown -R $(id -u):$(id -g) build
+          sudo chown -R $(id -u):$(id -g) src/anywheredoor/build
 
       - name: Rename binary
         run: mv build/anywhere_door anywhere_door-linux-i386
@@ -141,7 +141,7 @@ jobs:
           name: anywhere_door-linux-i386
           path: src/anywheredoor/anywhere_door-linux-i386
 
-  # --- Linux riscv64 (RISC-V 64-bit, cross-compiled via QEMU/Docker) ---
+  # --- Linux riscv64 (RISC-V 64-bit, via QEMU/Docker) ---
   linux-riscv64:
     runs-on: ubuntu-latest
     steps:
@@ -163,7 +163,7 @@ jobs:
               cmake -B build -DCMAKE_BUILD_TYPE=Release &&
               cmake --build build
             '
-          sudo chown -R $(id -u):$(id -g) build
+          sudo chown -R $(id -u):$(id -g) src/anywheredoor/build
 
       - name: Rename binary
         run: mv build/anywhere_door anywhere_door-linux-riscv64
@@ -208,6 +208,7 @@ jobs:
         run: |
           curl -sL https://github.com/yaml/libyaml/archive/refs/tags/0.2.5.tar.gz | tar xz
           cd libyaml-0.2.5
+          sed -i.bak 's/cmake_minimum_required(VERSION 3.0)/cmake_minimum_required(VERSION 3.5)/' CMakeLists.txt
           cmake -B build -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_INSTALL_PREFIX=/tmp/libyaml-x86 -DBUILD_SHARED_LIBS=OFF
           cmake --build build
           cmake --install build
@@ -257,11 +258,13 @@ jobs:
           body: |
             ## AnywhereDoor ${{ github.ref_name }}
 
-            Prebuilt binaries for Linux (x86_64, aarch64, armv7) and macOS (Intel, Apple Silicon).
+            Prebuilt binaries for Linux and macOS.
 
             ### Installation
             ```bash
-            sh -c "$(curl -kfsSl https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/refs/heads/main/install.sh)"
+            curl -o install.sh https://raw.githubusercontent.com/YaoYinYing/AnywhereDoor/main/install.sh
+            chmod +x install.sh
+            ./install.sh
             ```
 
             ### Manual download
