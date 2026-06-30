@@ -57,8 +57,22 @@ target_link_libraries(anywhere_door PRIVATE
     ${CURSES_LIBRARIES}
 )
 
-# --- Version injection ---
+# --- Version: from -DVERSION= flag, or extract from anywhere_door.sh ---
+if(NOT VERSION)
+    set(SHELL_SCRIPT "${CMAKE_SOURCE_DIR}/../../anywhere_door.sh")
+    if(EXISTS "${SHELL_SCRIPT}")
+        file(READ "${SHELL_SCRIPT}" SHELL_CONTENT)
+        string(REGEX MATCH "ANYWHERE_DOOR_DIR_VERSION=[^\n]+" _ "${SHELL_CONTENT}")
+        if(_)
+            string(REPLACE "ANYWHERE_DOOR_DIR_VERSION=" "" SHELL_VERSION "${_}")
+            string(STRIP "${SHELL_VERSION}" SHELL_VERSION)
+            set(VERSION "${SHELL_VERSION}")
+        endif()
+    endif()
+endif()
+
 if(VERSION)
+    message(STATUS "Version: ${VERSION}")
     target_compile_definitions(anywhere_door PRIVATE VERSION="${VERSION}")
 endif()
 
