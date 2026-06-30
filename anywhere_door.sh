@@ -9,12 +9,8 @@ elif [[ "$SHELL_TYPE" == "zsh" ]]; then
 fi
 export ANYWHERE_DOOR_DIR=$core_script_dir
 
-# version info (read from VERSION file, fallback to hardcoded)
-if [ -f "$ANYWHERE_DOOR_DIR/VERSION" ]; then
-  export ANYWHERE_DOOR_DIR_VERSION=$(cat "$ANYWHERE_DOOR_DIR/VERSION" | tr -d '[:space:]')
-else
-  export ANYWHERE_DOOR_DIR_VERSION=2.0.0-alpha
-fi
+# version info
+export ANYWHERE_DOOR_DIR_VERSION=2.0.0-alpha
 
 function _fetch_anywhere_door_version {
   CUR_PWD=$PWD

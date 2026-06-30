@@ -27,7 +27,7 @@ jobs:
 
       - name: Compute version
         run: |
-          BASE=$(cat VERSION | tr -d '[:space:]')
+          BASE=$(grep 'ANYWHERE_DOOR_DIR_VERSION=' anywhere_door.sh | head -1 | sed 's/.*=//' | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
@@ -66,7 +66,7 @@ jobs:
 
       - name: Compute version
         run: |
-          BASE=$(cat VERSION | tr -d '[:space:]')
+          BASE=$(grep 'ANYWHERE_DOOR_DIR_VERSION=' anywhere_door.sh | head -1 | sed 's/.*=//' | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
@@ -105,7 +105,7 @@ jobs:
 
       - name: Compute version
         run: |
-          BASE=$(cat VERSION | tr -d '[:space:]')
+          BASE=$(grep 'ANYWHERE_DOOR_DIR_VERSION=' anywhere_door.sh | head -1 | sed 's/.*=//' | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
@@ -149,7 +149,7 @@ jobs:
 
       - name: Compute version
         run: |
-          BASE=$(cat VERSION | tr -d '[:space:]')
+          BASE=$(grep 'ANYWHERE_DOOR_DIR_VERSION=' anywhere_door.sh | head -1 | sed 's/.*=//' | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
@@ -193,7 +193,7 @@ jobs:
 
       - name: Compute version
         run: |
-          BASE=$(cat VERSION | tr -d '[:space:]')
+          BASE=$(grep 'ANYWHERE_DOOR_DIR_VERSION=' anywhere_door.sh | head -1 | sed 's/.*=//' | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
@@ -237,7 +237,7 @@ jobs:
 
       - name: Compute version
         run: |
-          BASE=$(cat VERSION | tr -d '[:space:]')
+          BASE=$(grep 'ANYWHERE_DOOR_DIR_VERSION=' anywhere_door.sh | head -1 | sed 's/.*=//' | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
