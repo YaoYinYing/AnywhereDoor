@@ -1,8 +1,5 @@
 # ANYWHERE DOOR
 
-# version info
-export ANYWHERE_DOOR_DIR_VERSION=2.0.0-alpha
-
 # Selfcheck for the installation dir
 SHELL_TYPE=$(basename $SHELL)
 if [[ "$SHELL_TYPE" == "bash" ]]; then
@@ -11,6 +8,13 @@ elif [[ "$SHELL_TYPE" == "zsh" ]]; then
   core_script_dir=${0:A:h}
 fi
 export ANYWHERE_DOOR_DIR=$core_script_dir
+
+# version info (read from VERSION file, fallback to hardcoded)
+if [ -f "$ANYWHERE_DOOR_DIR/VERSION" ]; then
+  export ANYWHERE_DOOR_DIR_VERSION=$(cat "$ANYWHERE_DOOR_DIR/VERSION" | tr -d '[:space:]')
+else
+  export ANYWHERE_DOOR_DIR_VERSION=2.0.0-alpha
+fi
 
 function _fetch_anywhere_door_version {
   CUR_PWD=$PWD

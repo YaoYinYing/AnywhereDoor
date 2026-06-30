@@ -27,11 +27,12 @@ jobs:
 
       - name: Compute version
         run: |
+          BASE=$(cat VERSION | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
           else
-            echo "VERSION=2.0.0-alpha-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
+            echo "VERSION=${BASE}-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
           fi
 
       - name: Install dependencies
@@ -65,11 +66,12 @@ jobs:
 
       - name: Compute version
         run: |
+          BASE=$(cat VERSION | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
           else
-            echo "VERSION=2.0.0-alpha-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
+            echo "VERSION=${BASE}-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
           fi
 
       - name: Install dependencies
@@ -103,11 +105,12 @@ jobs:
 
       - name: Compute version
         run: |
+          BASE=$(cat VERSION | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
           else
-            echo "VERSION=2.0.0-alpha-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
+            echo "VERSION=${BASE}-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
           fi
 
       - name: Set up QEMU
@@ -146,11 +149,12 @@ jobs:
 
       - name: Compute version
         run: |
+          BASE=$(cat VERSION | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
           else
-            echo "VERSION=2.0.0-alpha-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
+            echo "VERSION=${BASE}-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
           fi
 
       - name: Set up QEMU
@@ -189,11 +193,12 @@ jobs:
 
       - name: Compute version
         run: |
+          BASE=$(cat VERSION | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
           else
-            echo "VERSION=2.0.0-alpha-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
+            echo "VERSION=${BASE}-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
           fi
 
       - name: Set up QEMU
@@ -232,11 +237,12 @@ jobs:
 
       - name: Compute version
         run: |
+          BASE=$(cat VERSION | tr -d '[:space:]')
           V=${{ inputs.version || '' }}
           if [ -n "$V" ]; then
             echo "VERSION=$V" >> $GITHUB_ENV
           else
-            echo "VERSION=2.0.0-alpha-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
+            echo "VERSION=${BASE}-${GITHUB_SHA:0:6}" >> $GITHUB_ENV
           fi
 
       - name: Install dependencies (arm64)
